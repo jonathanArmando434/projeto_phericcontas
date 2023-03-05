@@ -1,0 +1,17 @@
+input[readonly]{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 80%;
+}
+
+.admin-btn-select{
+    background-color: #232323;
+    color: #fff;
+    border: .1rem solid #232323;
+    transition: all .5s;
+}
+
+.admin-btn-select:hover{
+    background-color: #fff;
+    color: #232323;
+}

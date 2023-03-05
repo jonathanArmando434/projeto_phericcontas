@@ -1,0 +1,18 @@
+#btn-search svg{
+    margin-left: 0;
+}
+
+.admin-notification svg{
+    font-size: 3.6rem;
+}
+
+.admin-main .admin-navbar {
+    position: fixed;
+    top: 0;
+    left: 26rem;
+    right: 0;
+}
+
+.admin-content{
+    padding-top: 11.3rem;
+}

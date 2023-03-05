@@ -1,0 +1,109 @@
+.admin-perfilbar-link, a.admin-perfilbar-link{
+    border-left: 3px solid transparent;
+    color: #666666;
+    cursor: pointer;
+    display: block;
+    font-weight: 400;
+    padding: 0.625rem 1.625rem;
+    position: relative;
+    text-decoration: none;
+    transition: background .1s ease-in-out;
+}
+
+.admin-perfilbar-link i,
+.admin-perfilbar-link svg,
+a.admin-perfilbar-link i,
+a.admin-perfilbar-link svg {
+    color: rgba(233, 236, 239, .5);
+    margin-right: .75rem
+}
+
+.admin-perfilbar-link:focus {
+    outline: 0
+}
+
+.admin-perfilbar-link:hover {
+    border-left-color: transparent
+}
+
+.admin-perfilbar-link:hover,
+.admin-perfilbar-link:hover i,
+.admin-perfilbar-link:hover svg {
+    color: rgba(233, 236, 239, .75)
+}
+
+.admin-perfilbar-item.admin-active .admin-perfilbar-link:hover,
+.admin-perfilbar-item.admin-active>.admin-perfilbar-link {
+    border-left-color: #3b7ddd;
+    color: #e9ecef
+}
+
+.admin-perfilbar-item.admin-active .admin-perfilbar-link:hover i,
+.admin-perfilbar-item.admin-active .admin-perfilbar-link:hover svg,
+.admin-perfilbar-item.admin-active>.admin-perfilbar-link i,
+.admin-perfilbar-item.admin-active>.admin-perfilbar-link svg {
+    color: #e9ecef
+}
+
+.admin-perfil-item{
+    margin-bottom: 2em;
+}
+
+.admin-perfil-item .admin-d-flex{
+    align-items: center;
+}
+
+.admin-perfil-item svg{
+    font-size: 2.3rem;
+    padding-right: .5rem;
+    display: block;
+}
+
+span.admin-perfil-title{
+    margin-top: -.4rem;
+    margin-left: 0rem;
+}
+
+.admin-perfil .admin-card {
+    box-shadow: 0 0 0 0 rgb(33 37 41 / 5%);
+    margin-bottom: 0;
+}
+
+.admin-perfil h4 {
+    color: #939ba2;
+    font-size: .925rem;
+    font-weight: 600;
+}
+
+.admin-perfil h5 {
+    color: #939ba2;
+    font-size: .925rem;
+    font-weight: 600;
+}
+
+.admin-perfil li>a{
+    padding-left: .6rem;
+    transition: all .5s;
+}
+
+.admin-perfil li>a:hover{
+    color: #1F5B95;
+}
+
+.admin-perfil-menu{
+    border-right: 2px solid rgba(9, 9, 9, 0.1);
+}
+
+a.admin-main-btn-danger, button.admin-main-btn-danger {
+	border: none;
+    background-color: #dc3545;
+	color: #fff;
+	border-radius: 0.2rem;	
+	transition: all 0.3s;
+}
+
+a.admin-main-btn-danger:hover, button.admin-main-btn-danger:hover {
+	background-color: transparent;
+	color: #dc3545;
+}
+

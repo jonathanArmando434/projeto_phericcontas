@@ -1,0 +1,50 @@
+.admin-card-login{
+    height: 44.5453rem;
+    border-radius: .5rem;
+}
+
+.admin-login .admin-card {
+    background-color: #fff;
+}
+
+.admin-login input[type="checkbox"] {
+    margin-right: .5rem;
+}
+
+.admin-login .admin-card-body {
+    padding: 4.4rem;
+}
+
+.admin-main-login{
+    background-image: url('/src/assets/admin/img/bg/bg-login.jpg');
+    background-size: cover;
+}
+
+.admin-container-login{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(31, 91, 149, .5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-container-login .admin-lead,
+.admin-container-login .admin-h2{
+    color: #fff;
+}
+
+.admin-login img{
+    height: 10.4172rem;
+    width: 13.2rem;
+}
+
+.admin-login input[type="checkbox"]{
+    margin: .35rem 0;
+    border: .1rem solid #000;
+}
+
+.admin-login span{
+    margin-left: .6rem;
+    color: #495057;
+}

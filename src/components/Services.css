@@ -1,0 +1,40 @@
+/* Services */
+
+.services {
+	margin-top: 140px;
+}
+
+.service-item img {
+	width: 100%;
+	overflow: hidden;
+}
+
+.service-item .down-content {
+	background-color: #f7f7f7;
+	padding: 30px;
+}
+
+.service-item .down-content h4 {
+	font-size: 20px;
+	font-weight: 700;
+	letter-spacing: 0.25px;
+	margin-bottom: 15px;
+}
+
+.service-item .down-content p {
+	margin-bottom: 20px;
+}
+
+/* Responsive Style */
+
+@media (max-width: 768px) {
+	.services .service-item {
+		margin-bottom: 30px;
+	}
+}
+
+@media (max-width: 425px){
+	.services{
+		margin-top: 70px;
+	}
+}

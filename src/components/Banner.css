@@ -1,0 +1,138 @@
+/* Banner Style */
+
+.img-fill{
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  text-align: center
+}
+
+.img-fill img {
+  min-height: 100%;
+  min-width: 100%;
+  position: relative;
+  display: inline-block;
+  max-width: none;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main-banner .img-fill {
+    background-image: url(../assets/images/slide_01.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    height:95vh;
+}
+
+.main-banner .img-fill-bg-color{
+  min-height: 100%;
+  min-width: 100%;
+  background-color: rgba(35, 35, 35, .5);
+}
+
+.main-banner .text-content {
+    text-align: left;
+      width: 75%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+}
+
+.main-banner h6 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  text-transform: uppercase;
+  text-shadow: #000 1px 1px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color:#1F5B95;
+  animation:fadeOutRight 1s both;
+}
+
+.main-banner h4 {
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-size: 44px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color:#FFF;
+  overflow:hidden;
+  animation:fadeOutLeft 1s both;
+}
+
+.main-banner p {
+    max-width: 570px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 30px;
+    margin-bottom: 40px;
+}
+
+.main-banner a {
+  margin: 0 5px;
+}
+
+.main-banner.slick-active h6{
+  animation:fadeInDown 1s both 1s;
+}
+
+.main-banner.slick-active h4{
+  animation:fadeInLeft 1s both 1.5s;
+}
+
+.main-banner.slick-active{
+  animation:Slick-FastSwipeIn 1s both;
+}
+
+.main-banner .buttons {
+  position: relative;
+}
+
+.main-banner {background:#000;}
+  
+/* Responsive Style */
+
+@media (max-width: 768px) {
+	.section-heading h2{
+		font-size: 28px;
+	}
+	.main-banner h6 {
+	  margin-bottom: 15px;
+	  font-size: 15px;
+	}
+	.main-banner h4 {
+	  margin-bottom: 25px;
+	  font-size: 28px;
+	  line-height: 36px;
+	  letter-spacing: 1px;
+	}
+	.main-banner p {
+		max-width: 570px;
+		line-height: 25px;
+		margin-bottom: 30px;
+	}
+}
+
+@media (max-width: 425px){
+	.main-banner .text-content{
+		top: 55%;
+	}
+	.section-heading{
+		margin-bottom: 40px;
+	}
+	.section-heading h2{
+		font-size: 24px;
+	}
+}
+  

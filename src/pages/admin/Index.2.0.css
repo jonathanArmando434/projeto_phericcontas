@@ -1,0 +1,281 @@
+admin-btn
+
+a{
+   color: #666666;
+}
+
+a:hover{
+    color: #1F5B95;
+}
+
+small{
+    font-size: 1.12rem;
+}
+
+.admin button, .admin input, .admin optgroup, .admin select, .admin textarea {
+    font-family: inherit;
+    font-size: 1.4rem;
+    line-height: 2.1rem;
+}
+
+.admin-sidebar{
+    font-size: 1.4rem;
+}
+
+.admin-sidebar-toggle{
+    display: block;
+}
+
+.admin-menu-list {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-btn-input {
+    background-color: #ced4da;
+    border: .1rem solid #ced4da;
+    border-radius: .5rem;
+    color: #fff;
+   /*  height: 35.58px; */
+    font-size: 1.3rem;
+    font-weight: 700;
+	text-transform: uppercase;
+    transition: all .5s;
+}
+
+.admin-btn-input:hover {
+    background-color: #fff;
+    color: #ced4da
+}
+
+a.admin-btn-nav {
+	background-color: transparent;
+    border: 0.2rem solid #232323;
+	color: #232323;
+	font-size: 1.3rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	padding: 0.6rem 1.5rem;
+	border-radius: .5rem;
+	display: inline-block;
+	transition: all 0.3s;
+}
+
+a.admin-btn-nav:hover, a.admin-btn-nav.active {
+    background-color: #232323;
+    color: #fff;
+}
+
+
+.admin-btn-icon {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-top: -1,6rem;
+    transition: all .5s;
+}
+
+.admin-btn-icon:hover{
+    color: #1F5B95;
+}
+
+.admin-btn-icon>svg {
+    margin-left: .5rem;
+    margin-top: 0;
+}
+
+form svg {
+    margin-left: 0.2rem;
+}
+
+.admin-member svg,
+.admin-client svg {
+    margin-right: .2rem;
+}
+
+.admin-title-btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.admin-img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.admin-bg-fff {
+    background-color: #fff;
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
+}
+
+.admin-bd-transparent {
+    background-color: transparent;
+}
+
+.admin-br-5 {
+    border-radius: 0.5rem;
+}
+
+.admin-button-select {
+    margin-left: -.5rem;
+    margin-top: -.2rem;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    width: 20%;
+}
+
+.admin-min-card {
+    text-align: center;
+}
+
+.admin-more-info img {
+    width: 100%;
+}
+
+.admin-more-info h5 {
+    color: #939ba2;
+    font-size: .925rem;
+    font-weight: 600;
+}
+
+/* Main Button */
+a.admin-main-btn, button.admin-main-btn {
+	border: none;
+    background-color: #1F5B95;
+	color: #fff;
+	border-radius: 0.5rem;	
+	transition: all 0.3s;
+}
+
+a.admin-main-btn:hover, button.admin-main-btn:hover {
+	background-color: transparent;
+	color: #1F5B95;
+}
+
+/* search form */
+
+.admin-navbar input[type="search"] {
+    width: 85%;
+}
+
+.admin-navbar .admin-search {
+    width: 43.8rem;
+}
+
+.admin-navbar-align {
+    margin-left: 0;
+}
+
+.admin-navbar-collapse {
+    align-items: center;
+    flex-basis: 100%;
+    flex-grow: 0;
+}
+
+.admin-main .admin-navbar {
+    justify-content: space-between;
+}
+
+.admin svg {
+    font-size: 2.1rem;
+}
+
+.admin ol,
+.admin ul {
+    padding-left: 0;
+}
+.admin-p-20{
+    padding: 2rem;
+}
+
+/* Dashboard*/
+
+.admin-dashboard td{
+    padding-left: 0;
+}
+
+
+/* Tasks */
+.admin-tab-done{
+    color: #1cbb8c;
+}
+
+.admin-tab-cancel{
+    color: #dc3545;
+}
+
+.admin-tab-done:hover{
+    color: 0 0 0 .2rem rgba(24, 159, 119, .5);
+}
+
+.admin-tab-cancel:hover{
+    color: 0 0 0 .2rem rgba(225, 83, 97, .5);
+}
+
+/* new */
+
+.form-new{
+    margin: 4.4rem;
+}
+
+.form-new svg{
+    color: #232323;
+}
+
+.form-new svg:hover{
+    color: #1F5B95;
+}
+
+.admin-m-mine{
+    margin-right: 1%;
+}
+
+.admin-w-me-47 {
+    width: 49%;
+}
+
+.admin-w-me-95 {
+    width: 95%;
+}
+
+.admin-card-avatar{
+    width: 24.8rem;
+}
+
+.admin-card .admin-avatar{
+    width: 24.8rem;
+    height: 24.8rem;
+}
+
+.admin-my-bg-primary{
+    background-color: #1F5B95;
+}
+
+.div-form{
+    border-radius: 0.5rem;
+}
+
+.admin-card-member{
+    width: 23.8rem;
+    max-height: 35.4344rem;
+}
+
+.admin-card-img-member{
+    max-height: 22.6rem;
+    width: 22.6rem;
+}
+
+.admin-card-body .admin-card-text{
+    margin-bottom: 0;
+}
+
+.admin-card-body .admin-btn{
+    margin-top: 1rem;
+}
+
+.admin-form-check-input{
+    margin-right: .8rem;
+}

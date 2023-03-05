@@ -1,0 +1,11 @@
+.admin-card-client {
+    min-width: 23.8rem;
+    max-width: 23.8rem;
+    max-height: 23.6516rem;
+}
+
+.admin-card-img-client {
+    height: 10.4172rem;
+    width: 13.2rem;
+    margin: auto;
+}

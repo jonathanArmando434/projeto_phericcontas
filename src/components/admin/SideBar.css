@@ -1,0 +1,9 @@
+.admin-sidebar-nav{
+    padding-left: 0;
+}
+
+.admin-sidebar-none{
+    direction: ltr;
+    max-width: 26rem;
+    min-width: 26rem;
+}
