@@ -8,11 +8,7 @@ import './MainBar.css'
 const MainBar = () => {
     return (
         <nav className="admin-navbar admin-navbar-expand admin-navbar-light admin-navbar-bg admin-d-flex">
-            <div>
-                <a href="#" className="admin-sidebar-toggle admin-js-sidebar-toggle">
-                    <BsFilterLeft />
-                </a>
-            </div>
+            
             <div className="admin-search">
                 <form action="">
                     <input

@@ -1,0 +1,9 @@
+.admin-indicator{
+    position: absolute;
+    width: 10rem;
+    height: 10rem;
+    right: 1rem;
+    top: 1rem;
+    text-align: center;
+    font-size: 1.4rem;
+}

@@ -22,7 +22,7 @@ const Tasks = () => {
                         </div>
                         {/* <BtnFilter items={['Todos', 'Solicitados', 'Finalisados', 'Em progresso', 'Cancelados']} /> */}
                         <div className="admin-col-12 admin-d-flex">
-                            <div className="admin-card admin-flex-fill">
+                            <div className="admin-card admin-flex-fill admin-bg-fff">
                                 <table className="admin-table admin-table-hover admin-my-0">
                                     <thead>
                                         <tr>
