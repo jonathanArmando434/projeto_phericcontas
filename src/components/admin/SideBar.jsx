@@ -21,7 +21,7 @@ const SideBar = () => {
                         <li className="admin-sidebar-item" >
                             <Link to="/admin" className="admin-sidebar-link">
                                 <AiOutlineDashboard />
-                                <span className="admin-align-middle">Painel</span>
+                                <span className="admin-align-middle">Painel de análise</span>
                             </Link>
                         </li>
                         <li className="admin-sidebar-item">
@@ -51,15 +51,15 @@ const SideBar = () => {
                              </li>
                         */}
                         <li className="admin-sidebar-item">
-                            <Link to="" className="admin-sidebar-link">
-                                <MdOutlineSupervisedUserCircle />
-                                <span className="admin-align-middle">Controle de RH</span>
-                            </Link>
-                        </li>
-                        <li className="admin-sidebar-item">
                             <Link to="/admin/controle-de-financas" className="admin-sidebar-link">
                                 <GiMoneyStack />
                                 <span className="admin-align-middle">Controle de Finanças</span>
+                            </Link>
+                        </li>
+                        <li className="admin-sidebar-item">
+                            <Link to="/admin/info-RH" className="admin-sidebar-link">
+                                <MdOutlineSupervisedUserCircle />
+                                <span className="admin-align-middle">Informações de RH</span>
                             </Link>
                         </li>
                     </ul>

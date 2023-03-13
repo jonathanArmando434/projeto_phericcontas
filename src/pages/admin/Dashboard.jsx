@@ -20,7 +20,7 @@ const Dashboard = () => {
                     <div className="admin-row">
                         <PageTitle title={'Painel de análise'} />
 
-                        <div className="admin-row  admin-d-none">
+                        <div className="admin-row">
                             <TaskIndicator title={'Tarefas Finalidas'} value={14212} since={'Desde a última semana'} about={2} Icon={MdDoneOutline} />
                             <TaskIndicator title={'Tarefas Canceladas'} value={14212} since={'Desde a última semana'} about={3} Icon={BiTrash} />
                             <TaskIndicator title={'Tarefas Em progresso'} value={14212} since={'Desde a última semana'} about={1} Icon={FiLoader} />
@@ -43,10 +43,6 @@ const Dashboard = () => {
                         </div>
 
                         <div className='admin-d-none'>
-                            <DashboardRH />
-                        </div>
-
-                        <div>
                             <DashboardMember />
                         </div>
 

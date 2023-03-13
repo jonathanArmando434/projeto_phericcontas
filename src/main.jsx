@@ -16,6 +16,7 @@ import AddTask from './pages/admin/AddTask'
 import Client from './pages/admin/Client'
 import Perfil from './pages/admin/Perfil'
 import Financas from './pages/admin/Financas'
+import InfoRH from './pages/admin/InfoRH'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/admin/novo-cliente' element={<AddClient />} />
           <Route path='/admin/perfil' element={<Perfil />} />
           <Route path='/admin/controle-de-financas' element={<Financas />} />
+          <Route path='/admin/info-RH' element={<InfoRH />} />
         </Route>
       </Routes>
     </BrowserRouter>
