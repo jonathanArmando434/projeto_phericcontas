@@ -4,7 +4,6 @@ import './Index.css'
 import './Index.2.0.css'
 
 import SideBar from '../../components/admin/SideBar'
-import NavBarAdmin from '../../components/admin/NavBarAdmin'
 import Footer from '../../components/admin/Footer'
 import MainBar from '/src/components/admin/MainBar'
 

@@ -1,4 +1,4 @@
-.admin-navbar-bg
+
 
 :root {
     --bs-blue: #3b7ddd;
@@ -119,7 +119,7 @@ admin-navbar .admin hr {
 }
 
 .admin-h4 {
-    font-size: 1.09375rem
+    font-size: 1.5rem
 }
 
 .admin-h5,
@@ -5027,14 +5027,14 @@ fieldset:disabled .admin-btn {
 }
 
 .admin-card-content {
+    box-shadow: 0 0 0.875rem 0 rgba(33, 37, 41, .05);
     word-wrap: break-word;
     background-clip: border-box;
     background-color: #fff;
-    border: 0.1rem solid rgb(0, 0, 0, 0.1);
     border-radius: .5rem;
     display: flex;
     flex-direction: column;
-    min-width: 0;
+    border: .1rem solid rgba(0, 0, 0, .1);
     position: relative;
 }
 
@@ -13286,7 +13286,6 @@ ast-child {
 }
 
 .admin-card {
-    box-shadow: 0 0 .875rem 0 rgba(33, 37, 41, .05);
     margin-bottom: 2.4rem
 }
 

@@ -1,4 +1,4 @@
-admin-btn
+admin-tab-done
 
 a{
    color: #666666;
@@ -12,12 +12,6 @@ small{
     font-size: 1.12rem;
 }
 
-.admin button, .admin input, .admin optgroup, .admin select, .admin textarea {
-    font-family: inherit;
-    font-size: 1.4rem;
-    line-height: 2.1rem;
-}
-
 .admin-sidebar{
     font-size: 1.4rem;
 }
@@ -29,60 +23,6 @@ small{
 .admin-menu-list {
     display: flex;
     justify-content: center;
-}
-
-.admin-btn-input {
-    background-color: #ced4da;
-    border: .1rem solid #ced4da;
-    border-radius: .5rem;
-    color: #fff;
-   /*  height: 35.58px; */
-    font-size: 1.3rem;
-    font-weight: 700;
-	text-transform: uppercase;
-    transition: all .5s;
-}
-
-.admin-btn-input:hover {
-    background-color: #fff;
-    color: #ced4da
-}
-
-a.admin-btn-nav {
-	background-color: transparent;
-    border: 0.2rem solid #232323;
-	color: #232323;
-	font-size: 1.3rem;
-	text-transform: uppercase;
-	font-weight: 700;
-	padding: 0.6rem 1.5rem;
-	border-radius: .5rem;
-	display: inline-block;
-	transition: all 0.3s;
-}
-
-a.admin-btn-nav:hover, a.admin-btn-nav.active {
-    background-color: #232323;
-    color: #fff;
-}
-
-
-.admin-btn-icon {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    margin-top: -1,6rem;
-    transition: all .5s;
-}
-
-.admin-btn-icon:hover{
-    color: #1F5B95;
-}
-
-.admin-btn-icon>svg {
-    margin-left: .5rem;
-    margin-top: 0;
 }
 
 form svg {
@@ -141,20 +81,6 @@ form svg {
     font-weight: 600;
 }
 
-/* Main Button */
-a.admin-main-btn, button.admin-main-btn {
-	border: none;
-    background-color: #1F5B95;
-	color: #fff;
-	border-radius: 0.5rem;	
-	transition: all 0.3s;
-}
-
-a.admin-main-btn:hover, button.admin-main-btn:hover {
-	background-color: transparent;
-	color: #1F5B95;
-}
-
 /* search form */
 
 .admin-navbar input[type="search"] {
@@ -205,6 +131,10 @@ a.admin-main-btn:hover, button.admin-main-btn:hover {
 
 .admin-tab-cancel{
     color: #dc3545;
+}
+
+.admin-tab-cancel{
+    color: #1F5B95;
 }
 
 .admin-tab-done:hover{
@@ -279,3 +209,91 @@ a.admin-main-btn:hover, button.admin-main-btn:hover {
 .admin-form-check-input{
     margin-right: .8rem;
 }
+
+/* Buttons */
+
+.admin button, .admin input, .admin optgroup, .admin select, .admin textarea {
+    font-family: inherit;
+    font-size: 1.4rem;
+    line-height: 2.1rem;
+}
+a.admin-main-btn-danger, button.admin-main-btn-danger {
+	border: none;
+    background-color: #dc3545;
+	color: #fff;
+	border-radius: 0.5rem;	
+	transition: all 0.3s;
+}
+
+a.admin-main-btn-danger:hover, button.admin-main-btn-danger:hover {
+	background-color: transparent;
+	color: #dc3545;
+}
+
+/* Main Button */
+a.admin-main-btn, button.admin-main-btn {
+	border: none;
+    background-color: #1F5B95;
+	color: #fff;
+	border-radius: 0.5rem;	
+	transition: all 0.3s;
+}
+
+a.admin-main-btn:hover, button.admin-main-btn:hover {
+	background-color: transparent;
+	color: #1F5B95;
+}
+
+.admin-btn-input {
+    background-color: #ced4da;
+    border: .1rem solid #ced4da;
+    border-radius: .5rem;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 700;
+	text-transform: uppercase;
+    transition: all .5s;
+}
+
+.admin-btn-input:hover {
+    background-color: #fff;
+    color: #ced4da
+}
+
+a.admin-btn-nav {
+	background-color: transparent;
+    border: 0.2rem solid #1F5B95;
+	color: #1F5B95;
+	font-size: 1.3rem;
+	text-transform: uppercase;
+	font-weight: 700;
+	padding: 0.6rem 1.5rem;
+	border-radius: .5rem;
+	display: inline-block;
+	transition: all 0.3s;
+}
+
+a.admin-btn-nav:hover, a.admin-btn-nav.active {
+    background-color: #1F5B95;
+    color: #fff;
+}
+
+
+.admin-btn-icon {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    margin-top: -1,6rem;
+    transition: all .5s;
+}
+
+.admin-btn-icon:hover{
+    color: #1F5B95;
+}
+
+.admin-btn-icon>svg {
+    margin-left: .5rem;
+    margin-top: 0;
+}
+

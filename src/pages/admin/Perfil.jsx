@@ -1,9 +1,9 @@
 import { BiEdit } from 'react-icons/bi'
-import {AiOutlineCloseSquare} from 'react-icons/ai'
-import {FaRegAddressCard} from 'react-icons/fa'
-import {MdOutlineDateRange} from 'react-icons/md'
-import {FaRegMoneyBillAlt} from 'react-icons/fa'
-import {RiBankLine} from 'react-icons/ri'
+import { AiOutlineCloseSquare } from 'react-icons/ai'
+import { FaRegAddressCard } from 'react-icons/fa'
+import { MdOutlineDateRange } from 'react-icons/md'
+import { FaRegMoneyBillAlt } from 'react-icons/fa'
+import { RiBankLine } from 'react-icons/ri'
 
 import './Perfil.css'
 
@@ -29,8 +29,7 @@ const Member = () => {
                                                 <div className="admin-text-muted admin-mb-2">Sócio Majoritário</div>
 
                                                 <div>
-                                                    <a className="admin-btn admin-btn-sm admin-me-2 admin-main-btn" href="#"><BiEdit /> Editar</a>
-                                                    <a className="admin-btn admin-btn-sm admin-main-btn-danger" href="#"><AiOutlineCloseSquare /> Demitir</a>
+                                                    <a className="admin-btn admin-me-2 admin-main-btn" href="#"><BiEdit /> Editar</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,21 +78,12 @@ const Member = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div className="admin-perfil-item">
-                                                            <div className="admin-d-flex">
-                                                                <FaRegMoneyBillAlt />
-                                                                <div>
-                                                                    <span className="admin-perfil-dado">100.000,00 KZ</span>
-                                                                    <span className="admin-small admin-d-block admin-perfil-title">Salário</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <div className="admin-perfil-item admin-m-0">
                                                             <div className="admin-d-flex">
                                                                 <RiBankLine />
                                                                 <div>
-                                                                    <span className="admin-perfil-dado">00000000000000 | 0000000000000000000000000</span>
-                                                                    <span className="admin-small admin-d-block admin-perfil-title">Conta Bancária | IBAN</span>
+                                                                    <span className="admin-perfil-dado">0000000000000000000000000</span>
+                                                                    <span className="admin-small admin-d-block admin-perfil-title">IBAN</span>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -22,10 +22,11 @@ const AddTask = () => {
                         <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto div-form">
                             <form className="form-new" action="">
                                 <label htmlFor="service">Serviço</label>
-                                <select id="service" name="service" className="admin-form-select admin-mb-3">
-                                    <option selected="">One</option>
-                                    <option>Two</option>
-                                    <option>Three</option>
+                                <select id="service" name="service" className="admin-form-select admin-mb-3" defaultValue={'Organização contabilística'} onChange={e => setServico(e.target.value)}>
+                                    <option value={'Organização contabilística'}>Organização contabilística</option>
+                                    <option value={'Constituição e legalização de empresa'}>Constituição e legalização de empresa</option>
+                                    <option value={'Consultoria fiscal'}>Consultoria fiscal</option>
+                                    <option value={'Gestão de recursos humanos'}>Gestão de recursos humanos</option>
                                 </select>
                                 <label htmlFor="data-inicio">Data de Início</label>
                                 <input

@@ -94,16 +94,3 @@ span.admin-perfil-title{
     border-right: 2px solid rgba(9, 9, 9, 0.1);
 }
 
-a.admin-main-btn-danger, button.admin-main-btn-danger {
-	border: none;
-    background-color: #dc3545;
-	color: #fff;
-	border-radius: 0.2rem;	
-	transition: all 0.3s;
-}
-
-a.admin-main-btn-danger:hover, button.admin-main-btn-danger:hover {
-	background-color: transparent;
-	color: #dc3545;
-}
-

@@ -4,14 +4,16 @@ const FormTask = () => {
 
     let [open, setOpen] = useState(false)
     let [about, setAbout] = useState('')
+    const [servico, setServico] = useState('')
 
     return (
         <form className="form-new" action="">
             <label htmlFor="service">Serviço</label>
-            <select id="service" name="service" className="admin-form-select admin-mb-3" defaultValue={'DEFAULT'}>
-                <option value={'DEFAULT'}>One</option>
-                <option value={'2'}>Two</option>
-                <option value={'3'}>Three</option>
+            <select id="service" name="service" className="admin-form-select admin-mb-3" defaultValue={'Organização contabilística'} onChange={e => setServico(e.target.value)}>
+                <option value={'Organização contabilística'}>Organização contabilística</option>
+                <option value={'Constituição e legalização de empresa'}>Constituição e legalização de empresa</option>
+                <option value={'Consultoria fiscal'}>Consultoria fiscal</option>
+                <option value={'Gestão de recursos humanos'}>Gestão de recursos humanos</option>
             </select>
             <label htmlFor="data-inicio">Data de Início</label>
             <input

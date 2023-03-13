@@ -10,6 +10,7 @@ import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartLine from '../../components/admin/ChartColumn'
 import ChartPie from '../../components/admin/ChartPie'
 import DashboardRH from '../../components/admin/DashboardRH'
+import DashboardMember from '../../components/admin/DashboardMember'
 
 const Dashboard = () => {
     return (
@@ -17,7 +18,7 @@ const Dashboard = () => {
             <main className="admin-dashboard admin-content">
                 <div className="admin-container-fluid admin-p-0">
                     <div className="admin-row">
-                        <PageTitle title={'Painel de análise'} btnText={'Filtrar'} BtnIcon={MdOutlineFilterList} />
+                        <PageTitle title={'Painel de análise'} />
 
                         <div className="admin-row  admin-d-none">
                             <TaskIndicator title={'Tarefas Finalidas'} value={14212} since={'Desde a última semana'} about={2} Icon={MdDoneOutline} />
@@ -26,7 +27,7 @@ const Dashboard = () => {
                             <TaskIndicator title={'Total'} value={14212} since={'Desde a última semana'} Icon={CgClipboard} />
                             <div className="admin-col-12">
                                 <div className="admin-row">
-                                    <div className="admin-col-6 admin-card admin-flex-fill" style={{padding: 'auto'}}>
+                                    <div className="admin-col-6 admin-card admin-flex-fill" style={{ padding: 'auto' }}>
                                         <div className="admin-card-content admin-chart">
                                             <ChartPie />
                                         </div>
@@ -41,10 +42,16 @@ const Dashboard = () => {
                             </div>
                         </div>
 
-                        <DashboardRH />
+                        <div className='admin-d-none'>
+                            <DashboardRH />
+                        </div>
+
+                        <div>
+                            <DashboardMember />
+                        </div>
 
                     </div>
-                </div>                
+                </div>
             </main>
         </Index>
     )
