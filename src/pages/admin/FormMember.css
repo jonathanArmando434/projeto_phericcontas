@@ -1,0 +1,36 @@
+.admin-update-img input {
+    display: none;
+}
+
+.admin-update-img>label {
+    cursor: pointer;
+    border: solid .1rem #ced4da;
+    width: 100%;
+    height: 24rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5rem;
+}
+
+.admin-form-update-img {
+    height: 7rem;
+    display: block;
+}
+
+.admin-msg-success {
+    background-color: rgb(227, 252, 247);
+    color: rgb(0, 104, 74);
+    padding: 0.64rem 1.6rem;
+    margin-bottom: 1.8rem;
+    border-radius: .5rem;
+}
+
+.admin-msg-danger {
+    background-color: rgb(255, 205, 199);
+    color: rgb(91, 0, 0);
+    padding: 0.64rem 1.6rem;
+    border-radius: .5rem;
+    margin-bottom: 1.8rem;
+}

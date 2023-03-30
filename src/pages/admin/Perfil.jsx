@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { BiEdit } from 'react-icons/bi'
 import { AiOutlineCloseSquare } from 'react-icons/ai'
 import { FaRegAddressCard } from 'react-icons/fa'
@@ -13,6 +14,8 @@ import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 import Index from "./Index"
 
 const Member = () => {
+    const [navPerfil, setNavPerfil] = useState('geral')
+
     return (
         <Index>
             <main className="admin-member admin-content admin-bg-fff">
@@ -44,13 +47,13 @@ const Member = () => {
 
                                                         <ul className="admin-perfilbar-item">
                                                             <li className="">
-                                                                <a className="admin-perfilbar-link" href="#">
+                                                                <a className="admin-perfilbar-link" onClick={(() => setNavPerfil('geral'))}>
                                                                     <span className="admin-align-middle">Vista Geral</span>
                                                                 </a>
                                                             </li>
                                                             <li className="admin-perfilbar-item">
-                                                                <a className="admin-perfilbar-link" href="#">
-                                                                    <span className="admin-align-middle">Informações Básicas de Contacto</span>
+                                                                <a className="admin-perfilbar-link" onClick={(() => setNavPerfil('contato'))}>
+                                                                    <span className="admin-align-middle">Informações Básicas de Contato</span>
                                                                 </a>
                                                             </li>
                                                         </ul>
@@ -59,7 +62,7 @@ const Member = () => {
                                             </div>
                                             <div className="admin-col-8 admin-p-4">
                                                 <div className="admin-row">
-                                                    <div className="admin-col-12">
+                                                    <div className={navPerfil === 'geral' ? "admin-col-12" : "admin-col-12 admin-d-none"}>
                                                         <div className="admin-perfil-item">
                                                             <div className="admin-d-flex">
                                                                 <FaRegAddressCard />
@@ -73,7 +76,7 @@ const Member = () => {
                                                             <div className="admin-d-flex">
                                                                 <MdOutlineDateRange />
                                                                 <div>
-                                                                    <span classNamd="admin-perfil-dado">31 de Julho de 2003</span>
+                                                                    <span className="admin-perfil-dado">31 de Julho de 2003</span>
                                                                     <span className="admin-small admin-d-block admin-perfil-title">Data de Nascimento</span>
                                                                 </div>
                                                             </div>
@@ -89,7 +92,7 @@ const Member = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="admin-col-12 admin-d-none">
+                                                    <div className={navPerfil === 'contato' ? "admin-col-12" : "admin-col-12 admin-d-none"}>
                                                         <div className="admin-perfil-item">
                                                             <h4 className="admin-mb-0">Informações de Contacto</h4>
                                                         </div>

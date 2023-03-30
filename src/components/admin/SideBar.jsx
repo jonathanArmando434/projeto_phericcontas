@@ -33,7 +33,7 @@ const SideBar = () => {
                         <li className="admin-sidebar-item">
                             <Link to="/admin/membros" className="admin-sidebar-link">
                                 <MdOutlineGroup />
-                                <span className="admin-align-middle">Membros</span>
+                                <span className="admin-align-middle">Colaboradores</span>
                             </Link>
                         </li>
                         <li className="admin-sidebar-item">

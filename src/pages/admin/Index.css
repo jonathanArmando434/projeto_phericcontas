@@ -1,4 +1,4 @@
-
+admin-card-content
 
 :root {
     --bs-blue: #3b7ddd;
@@ -5035,6 +5035,7 @@ fieldset:disabled .admin-btn {
     display: flex;
     flex-direction: column;
     border: .1rem solid rgba(0, 0, 0, .1);
+    box-shadow: 0 0 2rem 0 rgba(33, 37, 41, .1);
     position: relative;
 }
 

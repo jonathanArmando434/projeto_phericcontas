@@ -1,3 +1,4 @@
+import React from 'react'
 import { BiEdit } from 'react-icons/bi'
 import { TbClipboardPlus } from 'react-icons/tb'
 import { useState } from 'react'
@@ -8,7 +9,7 @@ import PageTitle from '../../components/admin/PageTitle'
 const Tasks = () => {
     const [active, setActive] = useState('all')
 
-    const tasks = [
+    const [tasks, setTasks] = useState([
         {
             id: 1,
             servico: 'Oranização contabilística',
@@ -39,7 +40,7 @@ const Tasks = () => {
             responsavel: 'Jonathan-Armando Coxe Malungo',
             cliente: 'Sabor do Brazil',
         }
-    ]
+    ])
 
     const finishTask = async () => {
 
@@ -52,6 +53,8 @@ const Tasks = () => {
     const cancelTask = async () => {
 
     }
+
+    console.log(tasks.length + ' ' + tasks)
 
     return (
         <Index>
@@ -82,15 +85,15 @@ const Tasks = () => {
                                                 Funcionário Responsável
                                             </th>
                                             <th className="admin-d-none admin-d-md-table-cell">Cliente</th>
-                                            <th className="admin-d-none admin-d-md-table-cell">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {
                                             tasks.length > 0 && (
-                                                tasks.map(task => {
+                                                tasks.map(task => 
                                                     <tr key={task.id}>
                                                         <td>{task.servico}</td>
+                                                        {console.log(Tasks.length + 'task' + task)}
                                                         <td className="admin-d-none admin-d-xl-table-cell">{task.startDate}</td>
                                                         <td className="admin-d-none admin-d-xl-table-cell">{task.deadline}</td>
                                                         <td className="admin-d-none admin-d-xl-table-cell">{task.endDate}</td>
@@ -147,7 +150,7 @@ const Tasks = () => {
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                })
+                                                )
                                             )
                                         }
                                     </tbody>

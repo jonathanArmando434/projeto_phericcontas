@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { MdOutlineFilterList, MdDoneOutline } from 'react-icons/md'
 import { BiTrash } from 'react-icons/bi'
 import { FiLoader } from 'react-icons/fi'
@@ -9,8 +11,8 @@ import PageTitle from '../../components/admin/PageTitle'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartLine from '../../components/admin/ChartColumn'
 import ChartPie from '../../components/admin/ChartPie'
-import DashboardRH from '../../components/admin/DashboardRH'
 import DashboardMember from '../../components/admin/DashboardMember'
+import Loading from '../../components/Loading'
 
 const Dashboard = () => {
     return (

@@ -1,5 +1,3 @@
-import { Children } from 'react'
-
 import './Index.css'
 import './Index.2.0.css'
 

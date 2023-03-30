@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react'
+import api from '../../axios/api'
+import loginZustand from '../../zustand/login'
 import { BiEdit } from 'react-icons/bi'
 import { MdOutlinePerson } from 'react-icons/md'
 import { AiOutlineCloseSquare } from 'react-icons/ai'
@@ -11,7 +14,47 @@ import ChartColumnCompanyTime from './ChartColumnCompanyTime'
 import ChartBarEscolaridade from './ChartBarEscolaridade'
 import { Link } from 'react-router-dom'
 
-const DashboardRH = () => {
+const DashboardRH = ({ id }) => {
+    const [member, setMember] = useState([])
+    const [contractMember, setContractMember] = useState({})
+    const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
+    const [status, setStatus] = useState('')
+    const [diasRestantes, setDiasRestantes] = useState()
+
+    const { changeLoading } = loginZustand(state => state)
+
+    const getMember = async (api_url) => {
+        const res = await api.get(api_url)
+        const dados = res.data
+
+        if (dados.foto_url) setHasPhoto(dados.foto_url)
+
+        setMember(dados)
+    }
+
+    const getContractMember = async (api_url) => {
+        const res = await api.get(api_url)
+        const dado = res.data
+        const data_inicio = new Date(dado.data_inicio)
+        const data_fim = new Date(dado.data_fim)
+        setStatus((data_fim > data_inicio ? 'Ativo' : 'Inativo'))
+        const diferenca = Math.floor((data_fim.getTime() - data_inicio.getTime()) / (1000 * 60 * 60 * 24))
+        setDiasRestantes(diferenca)
+        setContractMember({
+            data_inicio: data_inicio.toLocaleDateString(),
+            data_fim: data_fim.toLocaleDateString()
+        })
+    }
+
+    useEffect(() => {
+        changeLoading()
+        const api_url_member = import.meta.env.VITE_API_URL_MEMBERS
+        const api_url_contract = import.meta.env.VITE_API_URL_CONTRACT
+        getMember(api_url_member + '/' + id)
+        getContractMember(api_url_contract + '/' + id)
+        changeLoading()
+    }, [])
+
     return (
 
         <div className="admin-row">
@@ -98,19 +141,19 @@ const DashboardRH = () => {
                         border: '.1rem solid rgba(0, 0, 0, .1)',
                     }}>
                         <div className="card-body text-center">
-                            <img src={userNoPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
-                            <h5 className="admin-card-title admin-mt-4">Milicrisney Catuca dos Santos</h5>
-                            <div className="admin-text-muted admin-mb-4">Sócio Majoritário</div>
+                            <img src={hasPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                            <h5 className="admin-card-title admin-mt-4">{member.nome}</h5>
+                            <div className="admin-text-muted admin-mb-4">{member.cargo}</div>
 
                             <div>
-                                <a className="admin-btn admin-me-2 admin-main-btn" href="#"><BiEdit /> Editar</a>
+                                <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
                                 <Link to="/admin/perfil" className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
                                 <a className="admin-btn admin-main-btn" href="#"><AiOutlineCloseSquare /> Demitir</a>
                             </div>
                         </div>
                     </div>
 
-                    <div style={{paddingLeft: 0}} className="admin-col-7 admin-card admin-flex-fill">
+                    <div style={{ paddingLeft: 0 }} className="admin-col-7 admin-card admin-flex-fill">
                         <div className="admin-card admin-flex-fill admin-bg-fff">
                             <h5 style={{
                                 color: '#939ba2',
@@ -135,12 +178,18 @@ const DashboardRH = () => {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style={{ paddingLeft: '1.2rem' }} className="admin-d-none admin-d-xl-table-cell">01/01/2021</td>
-                                        <td className="admin-d-none admin-d-xl-table-cell">31/06/2021</td>
+                                        <td style={{ paddingLeft: '1.2rem' }} className="admin-d-none admin-d-xl-table-cell">{contractMember.data_inicio}</td>
+                                        <td className="admin-d-none admin-d-xl-table-cell">{contractMember.data_fim}</td>
                                         <td>
-                                            <span className="admin-badge admin-bg-success">Activo</span>
+                                            <span className={
+                                                (status === 'Ativo'
+                                                    ? "admin-badge admin-status-success"
+                                                    : "admin-badge admin-status-danger"
+                                                )}>
+                                                {status}
+                                            </span>
                                         </td>
-                                        <td className="admin-d-none admin-d-md-table-cell">27</td>
+                                        <td className="admin-d-none admin-d-md-table-cell">{diasRestantes}</td>
                                     </tr>
                                 </tbody>
                             </table>

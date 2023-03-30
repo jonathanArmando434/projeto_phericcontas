@@ -11,6 +11,13 @@ import PageTitle from '../../components/admin/PageTitle'
 const AddTask = () => {
     let [open, setOpen] = useState(false)
     let [about, setAbout] = useState('')
+    const [servico, setServico] = useState('Organização contabilística')
+    const [dataInicio, setDataInicio] = useState('')
+    const [dataLimite, setDataLimite] = useState('')
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(e)
+    }
 
     return (
         <Index>
@@ -20,9 +27,9 @@ const AddTask = () => {
                         <PageTitle title={'Nova Tarefa'} />
 
                         <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto div-form">
-                            <form className="form-new" action="">
+                            <form className="form-new" onSubmit={handleSubmit}>
                                 <label htmlFor="service">Serviço</label>
-                                <select id="service" name="service" className="admin-form-select admin-mb-3" defaultValue={'Organização contabilística'} onChange={e => setServico(e.target.value)}>
+                                <select id="service" name="service" className="admin-form-select admin-mb-3" defaultValue={servico} onChange={e => setServico(e.target.value)}>
                                     <option value={'Organização contabilística'}>Organização contabilística</option>
                                     <option value={'Constituição e legalização de empresa'}>Constituição e legalização de empresa</option>
                                     <option value={'Consultoria fiscal'}>Consultoria fiscal</option>
@@ -34,7 +41,18 @@ const AddTask = () => {
                                     className="admin-form-control admin-mb-3"
                                     id="data-inicio"
                                     name="dataInicio"
+                                    value={dataInicio || ''}
+                                    onChange={e => setDataInicio(e.target.value)}
+                                />
+                                <label htmlFor="data-limite">Data Limite</label>
+                                <input
+                                    type="date"
+                                    className="admin-form-control admin-mb-3"
+                                    id="data-limite"
+                                    name="dataLimite"
                                     placeholder=""
+                                    value={dataLimite || ''}
+                                    onChange={e => setDataLimite(e.target.value)}
                                 />
                                 <label htmlFor="func-res" className="admin-d-block">Funcionário Responsável</label>
                                 <input

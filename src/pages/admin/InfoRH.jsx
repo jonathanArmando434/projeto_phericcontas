@@ -18,7 +18,7 @@ const Dashboard = () => {
             <main className="admin-dashboard admin-content">
                 <div className="admin-container-fluid admin-p-0">
                     <div className="admin-row">
-                        <PageTitle title={'Informações de Recurso Humanos'} />
+                        <PageTitle title={'Informações de Recursos Humanos'} />
                         <DashboardRH />
                     </div>
                 </div>

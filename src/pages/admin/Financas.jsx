@@ -2,12 +2,20 @@ import { MdOutlineFilterList, MdDoneOutline } from 'react-icons/md'
 import { BiTrash } from 'react-icons/bi'
 import { FiLoader } from 'react-icons/fi'
 import { CgClipboard } from 'react-icons/cg'
+import { useState } from 'react'
 
 import Index from "./Index"
 import PageTitle from '../../components/admin/PageTitle'
-import TaskIndicator from '../../components/admin/ TaskIndicator'
 
-const Dashboard = () => {
+const Financas = () => {
+    const [descricao, setDescricao] = useState('')
+    const [valor, setValor] = useState('')
+    const [tipo, setTipo] = useState('')
+
+    const handleSubmit = async e => {
+        e.preventDefault()
+    }
+
     return (
         <Index>
             <main className="admin-dashboard admin-content">
@@ -85,7 +93,7 @@ const Dashboard = () => {
                             <div className="admin-col-12">
                                 <div className="admin-col-12 admin-d-flex">
                                     <div className="admin-card admin-flex-fill admin-bg-fff" style={{ padding: '2.2rem' }}>
-                                        <form >
+                                        <form onSubmit={handleSubmit}>
                                             <div className="admin-d-flex admin-justify-content-between">
                                                 <div style={{ width: '30%' }}>
                                                     <label className='admin-form-label admin-d-block' htmlFor="startContract">
@@ -96,6 +104,9 @@ const Dashboard = () => {
                                                         className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                                         id="startContract"
                                                         name="startContract"
+                                                        placeholder='Descrição'
+                                                        value={descricao}
+                                                        onChange={e => setDescricao(e.target.value)}
                                                     />
                                                 </div>
                                                 <div style={{ width: '30%' }}>
@@ -107,15 +118,18 @@ const Dashboard = () => {
                                                         className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                                         id="endContract"
                                                         name="endContract"
+                                                        placeholder='Valor'
+                                                        value={valor}
+                                                        onChange={e => setValor(e.target.value)}
                                                     />
                                                 </div>
                                                 <div style={{ width: '19%' }}>
                                                     <label className='admin-form-label admin-d-block' htmlFor="endContract">
                                                         Tipo
                                                     </label>
-                                                    <select id="salario" className="admin-form-select admin-mb-3">
-                                                        <option value="1">Entrada</option>
-                                                        <option value="0">Saída</option>
+                                                    <select id="salario" className="admin-form-select admin-mb-3" value={tipo} onChange={e => setTipo(e.target.value)}>
+                                                        <option value="Saída">Entrada</option>
+                                                        <option value="Entrada">Saída</option>
                                                     </select>
                                                 </div>
                                                 <div style={{ width: '19%', marginTop: '3.4%' }}>
@@ -191,4 +205,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Financas

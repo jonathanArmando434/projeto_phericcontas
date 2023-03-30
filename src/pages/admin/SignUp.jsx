@@ -1,20 +1,22 @@
-import { useNavigate, Link } from 'react-router-dom'
-import { useState } from 'react'
-import loginZustand from "../../zustand/login"
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from "react"
+import api from '../../axios/api'
+import loginZustand from '../../zustand/login'
+
+import logo from "/src/assets/admin/img/icons/logo-2.jpeg"
 
 import './Index.css'
 import './Index.2.0.css'
 import './Login.css'
 
-import logo from "/src/assets/admin/img/icons/logo-2.jpeg"
+import Loading from '../../components/Loading'
 
-import Loading from "../../components/Loading"
-
-const Login = () => {
+const SignUp = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [id_colaborador, setId_colaborador] = useState('')
     const [message, setMessage] = useState('')
-    const [remeberMe, setRememberMe] = useState('noChecked')
     const navigate = useNavigate()
 
     const { loading, handleLogin, changeLoading } = loginZustand(state => state)
@@ -22,22 +24,46 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const loginDatas = {
+        const signupDatas = {
             email,
-            password
+            password,
+            confirmPassword,
+            id_colaborador
         }
 
         changeLoading()
 
-        const msg = await handleLogin(loginDatas, remeberMe)
+        const msg = await handleSignup(signupDatas)
 
         changeLoading()
 
-        if (msg === 'Autenticação realizada com sucesso!') navigate('/admin')
+        if (msg === 'Usuário inserido no sistema com sucesso!') {
+            const msgLogin = await handleLogin(
+                {
+                    email,
+                    password,
+                    id_colaborador
+                }, 'noChecked')
+
+            if (msgLogin === 'Autenticação realizada com sucesso!') navigate('/admin')
+        }
+
         else if (typeof msg === 'string'
-            && msg !== 'Autenticação realizada com sucesso!'
+            && msg !== 'Usuário inserido no sistema com sucesso!'
             && msg !== 'Houve um erro no servidor, tenta novamente!') setMessage(msg)
         else alert('Erro no servidor, tente novamente!')
+    }
+
+    const handleSignup = async (signupDatas) => {
+        try {
+            const res = await api.post('/usuario', signupDatas)
+            const data = res.data
+            return data.message
+        } catch (error) {
+            const errorMessage = error.response && error.response.data.message
+            if (errorMessage) return errorMessage
+            return
+        }
     }
 
     return (loading ? <Loading /> :
@@ -59,7 +85,11 @@ const Login = () => {
                                             </div>
                                             <form onSubmit={handleSubmit}>
                                                 {
-                                                    message && <div style={{marginBottom: '.8rem', marginTop: '.8rem'}} className='admin-msg-danger'>
+                                                    message && <div className='admin-bg-danger' style={{
+                                                        padding: '0.64rem 1.6rem',
+                                                        color: '#fff',
+                                                        borderRadius: '.25rem',
+                                                    }}>
                                                         {message}
                                                     </div>
                                                 }
@@ -72,8 +102,6 @@ const Login = () => {
                                                         placeholder="Informe o seu E-mail"
                                                         value={email}
                                                         onChange={(e) => setEmail(e.target.value)}
-                                                        minLength={12}
-                                                        maxLength={100}
                                                     />
                                                 </div>
                                                 <div className="mb-3">
@@ -86,42 +114,35 @@ const Login = () => {
                                                         value={password}
                                                         onChange={(e) => setPassword(e.target.value)}
                                                     />
-                                                    <small>
-                                                        <a href="#">Esqueceu a palavra-passe?</a>
-                                                    </small>
                                                 </div>
-                                                <div className='mb-3' value={remeberMe} onChange={(e) => {
-                                                    console.log(remeberMe)
-                                                    setRememberMe((remeberMe === 'noChecked' ? 'checked' : 'noChecked'))
-                                                    console.log(remeberMe)
-                                                }}>
-                                                    <label className="admin-mb-0">
-                                                        <input
-                                                            className=""
-                                                            type="checkbox"
-                                                            name="remember-me"
-                                                            value='checked'
-                                                        />
-                                                        <span className="">
-                                                            Lembre-se de mim da próxima vez
-                                                        </span>
-                                                    </label>
-                                                    <label className="admin-d-none">
-                                                        <input
-                                                            className=""
-                                                            type="checkbox"
-                                                            name="remember-me"
-                                                            value='noChecked'
-                                                            checkeddefault='true'
-                                                        />
-                                                    </label>
+                                                <div className="mb-3">
+                                                    <label className="admin-form-label">Confirmar palavra-passe</label>
+                                                    <input
+                                                        className="admin-form-control admin-form-control-lg"
+                                                        type="password"
+                                                        name="confirmPassword"
+                                                        placeholder="Repita a sua palavra-passe"
+                                                        value={confirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                                    />
                                                 </div>
-                                                <small className="">
-                                                    Você ainda não tem uma conta? <Link to="/admin/cadastrar">Cadastre-se</Link>
+                                                <div className="mb-3">
+                                                    <label className="admin-form-label">ID do colaborador</label>
+                                                    <input
+                                                        className="admin-form-control admin-form-control-lg"
+                                                        type="text"
+                                                        name="id_colaborador"
+                                                        placeholder="Informe o seu ID"
+                                                        value={id_colaborador}
+                                                        onChange={(e) => setId_colaborador(e.target.value)}
+                                                    />
+                                                </div>
+                                                <small>
+                                                    Vocẽ já está cadastrado? <Link to="/admin/entrar">Entrar</Link>
                                                 </small>
                                                 <div className="admin-text-center admin-mt-3">
                                                     <button type="submit" className="admin-btn admin-btn admin-main-btn admin-form-control">
-                                                        Entrar
+                                                        Cadastrar
                                                     </button>
                                                 </div>
                                             </form>
@@ -135,7 +156,6 @@ const Login = () => {
             </main>
         )
     )
-
 }
 
-export default Login
+export default SignUp

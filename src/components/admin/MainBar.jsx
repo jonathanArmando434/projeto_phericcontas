@@ -1,14 +1,18 @@
-import {BsFilterLeft, BsBell} from 'react-icons/bs'
-import {BiSearch} from 'react-icons/bi'
+import { useState } from 'react'
+import { BsFilterLeft, BsBell } from 'react-icons/bs'
+import { BiSearch } from 'react-icons/bi'
 
 import avatar from '../../assets/admin/img/avatars/user-no-photo.png'
 
 import './MainBar.css'
 
 const MainBar = () => {
+    const [showUser, setShowUser] = useState('')
+    const [showNotification, setShowNotification] = useState('')
+
     return (
         <nav className="admin-navbar admin-navbar-expand admin-navbar-light admin-navbar-bg admin-d-flex">
-            
+
             <div className="admin-search">
                 <form action="">
                     <input
@@ -32,7 +36,7 @@ const MainBar = () => {
                     <li className="admin-nav-item admin-dropdown">
                         <a
                             className="admin-nav-icon admin-dropdown-toggle"
-                            href="#"
+                            onClick={() => setShowNotification((showNotification === '' ? 'admin-show' : ''))}
                             id="alertsDropdown"
                             data-bs-toggle="dropdown"
                         >
@@ -42,7 +46,7 @@ const MainBar = () => {
                             </div>
                         </a>
                         <div
-                            className="admin-dropdown-menu admin-dropdown-menu-lg admin-dropdown-menu-end admin-py-0"
+                            className={`admin-dropdown-menu admin-dropdown-menu-lg admin-dropdown-menu-end admin-py-0 ${showNotification}`}
                             aria-labelledby="alertsDropdown"
                         >
                             <div className="admin-dropdown-menu-header">4 Novas Notificações</div>
@@ -110,25 +114,17 @@ const MainBar = () => {
                     </li>
                     <li className="admin-nav-item admin-dropdown">
                         <a
-                            className="admin-nav-icon admin-dropdown-toggle admin-d-inline-block admin-d-sm-none"
-                            href="#"
-                            data-bs-toggle="dropdown"
-                        >
-                            <i className="admin-align-middle" data-feather="settings" />
-                        </a>
-                        <a
                             className="admin-nav-link admin-dropdown-toggle admin-d-none admin-d-sm-inline-block"
-                            href="#"
+                            onClick={() => setShowUser((showUser === '' ? 'admin-show' : ''))}
                             data-bs-toggle="dropdown"
                         >
                             <img
                                 src={avatar}
                                 className="admin-avatar admin-img-fluid admin-rounded admin-me-1"
                                 alt=""
-                            />{" "}
-                            <span className="admin-text-dark">Milicrisney dos Santos</span>
+                            />
                         </a>
-                        <div className="admin-dropdown-menu admin-dropdown-menu-end">
+                        <div className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
                             <a className="admin-dropdown-item" href="pages-profile.html">
                                 <i className="admin-align-middle admin-me-1" data-feather="user" /> Perfil
                             </a>
