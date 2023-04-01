@@ -37,9 +37,10 @@ const DashboardRH = ({ id }) => {
         const dado = res.data
         const data_inicio = new Date(dado.data_inicio)
         const data_fim = new Date(dado.data_fim)
-        setStatus((data_fim > data_inicio ? 'Ativo' : 'Inativo'))
-        const diferenca = Math.floor((data_fim.getTime() - data_inicio.getTime()) / (1000 * 60 * 60 * 24))
-        setDiasRestantes(diferenca)
+        setStatus((data_fim > new Date() ? 'Ativo' : 'Inativo'))
+        let diferenca 
+        if(status === 'activo') diferenca = Math.floor(((data_fim).getTime() - (new Date()).getTime()) / (1000 * 60 * 60 * 24))
+        setDiasRestantes(diferenca || 0)
         setContractMember({
             data_inicio: data_inicio.toLocaleDateString(),
             data_fim: data_fim.toLocaleDateString()
@@ -142,8 +143,8 @@ const DashboardRH = ({ id }) => {
                     }}>
                         <div className="card-body text-center">
                             <img src={hasPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
-                            <h5 className="admin-card-title admin-mt-4">{member.nome}</h5>
-                            <div className="admin-text-muted admin-mb-4">{member.cargo}</div>
+                            <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
+                            <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
 
                             <div>
                                 <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
@@ -178,18 +179,18 @@ const DashboardRH = ({ id }) => {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td style={{ paddingLeft: '1.2rem' }} className="admin-d-none admin-d-xl-table-cell">{contractMember.data_inicio}</td>
-                                        <td className="admin-d-none admin-d-xl-table-cell">{contractMember.data_fim}</td>
+                                        <td style={{ paddingLeft: '1.2rem' }} className="admin-d-none admin-d-xl-table-cell">{contractMember.data_inicio || 'dd/mm/aaaa'}</td>
+                                        <td className="admin-d-none admin-d-xl-table-cell">{contractMember.data_fim || 'dd/mm/aaaa'}</td>
                                         <td>
                                             <span className={
                                                 (status === 'Ativo'
                                                     ? "admin-badge admin-status-success"
                                                     : "admin-badge admin-status-danger"
                                                 )}>
-                                                {status}
+                                                {status || 'status'}
                                             </span>
                                         </td>
-                                        <td className="admin-d-none admin-d-md-table-cell">{diasRestantes}</td>
+                                        <td className="admin-d-none admin-d-md-table-cell">{diasRestantes || 'dd'}</td>
                                     </tr>
                                 </tbody>
                             </table>
