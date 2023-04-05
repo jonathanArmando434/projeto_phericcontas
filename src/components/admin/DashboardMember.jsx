@@ -3,7 +3,7 @@ import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 import { BiEdit } from 'react-icons/bi'
 import { MdOutlinePerson } from 'react-icons/md'
-import { AiOutlineCloseSquare } from 'react-icons/ai'
+import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 
@@ -15,13 +15,43 @@ import ChartBarEscolaridade from './ChartBarEscolaridade'
 import { Link } from 'react-router-dom'
 
 const DashboardRH = ({ id }) => {
-    const [member, setMember] = useState([])
+    const [member, setMember] = useState({})
     const [contractMember, setContractMember] = useState({})
+    const [contractMemberBackup, setContractMemberBackup] = useState({})
     const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
     const [status, setStatus] = useState('')
-    const [diasRestantes, setDiasRestantes] = useState()
+    const [diasRestantes, setDiasRestantes] = useState(0)
+    const [message, setMessage] = useState('')
+    const [threethBtn, setThreethBtn] = useState('Demitir')
+    const [threethBtnIcon, setThreethBtnIcon] = useState(<AiOutlineCloseSquare />)
+
 
     const { changeLoading } = loginZustand(state => state)
+
+    const handleDismiss = async () => {
+        try {
+            const contract = {
+                data_inicio: contractMemberBackup.data_inicio.toString().split('T')[0],
+                data_fim: contractMemberBackup.data_fim.toString().split('T')[0],
+                status: false
+            }
+            const res = await api.patch(`/contrato/${id}`, contract)
+            if (res.data.result) {
+                setMessage(`${member.nome} está demitido (a)`)
+                setStatus('Cancelado')
+                const aux = {
+                    data_inicio: contractMember.data_inicio,
+                    data_fim: contractMember.data_fim,
+                    status: false
+                }
+                setContractMember(aux)
+                setThreethBtn('Readmitir')
+                setThreethBtnIcon(<AiOutlineCheckSquare />)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const getMember = async (api_url) => {
         const res = await api.get(api_url)
@@ -35,16 +65,30 @@ const DashboardRH = ({ id }) => {
     const getContractMember = async (api_url) => {
         const res = await api.get(api_url)
         const dado = res.data
+        console.log(dado)
+
+        setContractMemberBackup(dado)
+
         const data_inicio = new Date(dado.data_inicio)
         const data_fim = new Date(dado.data_fim)
-        setStatus((data_fim > new Date() ? 'Ativo' : 'Inativo'))
-        let diferenca 
-        if(status === 'activo') diferenca = Math.floor(((data_fim).getTime() - (new Date()).getTime()) / (1000 * 60 * 60 * 24))
-        setDiasRestantes(diferenca || 0)
+
+        if (!dado.status) {
+            setMessage(`Demitido (a)`)
+            setStatus('Cancelado')
+            setThreethBtn('Readmitir')
+            setThreethBtnIcon(<AiOutlineCheckSquare />)
+        }
+        else setStatus((data_fim > new Date() ? 'Ativo' : 'Inativo'))
+
+        const diferenca = Math.floor(((data_fim).getTime() - (new Date()).getTime()) / (1000 * 60 * 60 * 24))
+        if(diferenca > 0) setDiasRestantes(diferenca)
+
         setContractMember({
             data_inicio: data_inicio.toLocaleDateString(),
-            data_fim: data_fim.toLocaleDateString()
+            data_fim: data_fim.toLocaleDateString(),
+            status: dado.status
         })
+        console.log(dado.status)
     }
 
     useEffect(() => {
@@ -142,6 +186,11 @@ const DashboardRH = ({ id }) => {
                         border: '.1rem solid rgba(0, 0, 0, .1)',
                     }}>
                         <div className="card-body text-center">
+                            {
+                                message && <div className={contractMember.status && status ? 'admin-msg-success' : 'admin-msg-danger'}>
+                                    {message}
+                                </div>
+                            }
                             <img src={hasPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
                             <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
                             <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
@@ -149,7 +198,7 @@ const DashboardRH = ({ id }) => {
                             <div>
                                 <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
                                 <Link to="/admin/perfil" className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
-                                <a className="admin-btn admin-main-btn" href="#"><AiOutlineCloseSquare /> Demitir</a>
+                                <a className="admin-btn admin-main-btn" onClick={handleDismiss}>{threethBtnIcon} {threethBtn}</a>
                             </div>
                         </div>
                     </div>
@@ -190,7 +239,7 @@ const DashboardRH = ({ id }) => {
                                                 {status || 'status'}
                                             </span>
                                         </td>
-                                        <td className="admin-d-none admin-d-md-table-cell">{diasRestantes || 'dd'}</td>
+                                        <td className="admin-d-none admin-d-md-table-cell">{diasRestantes}</td>
                                     </tr>
                                 </tbody>
                             </table>

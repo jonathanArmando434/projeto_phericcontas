@@ -14,7 +14,7 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
-    const [remeberMe, setRememberMe] = useState('noChecked')
+    const [remeberMe, setRememberMe] = useState(false)
     const navigate = useNavigate()
 
     const { loading, handleLogin, changeLoading } = loginZustand(state => state)
@@ -59,7 +59,7 @@ const Login = () => {
                                             </div>
                                             <form onSubmit={handleSubmit}>
                                                 {
-                                                    message && <div style={{marginBottom: '.8rem', marginTop: '.8rem'}} className='admin-msg-danger'>
+                                                    message && <div style={{ marginBottom: '.8rem', marginTop: '.8rem' }} className='admin-msg-danger'>
                                                         {message}
                                                     </div>
                                                 }
@@ -90,30 +90,17 @@ const Login = () => {
                                                         <a href="#">Esqueceu a palavra-passe?</a>
                                                     </small>
                                                 </div>
-                                                <div className='mb-3' value={remeberMe} onChange={(e) => {
-                                                    console.log(remeberMe)
-                                                    setRememberMe((remeberMe === 'noChecked' ? 'checked' : 'noChecked'))
-                                                    console.log(remeberMe)
-                                                }}>
+                                                <div className='mb-3'>
                                                     <label className="admin-mb-0">
                                                         <input
-                                                            className=""
                                                             type="checkbox"
                                                             name="remember-me"
-                                                            value='checked'
+                                                            defaultChecked={remeberMe}
+                                                            onChange={(e) => setRememberMe(e.target.checked)}
                                                         />
                                                         <span className="">
                                                             Lembre-se de mim da próxima vez
                                                         </span>
-                                                    </label>
-                                                    <label className="admin-d-none">
-                                                        <input
-                                                            className=""
-                                                            type="checkbox"
-                                                            name="remember-me"
-                                                            value='noChecked'
-                                                            checkeddefault='true'
-                                                        />
                                                     </label>
                                                 </div>
                                                 <small className="">

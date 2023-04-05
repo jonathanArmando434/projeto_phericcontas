@@ -13,43 +13,88 @@ import Index from "./Index"
 import PageTitle from '../../components/admin/PageTitle'
 import Loading from '../../components/Loading'
 
-const FormMember = ({ dados = {} }) => {
-    const [file, setFile] = useState(dados.foto_url || '')
-    const [nome, setNome] = useState(dados.nome || "")
-    const [num_bi, setNum_bi] = useState(dados.num_bi || "")
-    const [telefone, setTelefone] = useState(dados.telefone || [""])
-    const [idioma, setIdioma] = useState(dados.idioma || [""])
-    const [data_nasc, setData_nasc] = useState(dados.data_nasc || "")
-    const [genero, setGenero] = useState(dados.genero || 'Masculino')
-    const [cargo, setCargo] = useState(dados.cargo || "Assistente de contabilidade")
-    const [num_iban, setNum_iban] = useState(dados.num_iban || '')
-    const [data_inicio, setData_inicio] = useState(dados.data_inicio || '')
-    const [data_fim, setData_fim] = useState(dados.data_fim || '')
-    const [endereco, setEndereco] = useState(dados.endereco || '')
+const FormMember = () => {
+    const [file, setFile] = useState('')
+    const [nome, setNome] = useState("")
+    const [num_bi, setNum_bi] = useState("")
+    const [telefone, setTelefone] = useState([""])
+    const [idioma, setIdioma] = useState([""])
+    const [data_nasc, setData_nasc] = useState("")
+    const [genero, setGenero] = useState('Masculino')
+    const [cargo, setCargo] = useState("Assistente de contabilidade")
+    const [num_iban, setNum_iban] = useState('')
+    const [data_inicio, setData_inicio] = useState('')
+    const [data_fim, setData_fim] = useState('')
+    const [endereco, setEndereco] = useState('')
     const [photo, setPhoto] = useState(user_no_photo)
     const [btn, setBtn] = useState('Adicionar')
     const [noDisplayed, setDisplayed] = useState('')
     const [titlePage, setTitlePage] = useState('Adicionar colaborador')
     const [method, setMethod] = useState('post')
+    const [checkedMale, setCheckedMale] = useState(true)
+    const [checkedFemale, setCheckedFemale] = useState(false)
+    const [backup, setBackup] = useState({})
+
+    let idiomaAux = []
+    let telefoneAux = []
 
     const { id } = useParams()
 
+    const { loading, changeLoading } = loginZustand(state => state)
+
+    const { message, allRight, createColaborador, editColaborador, cleanMessage, cleanAllRight } = colaboradorZustand(state => state)
+
     useEffect(() => {
+        cleanAllRight()
+        cleanMessage()
         if (id) {
             setBtn('Editar')
             setDisplayed('admin-d-none')
             setTitlePage('Editar colaborador')
             setMethod('patch')
+            PreparingDatas()
         }
     }, [])
 
+    const PreparingDatas = async () => {
+        const resColaborador = await api.get(`/colaborador/${id}`)
+        const colaborador = resColaborador.data
 
-    const { loading, changeLoading } = loginZustand(state => state)
+        const resContato = await api.get(`/contato-colaborador/${id}`)
+        const contato = resContato.data
 
-    const {message, allRight, createColaborador, cleanMessage, cleanAllRight} = colaboradorZustand(state => state)
+        const resContrato = await api.get(`/contrato/${id}`)
+        const contrato = resContrato.data
 
-    let idiomaAux = []
-    let telefoneAux = []
+        if (!colaborador) {
+            alert('Erro no servidor, recarregue a página!')
+            return
+        }
+
+        console.log(colaborador)
+        console.log(contato)
+        console.log(contrato)
+
+        const auxBackup = {
+            colaborador,
+            contato,
+            contrato
+        }
+
+        setBackup(auxBackup)
+
+        setNome(colaborador.nome)
+        setNum_bi(colaborador.num_bi)
+        setIdioma(colaborador.idioma)
+        setData_nasc(colaborador.data_nasc.split('T')[0])
+        setGenero(colaborador.genero)
+        setCargo(colaborador.cargo)
+        setNum_iban(colaborador.num_iban)
+        setTelefone(contato.telefone)
+        setEndereco(contato.endereco)
+        setData_inicio(contrato.data_inicio.split('T')[0])
+        setData_fim(contrato.data_fim.split('T')[0])
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -70,34 +115,32 @@ const FormMember = ({ dados = {} }) => {
             data_inicio,
             data_fim,
             endereco,
+            status: true
         }
 
         changeLoading()
 
-        if(method === 'post'){
-            await createColaborador(member, method, id || '')
-            console.log(allRight)
-        }
+        if (method === 'post') await createColaborador(member)
+        else await editColaborador(member, backup, id)
 
-        if(allRight && method === 'post') cleanDatas()
-
+        if (allRight && method === 'post') cleanDatas()
 
         changeLoading()
     }
 
     const cleanDatas = () => {
-        setFile(dados.foto_url || '')
-        setNome(dados.nome || "")
-        setNum_bi(dados.num_bi || "")
-        setTelefone(dados.telefone || [""])
-        setIdioma(dados.idioma || [""])
-        setData_nasc(dados.data_nasc || "")
-        setGenero(dados.genero || 'Masculino')
-        setCargo(dados.cargo || "Assistente de contabilidade")
-        setNum_iban(dados.num_iban || '')
-        setData_inicio(dados.data_inicio || '')
-        setData_fim(dados.data_fim || '')
-        setEndereco(dados.endereco || '')
+        setFile('')
+        setNome("")
+        setNum_bi("")
+        setTelefone([""])
+        setIdioma([""])
+        setData_nasc("")
+        setGenero('Masculino')
+        setCargo("Assistente de contabilidade")
+        setNum_iban('')
+        setData_inicio('')
+        setData_fim('')
+        setEndereco('')
         setPhoto(user_no_photo)
     }
 
@@ -215,9 +258,10 @@ const FormMember = ({ dados = {} }) => {
                                             <input
                                                 className="admin-form-check-input"
                                                 type="radio"
+                                                checked={genero === 'Masculino'}
+                                                onChange={(e) => setCheckedMale(e.target.checked)}
                                                 value="Masculino"
                                                 name="genero"
-                                                defaultChecked
                                             />
                                             <span className="admin-form-check-label">Masculino</span>
                                         </label>
@@ -225,6 +269,8 @@ const FormMember = ({ dados = {} }) => {
                                             <input
                                                 className="admin-form-check-input"
                                                 type="radio"
+                                                checked={genero === 'Feminino'}
+                                                onChange={e => setCheckedFemale(e.target.checked)}
                                                 value="Feminino"
                                                 name="genero"
                                             />

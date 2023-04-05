@@ -10,7 +10,7 @@ const login = create(set => ({
         try {
             const res = await api.post('/login', loginDtas)
             const data = res.data
-            if (rememberMe === 'checked') localStorage.setItem('token', JSON.stringify(data.token))
+            if (rememberMe) localStorage.setItem('token', JSON.stringify(data.token))
             set(() => ({ authenticated: true }))
             api.defaults.headers.authorization = `Bearer ${data.token}`
             return data.message
