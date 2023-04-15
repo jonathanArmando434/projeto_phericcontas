@@ -74,7 +74,7 @@ const Members = () => {
                                                     </div>
                                                     <div className="admin-card-body">
                                                         <p className="admin-card-text">{member.cargo}</p>
-                                                        <Link to={`/admin/info-membro/${member._id}`}>
+                                                        <Link to={`/admin/info/membro/${member._id}`}>
                                                             <button className="admin-btn admin-main-btn admin-form-control">
                                                                 Ver mais
                                                             </button>

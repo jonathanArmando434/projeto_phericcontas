@@ -2,7 +2,7 @@ import { create } from "zustand";
 import api from "../axios/api";
 
 const login = create(set => ({
-    authenticated: false,
+    authenticated: true,
 
     loading: false,
 

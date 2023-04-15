@@ -65,7 +65,7 @@ button[id="btn-search"] {
 
 .admin-card-selected{
     background-color: #1F5B95;
-    padding: 0.4rem 0.2rem;
+    padding: 0.4rem;
 }
 
 .admin-card-selected>.admin-card-content{

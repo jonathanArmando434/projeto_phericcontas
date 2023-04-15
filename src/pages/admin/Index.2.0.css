@@ -187,15 +187,19 @@ form svg {
 }
 
 .admin-card-member{
-    /* width: 23.8rem; */
     padding-left: 1.2rem;
     padding-right: 1.2rem;
     max-height: 35.4344rem;
 }
 
 .admin-card-img-member{
-    max-height: 22.6rem;
+    height: 22.6rem;
     width: 100%;
+    word-wrap: break-word;
+}
+
+.admin-card-client-model{
+    max-height: 23.6516rem;
 }
 
 .admin-card-body .admin-card-text{

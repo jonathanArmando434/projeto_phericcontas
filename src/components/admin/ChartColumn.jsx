@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts'
 
-const ChartColumn = () => {
+const ChartColumn = ({data}) => {
     const options = {
         chart: {
           type: 'bar',
@@ -24,7 +24,7 @@ const ChartColumn = () => {
           colors: ['transparent']
         },
         xaxis: {
-          categories: ['Janeiro', 'Fevereiro', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Noveembro', 'Dezembro'],
+          categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
         },
         fill: {
           opacity: 1
@@ -32,15 +32,15 @@ const ChartColumn = () => {
         tooltip: {
           y: {
             formatter: function (val) {
-              return "$ " + val + " thousands"
+              return val + " Kwanza"
             }
           }
         }
       }
 
     const series = [{
-        name: 'Net Profit',
-        data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 24, 20]
+        name: 'valor',
+        data: data
     }]
 
     return (

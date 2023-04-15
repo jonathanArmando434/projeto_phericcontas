@@ -5,7 +5,7 @@ import { BiEdit } from 'react-icons/bi'
 import { MdOutlinePerson } from 'react-icons/md'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 
-import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
+import logo from '/src/assets/images/logo_phericcontas.jpeg'
 
 import ChartPieAgeGroup from './ChartPieAgeGroup'
 import ChartColumnTurnover from './ChartColumnTurnover'
@@ -14,15 +14,15 @@ import ChartColumnCompanyTime from './ChartColumnCompanyTime'
 import ChartBarEscolaridade from './ChartBarEscolaridade'
 import { Link } from 'react-router-dom'
 
-const DashboardRH = ({ id }) => {
+const DashboardClient = ({ id }) => {
     const [member, setMember] = useState({})
     const [contractMember, setContractMember] = useState({})
     const [contractMemberBackup, setContractMemberBackup] = useState({})
-    const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
+    const [hasPhoto, setHasPhoto] = useState(logo)
     const [status, setStatus] = useState('')
     const [diasRestantes, setDiasRestantes] = useState(0)
     const [message, setMessage] = useState('')
-    const [threethBtn, setThreethBtn] = useState('Demitir')
+    const [threethBtn, setThreethBtn] = useState('Cancelar contrato')
     const [threethBtnIcon, setThreethBtnIcon] = useState(<AiOutlineCloseSquare />)
 
 
@@ -188,8 +188,7 @@ const DashboardRH = ({ id }) => {
             <div className="admin-col-12">
                 <div className="admin-row">
                     <div className="admin-col-4 admin-card admin-d-flex admin-flex-fill" style={{
-                        alignItems: 'center',
-                        paddingTop: '1.5rem',
+                        paddingTop: '3rem',
                         marginRight: '1.2rem',
                         boxShadow: '0 0 0.875rem 0 rgba(33, 37, 41, .05)',
                         wordWrap: 'break-word',
@@ -198,6 +197,8 @@ const DashboardRH = ({ id }) => {
                         borderRadius: '.5rem',
                         display: 'flex',
                         flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         border: '.1rem solid rgba(0, 0, 0, .1)',
                     }}>
                         <div className="card-body text-center">
@@ -206,14 +207,14 @@ const DashboardRH = ({ id }) => {
                                     {message}
                                 </div>
                             }
-                            <img src={hasPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                            <img src={hasPhoto} alt="Christina Mason" className="admin-mb-2 admin-card-img-client" width="248" height="248" />
                             <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
                             <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
 
                             <div>
                                 <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
-                                <Link to="/admin/perfil" className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
-                                <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Demitir' ? handleDismiss : handleAdmitir)}>{threethBtnIcon} {threethBtn}</a>
+                                <a className="admin-btn admin-main-btn admin-me-2" onClick={(threethBtn === 'Demitir' ? handleDismiss : handleAdmitir)}>{threethBtnIcon} {threethBtn}</a>
+                                <Link to="/admin/perfil" className="admin-btn admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
                             </div>
                         </div>
                     </div>
@@ -269,4 +270,4 @@ const DashboardRH = ({ id }) => {
     )
 }
 
-export default DashboardRH
+export default DashboardClient

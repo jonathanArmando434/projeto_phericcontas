@@ -20,11 +20,11 @@ const TaskIndicator = ({ title, value, since, about = '', Icon }) => {
                             */
                         }
                     </div>
-                    <span className="admin-h3 admin-mt-1 admin-mb-3">{value}</span>
+                    <span className="admin-h3 admin-mt-1 admin-mb-3">{value.qtd}</span>
                     <div className="admin-mb-0">
                         <span className="admin-text-danger"> <i
                             className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                            -3.65% </span>
+                            {value.percent}% </span>
                         <span className="admin-text-muted">{since}</span>
                     </div>
                 </div>

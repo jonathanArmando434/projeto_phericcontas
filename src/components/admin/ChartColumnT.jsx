@@ -32,14 +32,14 @@ const ChartColumn = () => {
         tooltip: {
           y: {
             formatter: function (val) {
-              return "$ " + val + " thousands"
+              return val + " Kwanza"
             }
           }
         }
       }
 
     const series = [{
-        name: 'Net Profit',
+        name: 'Valor',
         data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 24, 20]
     }]
 

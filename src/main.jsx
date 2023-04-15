@@ -13,7 +13,7 @@ import Dashboard from './pages/admin/Dashboard'
 import Tasks from './pages/admin/Tasks'
 import Members from './pages/admin/Members'
 import Clients from './pages/admin/Clients'
-import AddClient from './pages/admin/AddClient'
+import FormClient from './pages/admin/FormClient'
 import AddTask from './pages/admin/AddTask'
 import Client from './pages/admin/Client'
 import Perfil from './pages/admin/Perfil'
@@ -91,9 +91,9 @@ const router = createBrowserRouter([
         </PrivateRoute>
       },
       {
-        path: '/admin/novo-cliente',
+        path: '/admin/cliente/cadastrar',
         element: <PrivateRoute>
-          <AddClient />
+          <FormClient />
         </PrivateRoute>
       },
       {
@@ -115,7 +115,7 @@ const router = createBrowserRouter([
         </PrivateRoute>
       },
       {
-        path: '/admin/info-membro/:id',
+        path: '/admin/info/:about/:id',
         element: <PrivateRoute>
           <SeeMore />
         </PrivateRoute>
@@ -127,31 +127,5 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    {
-      /*
-    <BrowserRouter>
-         <Routes>
-           <Route element={<App />}>
-             <Route path='/' element={<Home />} />
-             <Route path='/admin/entrar' element={<Login />} />
-             <Route path='/admin/cadastrar' element={<SignUp />} />
-             <Route path='/admin' element={<Dashboard />} />
-             <Route path='/admin/tarefas' element={<Tasks />} />
-             <Route path='/admin/membros' element={<Members />} />
-             <Route path='/admin/clientes' element={<Clients />} />
-             <Route path='/admin/novo-membro' element={<AddMember />} />
-             <Route path='/admin/editar-membro' element={<EditMember />} />
-             <Route path='/admin/nova-tarefa' element={<AddTask />} />
-             <Route path='/admin/cliente' element={<Client />} />
-             <Route path='/admin/novo-cliente' element={<AddClient />} />
-             <Route path='/admin/perfil' element={<Perfil />} />
-             <Route path='/admin/controle-de-financas' element={<Financas />} />
-             <Route path='/admin/info-RH' element={<InfoRH />} />
-             <Route path='/admin/info-membro' element={<SeeMore />} />
-           </Route>
-         </Routes>
-       </BrowserRouter>
-    */
-    }
   </React.StrictMode>
 )

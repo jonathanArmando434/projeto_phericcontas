@@ -57,43 +57,38 @@ const FormMember = () => {
     }, [])
 
     const PreparingDatas = async () => {
-        const resColaborador = await api.get(`/colaborador/${id}`)
-        const colaborador = resColaborador.data
+        try {
+            const resColaborador = await api.get(`/colaborador/${id}`)
+            const colaborador = resColaborador.data
 
-        const resContato = await api.get(`/contato-colaborador/${id}`)
-        const contato = resContato.data
+            const resContato = await api.get(`/contato-colaborador/${id}`)
+            const contato = resContato.data
 
-        const resContrato = await api.get(`/contrato/${id}`)
-        const contrato = resContrato.data
+            const resContrato = await api.get(`/contrato/${id}`)
+            const contrato = resContrato.data
 
-        if (!colaborador) {
+            const auxBackup = {
+                colaborador,
+                contato,
+                contrato
+            }
+
+            setBackup(auxBackup)
+
+            setNome(colaborador.nome)
+            setNum_bi(colaborador.num_bi)
+            setIdioma(colaborador.idioma)
+            setData_nasc(colaborador.data_nasc.split('T')[0])
+            setGenero(colaborador.genero)
+            setCargo(colaborador.cargo)
+            setNum_iban(colaborador.num_iban)
+            setTelefone(contato.telefone)
+            setEndereco(contato.endereco)
+            setData_inicio(contrato.data_inicio.split('T')[0])
+            setData_fim(contrato.data_fim.split('T')[0])
+        } catch (error) {
             alert('Erro no servidor, recarregue a página!')
-            return
         }
-
-        console.log(colaborador)
-        console.log(contato)
-        console.log(contrato)
-
-        const auxBackup = {
-            colaborador,
-            contato,
-            contrato
-        }
-
-        setBackup(auxBackup)
-
-        setNome(colaborador.nome)
-        setNum_bi(colaborador.num_bi)
-        setIdioma(colaborador.idioma)
-        setData_nasc(colaborador.data_nasc.split('T')[0])
-        setGenero(colaborador.genero)
-        setCargo(colaborador.cargo)
-        setNum_iban(colaborador.num_iban)
-        setTelefone(contato.telefone)
-        setEndereco(contato.endereco)
-        setData_inicio(contrato.data_inicio.split('T')[0])
-        setData_fim(contrato.data_fim.split('T')[0])
     }
 
     const handleSubmit = async (e) => {
@@ -184,7 +179,7 @@ const FormMember = () => {
                                     }
                                     <div className={noDisplayed === 'admin-d-none' ? noDisplayed : 'admin-update-img admin-mb-3'}>
                                         <label className='admin-form-label' htmlFor="picture">
-                                            <img src={photo} alt="file de Perfil" className='admin-photo-member' />
+                                            <img src={photo} alt="foto de Perfil" className='admin-photo-member' />
                                             <span style={{ marginTop: '1rem', marginBottom: 0, cursor: 'pointer' }} className='admin-form-label admin-d-block'>{file ? 'Selecionar outra imagem' : 'Seleciona uma imagem'}</span>
                                             <input type="file" accept='image/*' id='picture' name='picture' onChange={handleOnChangeFile} />
                                         </label>
