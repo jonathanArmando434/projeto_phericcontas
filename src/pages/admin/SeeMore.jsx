@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 
 import './Dashboard.css'
 
-import Index from "./Index"
 import PageTitle from '../../components/admin/PageTitle'
 import DashboardMember from '../../components/admin/DashboardMember'
 import DashboardClient from '../../components/admin/DashboardClient'
@@ -19,7 +18,6 @@ const Dashboard = () => {
     }, [])
 
     return (
-        <Index>
             <main className="admin-dashboard admin-content">
                 <div className="admin-container-fluid admin-p-0">
                     <div className="admin-row">
@@ -32,7 +30,6 @@ const Dashboard = () => {
                     </div>
                 </div>
             </main>
-        </Index>
     )
 }
 

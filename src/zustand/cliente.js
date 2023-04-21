@@ -1,5 +1,68 @@
 import { create } from "zustand";
 import api from "../axios/api";
+import validator from 'email-validator'
+
+let errorMsg = ''
+
+const verifyDatas = async (client) => {
+    const {
+        nif,
+        nome,
+        area_negocio,
+        telefone,
+        email,
+        data_inicio,
+        data_fim,
+        localizacao,
+    } = client
+
+    if (!nif) {
+        errorMsg = 'Preencha o campo do NIF'
+        return false
+    }
+
+    if (!nome) {
+        errorMsg = 'Preencha o campo do nome'
+        return false
+    }
+
+    if (!area_negocio) {
+        errorMsg = 'Preencha o campo da área de negócio'
+        return false
+    }
+
+    if (!telefone || telefone.length === 0) {
+        errorMsg = 'O telefone/WhatsApp é obrigatório'
+        return false
+    }
+
+    if (!email) {
+        errorMsg = 'Preencha o campo do e-mail'
+        return false
+    }
+
+    if (!validator.validate(email)) {
+        errorMsg = 'E-mail inválido'
+        return false
+    }
+
+    if (!data_inicio) {
+        errorMsg = 'A data de início do contrato é obrigatório'
+        return false
+    }
+
+    if (!data_fim) {
+        errorMsg = 'A data de fim do contrato é obrigatório'
+        return false
+    }
+
+    if (localizacao.length === 0) {
+        errorMsg = 'O endereço é obrigatório!'
+        return false
+    }
+
+    return true
+}
 
 const getLocal = async () => {
     const res = await api.get('/localizacao')
@@ -67,13 +130,12 @@ const addClientLocalization = async (client, id_contact, id_contract) => {
     try {
         const localizacao = client.localizacao
 
-        if (localizacao.length === 0){
+        if (localizacao.length === 0) {
             await redoPosts(client, id_contact, id_contract, localIDs)
             return
         }
 
         localizacao.forEach(async value => {
-            console.log(value)
             const auxLocal = {
                 ...value,
                 id_cliente: client.id_cliente
@@ -176,6 +238,13 @@ const cliente = create(set => ({
 
     createCliente: async (client) => {
         try {
+            const canPost = await verifyDatas(client)
+            if (!canPost) {
+                set(() => ({ message: errorMsg }))
+                errorMsg = ''
+                return
+            }
+
             const { msg, id_cliente } = await addClient(client)
 
             //caso o cliente seja inserido com sucesso - start
@@ -201,7 +270,6 @@ const cliente = create(set => ({
                         if (msgLocalization === 'Localização inserida no sistema com sucesso!') set(() => ({ allRight: true }))
 
                         else {
-                            console.log('chegou')
                             set(() => ({ message: '' }))
                             if (typeof msgLocalization === 'string'
                                 && msgLocalization !== 'Localização inserida no sistema com sucesso!'

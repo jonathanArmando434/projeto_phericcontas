@@ -320,3 +320,8 @@ a.admin-btn-nav:hover, a.admin-btn-nav.active {
     background-color: rgb(255, 205, 199);
     color: rgb(91, 0, 0);
 }
+
+.admin-status-info{
+    background-color: rgb(254, 247, 219);
+    color: rgb(148, 79, 1);
+}

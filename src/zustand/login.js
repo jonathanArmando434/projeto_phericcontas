@@ -2,9 +2,11 @@ import { create } from "zustand";
 import api from "../axios/api";
 
 const login = create(set => ({
-    authenticated: true,
+    authenticated: false,
 
     loading: false,
+
+    userLogado: {},
 
     handleLogin: async (loginDtas, rememberMe) => {
         try {
@@ -13,6 +15,7 @@ const login = create(set => ({
             if (rememberMe) localStorage.setItem('token', JSON.stringify(data.token))
             set(() => ({ authenticated: true }))
             api.defaults.headers.authorization = `Bearer ${data.token}`
+            set(() => ({userLogado: data.user}))
             return data.message
         } catch (error) {
             const errorMessage = error.response && error.response.data.message

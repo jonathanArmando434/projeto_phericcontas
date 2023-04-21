@@ -19,12 +19,38 @@ const Login = () => {
 
     const { loading, handleLogin, changeLoading } = loginZustand(state => state)
 
+    let errorMsg = ''
+    const verifyDatas = async (loginDtas) => {
+        const {
+            email,
+            password
+        } = loginDtas
+
+        if (!email) {
+            errorMsg = 'Preencha o campo de E-mail!'
+            return false
+        }
+        if (!password) {
+            errorMsg = 'Preencha o campo da palavra-passe!'
+            return false
+        }
+
+        return true
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         const loginDatas = {
             email,
             password
+        }
+
+        const canPost = await verifyDatas(loginDatas)
+        if (!canPost) {
+            setMessage(errorMsg)
+            errorMsg = ''
+            return
         }
 
         changeLoading()
@@ -58,11 +84,9 @@ const Login = () => {
                                                 />
                                             </div>
                                             <form onSubmit={handleSubmit}>
-                                                {
-                                                    message && <div style={{ marginBottom: '.8rem', marginTop: '.8rem' }} className='admin-msg-danger'>
-                                                        {message}
-                                                    </div>
-                                                }
+                                                {message && <div style={{ marginBottom: '.8rem', marginTop: '.8rem' }} className='admin-msg-danger'>
+                                                    {message}
+                                                </div>}
                                                 <div className="mb-3">
                                                     <label className="admin-form-label">E-mail</label>
                                                     <input

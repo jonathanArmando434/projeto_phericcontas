@@ -1,3 +1,5 @@
+import { Outlet } from 'react-router-dom'
+
 import './Index.css'
 import './Index.2.0.css'
 
@@ -5,7 +7,7 @@ import SideBar from '../../components/admin/SideBar'
 import Footer from '../../components/admin/Footer'
 import MainBar from '/src/components/admin/MainBar'
 
-const Index = ({ children }) => {
+const Index = () => {
     return (
         <div className="admin">
             <div className="admin-wrapper">
@@ -13,13 +15,14 @@ const Index = ({ children }) => {
                 <div className="admin-main">
                     <MainBar />
 
-                    {children}
+                    <Outlet />
 
                     <Footer />
                 </div>
             </div>
 
-        </div>)
+        </div>
+    )
 }
 
 export default Index

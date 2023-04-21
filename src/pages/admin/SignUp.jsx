@@ -2,6 +2,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from "react"
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
+import validator from "email-validator";
+import passwordValidator from 'password-validator';
 
 import logo from "/src/assets/admin/img/icons/logo-2.jpeg"
 
@@ -21,6 +23,66 @@ const SignUp = () => {
 
     const { loading, handleLogin, changeLoading } = loginZustand(state => state)
 
+    let errorMsg = ''
+
+    const verifyPassword = (password) => {
+        // Create a schema
+        const schema = new passwordValidator();
+
+        // Add properties to it
+        schema
+            .is().min(12)                                    // Minimum length 8
+            .is().max(100)                                  // Maximum length 100
+            .has().uppercase()                              // Must have uppercase letters
+            .has().lowercase()                              // Must have lowercase letters
+            .has().digits(1)                                // Must have at least 2 digits
+            .has().not().spaces()                           // Should not have spaces
+
+        // Validate against a password string
+        return schema.validate(password)
+    }
+
+    const verifyDatas = async (signupDatas) => {
+        const {
+            email,
+            password,
+            confirmPassword,
+            id_colaborador
+        } = signupDatas
+
+        if (!email) {
+            errorMsg = 'Preencha o campo de e-mail'
+            return false
+        }
+
+        if (!validator.validate(email)) {
+            errorMsg = 'E-mail inválido'
+            return false
+        }
+
+        if (!password) {
+            errorMsg = 'Preencha o campo da palavra-passe'
+            return false
+        }
+
+        if (!verifyPassword(password)) {
+            errorMsg = 'A Palavra passe deve ter entre 12 à 100 caracteres, deve ter letras maiúsculas e minúsculas, deve conter pelomenos um dígito e não deve ter espaços em branco'
+            return false
+        }
+
+        if (!confirmPassword) {
+            errorMsg = 'As palavras-passe precisam ser iguais'
+            return false
+        }
+
+        if (!id_colaborador) {
+            errorMsg = 'Preencha o campo de ID do colaborador'
+            return false
+        }
+
+        return true
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -29,6 +91,13 @@ const SignUp = () => {
             password,
             confirmPassword,
             id_colaborador
+        }
+
+        const canPost = await verifyDatas(signupDatas)
+        if (!canPost) {
+            setMessage(errorMsg)
+            errorMsg = ''
+            return
         }
 
         changeLoading()
@@ -84,15 +153,9 @@ const SignUp = () => {
                                                 />
                                             </div>
                                             <form onSubmit={handleSubmit}>
-                                                {
-                                                    message && <div className='admin-bg-danger' style={{
-                                                        padding: '0.64rem 1.6rem',
-                                                        color: '#fff',
-                                                        borderRadius: '.25rem',
-                                                    }}>
-                                                        {message}
-                                                    </div>
-                                                }
+                                                {message && <div style={{ marginBottom: '.8rem', marginTop: '.8rem' }} className='admin-msg-danger'>
+                                                    {message}
+                                                </div>}
                                                 <div className="mb-3">
                                                     <label className="admin-form-label">E-mail</label>
                                                     <input

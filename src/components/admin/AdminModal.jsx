@@ -1,21 +1,37 @@
 import { BiSearch } from 'react-icons/bi'
 import { useState, useEffect } from 'react'
-import loginZustand from '../../zustand/login'
 import api from '../../axios/api'
+import searchZustand from '../../zustand/search'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
-import memberIMG from '../../assets/admin/img/avatars/avatar-2.jpg'
 import clientIMG from '../../assets/admin/img/icons/client-02.jpeg'
-
 
 import './AdminModal.css'
 
-const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente }) => {
+const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente, post, id_responsavel, id_cliente }) => {
     const [members, setMembers] = useState([])
     const [clients, setClients] = useState([])
+    const [search, setSearch] = useState('')
     const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
+    const [hasLogo, setHasLogo] = useState(clientIMG)
 
-    const { loading, changeLoading } = loginZustand(state => state)
+    const { result, seachContent, handleSearchColaborador, handleSearchCliente, cleanSearch } = searchZustand(state => state)
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+        if (about === 'Funcionário') {
+            handleSearchColaborador(search)
+            setMembers(result)
+            setTitle(`${result.length} para ${seachContent}`)
+            cleanSearch()
+        }
+        else {
+            handleSearchCliente(search)
+            setClients(result)
+            setTitle(`${result.length} para ${seachContent}`)
+            cleanSearch()
+        }
+    }
 
     const handleonClickMember = (index) => {
         let aux = [...members]
@@ -63,6 +79,10 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente }) =>
                 && value.cargo !== 'Gerente') auxDados.unshift({ ...value, select: false })
         })
 
+        auxDados.forEach((value, index) => {
+            if (value._id === id_responsavel) handleonClickMember(index)
+        })
+
         setMembers(auxDados)
     }
 
@@ -70,12 +90,16 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente }) =>
         const res = await api.get(api_url)
         const dados = res.data
 
-        // if (dados.foto_url) setHasPhoto(dados.foto_url)
+        if (dados.foto_url) setHasLogo(dados.foto_url)
 
         const auxDados = []
 
         dados.forEach(value => {
             auxDados.unshift({ ...value, select: false })
+        })
+
+        auxDados.forEach((value, index) => {
+            if (value._id === id_responsavel) handleonClickMember(index)
         })
 
         setClients(auxDados)
@@ -95,7 +119,7 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente }) =>
             <div className="admin-modal-content">
                 {/* <span class="close">&times;</span> */}
                 <div className="admin-bar-modal">
-                    <form action="" className="admin-w-100">
+                    <form onSubmit={handleSearch} className="admin-w-100">
                         <input
                             type="search"
                             id="search"
@@ -111,7 +135,7 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente }) =>
                             <BiSearch />
                         </button>
                     </form>
-                    <span onClick={() => {setOpen(!open)}} className="admin-close">x</span>
+                    <span onClick={() => { setOpen(!open) }} className="admin-close">x</span>
                 </div>
                 <main className="admin-content">
                     <div className="admin-row">
@@ -123,56 +147,61 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente }) =>
                         <div className="admin-col-12 admin-d-flex">
                             <div className="admin-row">
                                 {(about === 'Funcionário') ?
-                                    (members.map((member, index) => (
-                                        <div onClick={() => handleonClickMember(index)}
-                                            key={member._id}
-                                            className={
-                                                member.select ?
-                                                    "admin-card-selected admin-card admin-card-member admin-col-12 admin-col-md-3 admin-col-lg-4 admin-min-card" :
-                                                    "admin-card admin-card-member admin-col-12 admin-col-md-3 admin-col-lg-4 admin-min-card"
-                                            }>
-                                            <div className="admin-card-content">
-                                                <img
-                                                    className="admin-card-img-top admin-card-img-member"
-                                                    src={hasPhoto}
-                                                    alt="Unsplash"
-                                                    width="276"
-                                                    height="276"
-                                                />
-                                                <div className="admin-card-header">
-                                                    <h5 className="admin-card-title admin-mb-0">{member.nome}</h5>
-                                                </div>
-                                                <div className="admin-card-body">
-                                                    <p className="admin-card-text">{member.cargo}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))) :
-                                    (clients.map((client, index) => (
-                                        <div onClick={() => handleonClickClient(index)}
-                                            key={client._id}
-                                            className={
-                                                client.select ? "admin-card-selected admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card" :
-                                                    "admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card"
-                                            }
-                                        >
-                                            <div className="admin-card-content">
-                                                <img
-                                                    className="admin-card-img-top admin-card-img-client"
-                                                    src={clientIMG}
-                                                    alt="Unsplash"
-                                                    max-width="276"
-                                                    height="138"
-                                                />
-                                                <div className="admin-card-header">
-                                                    <h5 className="admin-card-title admin-mb-0">{client.nome}</h5>
-                                                </div>
-                                                <div className="admin-card-body">
-                                                    <p className="admin-card-text">{client.area_negocio}</p>
+                                    (members.map((member, index) => {
+                                        return (
+                                            <div onClick={() => handleonClickMember(index)}
+                                                key={member._id}
+                                                className={
+                                                    member.select ?
+                                                        "admin-card-selected admin-card admin-card-member admin-col-12 admin-col-md-3 admin-col-lg-4 admin-min-card" :
+                                                        "admin-card admin-card-member admin-col-12 admin-col-md-3 admin-col-lg-4 admin-min-card"
+                                                }>
+                                                <div className="admin-card-content">
+                                                    <img
+                                                        className="admin-card-img-top admin-card-img-member"
+                                                        src={hasPhoto}
+                                                        alt="Unsplash"
+                                                        width="276"
+                                                        height="276"
+                                                    />
+                                                    <div className="admin-card-header">
+                                                        <h5 className="admin-card-title admin-mb-0">{member.nome}</h5>
+                                                    </div>
+                                                    <div className="admin-card-body">
+                                                        <p className="admin-card-text">{member.cargo}</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    )))}
+                                        )
+                                    })) :
+                                    (clients.map((client, index) => {
+                                        // if (client._id === id_cliente) handleonClickClient(index)
+                                        return (
+                                            <div onClick={() => handleonClickClient(index)}
+                                                key={client._id}
+                                                className={
+                                                    client.select ? "admin-card-selected admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card" :
+                                                        "admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card"
+                                                }
+                                            >
+                                                <div className="admin-card-content">
+                                                    <img
+                                                        className="admin-card-img-top admin-card-img-client"
+                                                        src={hasLogo}
+                                                        alt="Unsplash"
+                                                        max-width="276"
+                                                        height="138"
+                                                    />
+                                                    <div className="admin-card-header">
+                                                        <h5 className="admin-card-title admin-mb-0">{client.nome}</h5>
+                                                    </div>
+                                                    <div className="admin-card-body">
+                                                        <p className="admin-card-text">{client.area_negocio}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }))}
                             </div>
                         </div>
                     </div>

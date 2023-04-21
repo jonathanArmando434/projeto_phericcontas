@@ -1,13 +1,13 @@
 import Chart from 'react-apexcharts'
 
-const ChartColumn = () => {
+const ChartColumn = ({title}) => {
   const options = {
     chart: {
       type: 'bar',
       height: '100%'
     },
     colors: ['#1cbb8c'],
-    title: { text: 'Desempenho anual' },
+    title: { text: title },
     noData: { text: 'Sem dados' },
     plotOptions: {
       bar: {

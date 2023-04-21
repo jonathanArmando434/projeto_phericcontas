@@ -46,7 +46,7 @@ a.admin-perfilbar-link svg {
 }
 
 .admin-perfil-item{
-    margin-bottom: 2em;
+    padding: .6em;
 }
 
 .admin-perfil-item .admin-d-flex{
@@ -71,18 +71,19 @@ span.admin-perfil-title{
 
 .admin-perfil h4 {
     color: #939ba2;
-    font-size: .925rem;
+    font-size: 1.4;
     font-weight: 600;
 }
 
-.admin-perfil h5 {
+.admin-perfil-h5 {
     color: #939ba2;
-    font-size: .925rem;
+    font-size: 1.4rem;
     font-weight: 600;
+    padding: .6rem;
 }
 
 .admin-perfil li>a{
-    padding-left: .6rem;
+    padding: .6rem;
     transition: all .5s;
 }
 

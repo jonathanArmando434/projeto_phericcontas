@@ -1,6 +1,9 @@
-import { useState } from 'react'
-import { BsFilterLeft, BsBell } from 'react-icons/bs'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { BsBell } from 'react-icons/bs'
 import { BiSearch } from 'react-icons/bi'
+import loginZustand from '../../zustand/login'
+import searchZustand from '../../zustand/search'
 
 import avatar from '../../assets/admin/img/avatars/user-no-photo.png'
 
@@ -9,18 +12,71 @@ import './MainBar.css'
 const MainBar = () => {
     const [showUser, setShowUser] = useState('')
     const [showNotification, setShowNotification] = useState('')
+    const [displayed, setDisplayed] = useState(false)
+    const [about, setAbout] = useState('')
+    const [search, setSearch] = useState('')
+
+    const location = useLocation()
+    const url = location.pathname
+
+    const navigate = useNavigate()
+
+    const { handleLogout } = loginZustand(state => state)
+    const { handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+
+        if (url === '/admin/membros') {
+            handleSearchColaborador(search)
+            navigate('/admin/membros/pesquisar/' + search)
+        }
+        else if (url === '/admin/clientes') {
+            handleSearchCliente(search)
+            navigate('/admin/clientes/pesquisar/' + search)
+        }
+    }
+
+    const handleClick = (e) => {
+        if (e.target.id === "user") setShowUser('admin-show')
+        else setShowUser('')
+        
+        if(e.target.id === 'alertsDropdown') setShowNotification('admin-show')
+        else setShowNotification('')
+    }
+
+    useEffect(() => {
+        if (url === '/admin/membros') {
+            setDisplayed(true)
+            setAbout('Pesquisar colaborador')
+        }
+        else if (url === '/admin/clientes') {
+            setDisplayed(true)
+            setAbout('Pesquisar cliente')
+        }
+        else setDisplayed(false)
+    }, [url])
+
+    useEffect(() => {
+        document.addEventListener("click", handleClick);
+        return () => {
+            document.removeEventListener("click", handleClick);
+        };
+    }, []);
 
     return (
-        <nav className="admin-navbar admin-navbar-expand admin-navbar-light admin-navbar-bg admin-d-flex">
+        <nav className="admin-navbar admin-navbar-expand admin-navbar-light admin-navbar-bg admin-d-flex" style={!displayed ? { justifyContent: 'end' } : {}}>
 
-            <div className="admin-search">
-                <form action="">
+            <div className={displayed ? "admin-search" : 'admin-d-none'}>
+                <form onSubmit={handleSearch}>
                     <input
                         type="search"
                         id="search"
                         name="search"
                         className="admin-form-control admin-d-inline-block"
-                        placeholder="Pesquisar funcionário"
+                        placeholder={about}
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
                     />
                     <button
                         type="submit"
@@ -33,10 +89,9 @@ const MainBar = () => {
             </div>
             <div className="admin-navbar-collapse admin-collapse">
                 <ul className="admin-navbar-nav admin-navbar-align admin-mb-0">
-                    <li className="admin-nav-item admin-dropdown">
+                    <li style={{marginRight: '2rem', display: 'none'}} className="admin-nav-item admin-dropdown">
                         <a
                             className="admin-nav-icon admin-dropdown-toggle"
-                            onClick={() => setShowNotification((showNotification === '' ? 'admin-show' : ''))}
                             id="alertsDropdown"
                             data-bs-toggle="dropdown"
                         >
@@ -46,6 +101,7 @@ const MainBar = () => {
                             </div>
                         </a>
                         <div
+                            style={{left: '-285%'}}
                             className={`admin-dropdown-menu admin-dropdown-menu-lg admin-dropdown-menu-end admin-py-0 ${showNotification}`}
                             aria-labelledby="alertsDropdown"
                         >
@@ -115,34 +171,21 @@ const MainBar = () => {
                     <li className="admin-nav-item admin-dropdown">
                         <a
                             className="admin-nav-link admin-dropdown-toggle admin-d-none admin-d-sm-inline-block"
-                            onClick={() => setShowUser((showUser === '' ? 'admin-show' : ''))}
                             data-bs-toggle="dropdown"
+                            id='user'
                         >
                             <img
                                 src={avatar}
                                 className="admin-avatar admin-img-fluid admin-rounded admin-me-1"
-                                alt=""
+                                alt="Usuário"
                             />
                         </a>
-                        <div className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
-                            <a className="admin-dropdown-item" href="pages-profile.html">
-                                <i className="admin-align-middle admin-me-1" data-feather="user" /> Perfil
-                            </a>
-                            <a className="admin-dropdown-item" href="#">
-                                <i className="admin-align-middle admin-me-1" data-feather="pie-chart" />{" "}
-                                Analytics
-                            </a>
+                        <div style={{ left: '-108%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
+                            <Link to={'/admin/perfil'} className="admin-dropdown-item">
+                                Perfil
+                            </Link>
                             <div className="admin-dropdown-divider" />
-                            <a className="admin-dropdown-item" href="index.html">
-                                <i className="admin-align-middle admin-me-1" data-feather="settings" />{" "}
-                                Settings &amp; Privacy
-                            </a>
-                            <a className="admin-dropdown-item" href="#">
-                                <i className="admin-align-middle admin-me-1" data-feather="help-circle" />{" "}
-                                Centro de Ajuda
-                            </a>
-                            <div className="admin-dropdown-divider" />
-                            <a className="admin-dropdown-item" href="#">
+                            <a onClick={handleLogout} className="admin-dropdown-item">
                                 Terminar Sessão
                             </a>
                         </div>

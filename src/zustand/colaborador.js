@@ -1,6 +1,63 @@
 import { create } from "zustand";
 import api from "../axios/api";
 
+let errorMsg = ''
+
+const verifyDatas = async (member) => {
+    const {
+        nome,
+        num_bi,
+        data_nasc,
+        genero,
+        num_iban,
+        cargo,
+        telefone,
+        data_inicio,
+        data_fim
+    } = member
+
+    if (!nome) {
+        errorMsg = 'Preencha o campo do nome'
+        return false
+    }
+    if (!num_bi) {
+        errorMsg = 'Preencha o campo do número de BI'
+        return false
+    }
+    if (!data_nasc) {
+        errorMsg = 'Preencha o campo da data de nascimento'
+        return false
+    }
+    if (!genero) {
+        errorMsg = 'Selecione um género'
+        return false
+    }
+    if (!cargo) {
+        errorMsg = 'Selecione um cargo'
+        return false
+    }
+    if (!num_iban) {
+        errorMsg = 'Preencha o campo do número de IBAN'
+        return false
+    }
+
+    if (!telefone || telefone.length === 0) {
+        errorMsg = 'Preencha o campo do telefone / WhatsApp'
+        return false
+    }
+
+    if (!data_inicio) {
+        errorMsg = 'Preencha o campo de início de contrato'
+        return false
+    }
+    if (!data_fim) {
+        errorMsg = 'Preencha o campo de fim de contrato'
+        return false
+    }
+
+    return true
+}
+
 const addMember = async (member) => {
     try {
         const res = await api.post('/colaborador', member)
@@ -19,7 +76,6 @@ const addMemberContact = async (member) => {
         const data = res.data
         return { msgContact: data.message || '', id_contact: data.result._id || '' }
     } catch (error) {
-        console.log(error)
         await api.delete(`/colaborador/${member.id_colaborador}`)
         const errorMessage = error.response && error.response.data.message
         if (errorMessage) return { msgContact: errorMessage }
@@ -57,10 +113,8 @@ const editMemberContact = async (member, backup, id) => {
     try {
         const res = await api.patch(`/contato-colaborador/${id}`, member)
         const data = res.data
-        console.log(data + ' *** data aqui')
         return { msgContact: data.message || '', id_contact: data.result._id || '' }
     } catch (error) {
-        console.log(error)
         await api.patch(`/colaborador/${id}`, backup.colaborador)
         const errorMessage = error.response && error.response.data.message
         if (errorMessage) return { msgContact: errorMessage }
@@ -89,6 +143,13 @@ const colaborador = create(set => ({
 
     createColaborador: async (member) => {
         try {
+            const canPost = await verifyDatas(member)
+            if (!canPost) {
+                set(() => ({ message: errorMsg }))
+                errorMsg = ''
+                return
+            }
+
             const { msg, id_colaborador } = await addMember(member)
 
             //caso o colaborador seja inserido com sucesso - start
@@ -109,12 +170,12 @@ const colaborador = create(set => ({
 
                     //caso o contrato do colaborador seja inserido com sucesso - start
                     if (msgContract === 'Contrato inserido no sistema com sucesso!') set(() => ({ allRight: true }))
-
+                    
                     else {
                         set(() => ({ message: '' }))
                         if (typeof msgContract === 'string'
                             && msgContract !== 'Contrato inserido no sistema com sucesso!'
-                            && msgContract !== 'Houve um erro no servidor, tente novamente!') set(() => ({ message: msgContract }))
+                            && msgContract !== 'Houve um erro no sistema, tente novamente!') set(() => ({ message: msgContract }))
                         else alert('Erro no servidor, tente novamente!')
                     }
                 }//caso o contato do colaborador seja inserido com sucesso - end
@@ -146,7 +207,6 @@ const colaborador = create(set => ({
                 set(() => ({ message: msg }))
 
                 const { msgContact } = await editMemberContact(member, backup, id)
-                console.log(msgContact)
 
                 //caso o contato do colaborador seja atualizado com sucesso - start
                 if (msgContact === 'Contato do colaborador atualizado com sucesso!') {

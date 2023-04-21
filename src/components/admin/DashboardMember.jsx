@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
@@ -7,12 +8,7 @@ import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 
-import ChartPieAgeGroup from './ChartPieAgeGroup'
-import ChartColumnTurnover from './ChartColumnTurnover'
 import ChartColumnDesempenho from './ChartColumnDesempenho'
-import ChartColumnCompanyTime from './ChartColumnCompanyTime'
-import ChartBarEscolaridade from './ChartBarEscolaridade'
-import { Link } from 'react-router-dom'
 
 const DashboardRH = ({ id }) => {
     const [member, setMember] = useState({})
@@ -81,7 +77,6 @@ const DashboardRH = ({ id }) => {
     const getContractMember = async (api_url) => {
         const res = await api.get(api_url)
         const dado = res.data
-        console.log(dado)
 
         setContractMemberBackup(dado)
 
@@ -212,7 +207,7 @@ const DashboardRH = ({ id }) => {
 
                             <div>
                                 <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
-                                <Link to="/admin/perfil" className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
+                                <Link to={`/admin/perfil/${id}`} className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
                                 <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Demitir' ? handleDismiss : handleAdmitir)}>{threethBtnIcon} {threethBtn}</a>
                             </div>
                         </div>
@@ -260,7 +255,7 @@ const DashboardRH = ({ id }) => {
                             </table>
                         </div>
                         <div style={{ height: '48%' }} className="admin-card-content admin-chart">
-                            <ChartColumnDesempenho />
+                            <ChartColumnDesempenho title={'Desempenho anual'} />
                         </div>
                     </div>
                 </div>

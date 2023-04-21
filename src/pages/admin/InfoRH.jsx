@@ -4,7 +4,6 @@ import { FiLoader } from 'react-icons/fi'
 import { CgClipboard } from 'react-icons/cg'
 import './Dashboard.css'
 
-import Index from "./Index"
 import PageTitle from '../../components/admin/PageTitle'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartLine from '../../components/admin/ChartColumn'
@@ -14,16 +13,14 @@ import DashboardMember from '../../components/admin/DashboardMember'
 
 const Dashboard = () => {
     return (
-        <Index>
-            <main className="admin-dashboard admin-content">
-                <div className="admin-container-fluid admin-p-0">
-                    <div className="admin-row">
-                        <PageTitle title={'Informações de Recursos Humanos'} />
-                        <DashboardRH />
-                    </div>
+        <main className="admin-dashboard admin-content">
+            <div className="admin-container-fluid admin-p-0">
+                <div className="admin-row">
+                    <PageTitle title={'Informações de Recursos Humanos'} />
+                    <DashboardRH />
                 </div>
-            </main>
-        </Index>
+            </div>
+        </main>
     )
 }
 
