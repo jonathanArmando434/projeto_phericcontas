@@ -2,29 +2,59 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
+import taskZustand from '../../zustand/task'
 
 import './FormTask.css'
 
 import AdminModal from '/src/components/admin/AdminModal'
 import PageTitle from '../../components/admin/PageTitle'
+import task from '../../zustand/task'
 
 const FormTask = () => {
-    const [open, setOpen] = useState(false)
-    const [about, setAbout] = useState('')
     const [servico, setServico] = useState('Organização contabilística')
     const [data_limite, setDataLimite] = useState('')
-    const [id_responsavel, setIdResponsavel] = useState('')
-    const [id_cliente, setIdCliente] = useState('')
     const [valor, setValor] = useState(0)
     const [message, setMessage] = useState('')
     const [allRight, setAllRight] = useState(false)
     const [btn, setBtn] = useState('Adicionar')
     const [titlePage, setTitlePage] = useState('Adicionar tarefa')
-    const [post, setPost] = useState(true)
 
     const { id } = useParams()
 
+    const {
+        open,
+        setOpen,
+        about,
+        setAbout,
+        id_responsavel,
+        setIdResponsavel,
+        id_cliente,
+        setIdCliente,
+        post,
+        setPost,
+        members,
+        setMembers,
+        clients,
+        setClients
+    } = taskZustand(state => state)
+
     const { loading, changeLoading } = loginZustand(state => state)
+
+    const getResponsavelName = (task) => {
+        let colaborador
+        members.forEach(func => {
+            if (id_responsavel === func._id) colaborador = func.nome
+        })
+        return colaborador
+    }
+
+    const getClientName = (task) => {
+        let client
+        clients.forEach(cli => {
+            if (id_cliente === cli._id) client = cli.nome
+        })
+        return client
+    }
 
     const addTask = async (task) => {
         const res = await api.post('/tarefa', task)
@@ -46,7 +76,23 @@ const FormTask = () => {
         setIdResponsavel('')
         setIdCliente('')
         setValor(0)
-        setMessage('')
+
+        const auxMembers = members.map(value => {
+            if (value.select === false) value.select = false
+            return value
+        })
+
+        setMembers(auxMembers)
+
+        const auxClients = clients.map(value => {
+            if (value.select === false) value.select = false
+            return value
+        })
+
+        setClients(auxClients)
+
+        console.log(auxMembers)
+        console.log(auxClients)
     }
 
     const verifyDatas = () => {
@@ -170,7 +216,7 @@ const FormTask = () => {
                                 id="data-limite"
                                 name="dataLimite"
                                 placeholder=""
-                                value={data_limite || ''}
+                                value={data_limite.split('T')[0] || ''}
                                 onChange={e => setDataLimite(e.target.value)}
                             />
                             <label htmlFor="func-res" className="admin-d-block">Funcionário Responsável</label>
@@ -178,6 +224,7 @@ const FormTask = () => {
                                 className="admin-form-control admin-mb-3 admin-w-me-80 admin-d-inline-block"
                                 type="text"
                                 placeholder="Seleciona um funcionário"
+                                value={getResponsavelName(task) || ''}
                                 id="func-res"
                                 name="func-res"
                                 readOnly
@@ -200,6 +247,7 @@ const FormTask = () => {
                                 className="admin-form-control admin-mb-3 admin-w-me-80 admin-d-inline-block"
                                 type="text"
                                 placeholder="Seleciona o cliente"
+                                value={getClientName(task) || ''}
                                 id="client"
                                 name="client"
                                 readOnly
@@ -221,7 +269,7 @@ const FormTask = () => {
                         </form>
                     </div>
                     {/* The Modal */}
-                    <AdminModal open={open} setOpen={setOpen} about={about} setAbout={setAbout} setIdResponsavel={setIdResponsavel} setIdCliente={setIdCliente} post={post} id_responsavel={id_responsavel} id_cliente={id_cliente} />
+                    <AdminModal />
                 </div>
             </div>
         </main>

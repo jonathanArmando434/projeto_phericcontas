@@ -84,7 +84,13 @@ const router = createBrowserRouter([
             </PrivateRoute>
           },
           {
-            path: '/admin/nova-tarefa',
+            path: '/admin/tarefa/adicionar',
+            element: <PrivateRoute>
+              <FormTask />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/tarefa/editar/:id',
             element: <PrivateRoute>
               <FormTask />
             </PrivateRoute>

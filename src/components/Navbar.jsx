@@ -14,9 +14,8 @@ const Navbar = () => {
     const handleScroll = () => {
         const scrollPosition = window.scrollY; // => posição de rolagem
         if (scrollPosition >= 500) setScrollWaited(true)
-        else setScrollWaited(false)
-        whatIsCurrent(scrollPosition)
-        console.log(scrollPosition);
+        else setScrollWaited(true)
+        // whatIsCurrent(scrollPosition)
     };
     useEffect(() => {
         handleScroll();
@@ -59,7 +58,7 @@ const Navbar = () => {
                     <div className={(show) ? "collapse navbar-collapse show" : "collapse navbar-collapse"} id="navbarResponsive">
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <a className={(current === 'home') ? 'nav-link current' : 'nav-link'} href="#top"
+                                <a className={(current === 'home') ? 'nav-link' : 'nav-link'} href="#top"
                                     onClick={(e) => {
                                         e.preventDefault
                                         setShow(false)
@@ -69,7 +68,7 @@ const Navbar = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className={(current === 'our-services') ? 'nav-link current' : 'nav-link'} href="#services"
+                                <a className={(current === 'our-services') ? 'nav-link' : 'nav-link'} href="#services"
                                     onClick={(e) => {
                                         e.preventDefault
                                         setShow(false)
@@ -79,7 +78,7 @@ const Navbar = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className={(current === 'about-us') ? 'nav-link current' : 'nav-link'} href="#about"
+                                <a className={(current === 'about-us') ? 'nav-link' : 'nav-link'} href="#about"
                                     onClick={(e) => {
                                         e.preventDefault
                                         setShow(false)
@@ -88,7 +87,7 @@ const Navbar = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className={(current === 'contact-us') ? 'nav-link current' : 'nav-link'} href="#contactus"
+                                <a className={(current === 'contact-us') ? 'nav-link' : 'nav-link'} href="#contactus"
                                     onClick={(e) => {
                                         e.preventDefault
                                         setShow(false)

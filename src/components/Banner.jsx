@@ -1,5 +1,7 @@
 import './Banner.css'
 
+import carousel from './Carousel'
+
 const Banner = () => {
     return (
         <div className="main-banner header-text" id="top">
@@ -20,8 +22,8 @@ const Banner = () => {
                         <p>
                             Você pode fazer um orçamento sem compromisso clicando no botão abaixo.
                         </p>
-                        <a href="#" className="filled-button">
-                            Orçar
+                        <a href="#contactus-form" className="filled-button">
+                            Contacte-nos
                         </a>
                     </div>
                 </div>

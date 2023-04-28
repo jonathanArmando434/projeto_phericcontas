@@ -2,18 +2,34 @@ import { BiSearch } from 'react-icons/bi'
 import { useState, useEffect } from 'react'
 import api from '../../axios/api'
 import searchZustand from '../../zustand/search'
+import taskZustand from '../../zustand/task'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 import clientIMG from '../../assets/admin/img/icons/client-02.jpeg'
 
 import './AdminModal.css'
 
-const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente, post, id_responsavel, id_cliente }) => {
-    const [members, setMembers] = useState([])
-    const [clients, setClients] = useState([])
+const AdminModal = () => {
     const [search, setSearch] = useState('')
     const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
     const [hasLogo, setHasLogo] = useState(clientIMG)
+
+    const {
+        open,
+         setOpen,
+         about,
+         setAbout,
+         id_responsavel,
+         setIdResponsavel,
+         id_cliente,
+         setIdCliente,
+         post, 
+         setPost,
+         members,
+         setMembers,
+         clients,
+         setClients
+    } = taskZustand(state => state)
 
     const { result, seachContent, handleSearchColaborador, handleSearchCliente, cleanSearch } = searchZustand(state => state)
 
@@ -99,7 +115,7 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente, post
         })
 
         auxDados.forEach((value, index) => {
-            if (value._id === id_responsavel) handleonClickMember(index)
+            if (value._id === id_cliente) handleonClickMember(index)
         })
 
         setClients(auxDados)
@@ -112,6 +128,8 @@ const AdminModal = ({ open, setOpen, about, setIdResponsavel, setIdCliente, post
         const api_url_client = import.meta.env.VITE_API_URL_CLIENTE
         getClients(api_url_client)
     }, [])
+
+    useEffect(() => {}, [members, clients])
 
     return (
         <div id="admin-modal" className={open ? "admin-modal admin-d-block" : "admin-modal"}>

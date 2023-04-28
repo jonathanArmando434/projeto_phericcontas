@@ -21,13 +21,13 @@ const Home = () => {
     return (
         <div className="Home">
             {/* Header */}
-            <SubHeader />
+            {/* <SubHeader /> */}
             <Navbar />
             {/* Page Content */}
             {/* Banner Starts Here */}
             <Banner />
             {/* Request Form */}
-            <RequestForm h4Content={'Solicitar uma chamada de volta ?'} spanContent={'Estamos sempre disponíveis para os nossos clientes.'} aContent={'Contate Nos'} />
+            {/* <RequestForm h4Content={'Solicitar uma chamada de volta ?'} spanContent={'Estamos sempre disponíveis para os nossos clientes.'} aContent={'Contate Nos'} /> */}
             {/* Services */}
             <Services />
             {/* Fun Facts */}

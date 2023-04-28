@@ -51,9 +51,6 @@ const FormClient = () => {
             const resLocal = await api.get(`/localizacao/${id}`)
             const localizacao = resLocal.data
 
-            console.log(resContrato + ' - ' + typeof resContrato)
-            console.log('Chegou')
-
             const auxBackup = {
                 cliente,
                 contato,

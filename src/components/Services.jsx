@@ -20,48 +20,63 @@ const Services = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <div className="service-item">
-                            <img
+                            {/* <img
                                 src={singleService1}
                                 alt="análise de mercado"
-                            />
-                            <div className="down-content">
+                            /> */}
+                            <div style={{textAlign: 'center'}} className="down-content">
                                 <h4>Contabilidade</h4>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="#" className="filled-button">
+                                {/* <a href="#" className="filled-button">
                                     Ler Mais
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <div className="service-item">
-                            <img
+                            {/* <img
                                 src={singleService2}
                                 alt="Dados financeiros"
-                            />
-                            <div className="down-content">
+                            /> */}
+                            <div style={{textAlign: 'center'}} className="down-content">
                                 <h4>Consultoria</h4>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="#" className="filled-button">
+                                {/* <a href="#" className="filled-button">
                                     Ler mais
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <div className="service-item">
-                            <img
+                            {/* <img
                                 src={singleService3}
                                 alt="Serviço de Contabilidade"
-                            />
-                            <div className="down-content">
+                            /> */}
+                            <div style={{textAlign: 'center'}} className="down-content">
                                 <h4>Auditoria</h4>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="#" className="filled-button">
+                                {/* <a href="#" className="filled-button">
                                     Ler Mais
-                                </a>
+                                </a> */}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <div className="service-item">
+                            {/* <img
+                                src={singleService3}
+                                alt="Serviço de Contabilidade"
+                            /> */}
+                            <div style={{textAlign: 'center'}} className="down-content">
+                                <h4>Auditoria</h4>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                {/* <a href="#" className="filled-button">
+                                    Ler Mais
+                                </a> */}
                             </div>
                         </div>
                     </div>
