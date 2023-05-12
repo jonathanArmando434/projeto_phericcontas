@@ -1,9 +1,11 @@
 import { Link, useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { BiEdit } from 'react-icons/bi'
 import { FaRegAddressCard } from 'react-icons/fa'
-import { MdOutlineDateRange } from 'react-icons/md'
+import { MdOutlineDateRange, MdOutlineCameraAlt } from 'react-icons/md'
 import { RiBankLine } from 'react-icons/ri'
+import { TbPhone, TbLanguage, TbGenderFemale, TbGenderMale } from 'react-icons/tb'
+import { HiOutlineMail } from 'react-icons/hi'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 
@@ -20,12 +22,36 @@ const Member = () => {
 
     let { id } = useParams()
 
+    const inputFileRef = useRef(null)
+
     let isUser = true
-    if(id) isUser = false
+    if (id) isUser = false
 
     const { loading, userLogado, changeLoading } = loginZustand(state => state)
 
-    if(!id) id = userLogado.id_colaborador
+    if (!id) id = userLogado.id_colaborador
+
+    const handleClickUpdatePhoto = () => {
+        inputFileRef.current.click()
+    }
+
+    const handleFileSelect = async (e) => {
+        try {
+            const selectedFile = e.target.files[0];
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            const res = await api.patch(`/colaborador/update-photo/${member._id}`, formData)
+            const { message, result } = res.data
+            if (message === 'Imagem do colaborador atualizado com sucesso!') {
+                setMember(result)
+                alert('Imagem do colaborador atualizado com sucesso!')
+            }
+            else alert('Houve um erro, tente novamente!')
+        } catch (error) {
+            console.log(error)
+            alert('Imagem do colaborador atualizado com sucesso!')
+        }
+    }
 
     const getMember = async () => {
         const res = await api.get('/colaborador/' + id)
@@ -33,7 +59,7 @@ const Member = () => {
 
         if (dados.foto_url) setHasPhoto(dados.foto_url)
 
-        let aux = {...dados}
+        let aux = { ...dados }
         aux.data_nasc = (new Date(dados.data_nasc.split('T')[0]).toLocaleDateString())
 
         setMember(aux)
@@ -46,19 +72,9 @@ const Member = () => {
         setContato(dados)
     }
 
-    const getUser = async () => {
-        const res = await api.get('/usuario/' + id)
-        const dados = res.data
-
-        console.log(dados.id_colaborador === id)
-
-        setUser(dados)
-    }
-
-    useEffect(() => {
+     useEffect(() => {
         getMember()
         getContato()
-        if(!isUser) getUser()
     }, [])
 
     return (
@@ -71,7 +87,17 @@ const Member = () => {
                                 <div className="admin-col-4 mb-4">
                                     <div className="admin-card">
                                         <div className="card-body text-center">
-                                            <img src={hasPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                                            <div className="admin-image-container">
+                                                <img src={hasPhoto} alt={member.nome} className="admin-perfil-photo admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                                                <input
+                                                    ref={inputFileRef}
+                                                    type="file"
+                                                    accept="image/*"
+                                                    style={{ display: "none" }}
+                                                    onChange={handleFileSelect}
+                                                />
+                                                <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
+                                            </div>
                                             <h5 className="admin-card-title admin-mb-0">{member.nome || 'Nome'}</h5>
                                             <div className="admin-text-muted admin-mb-2">{member.cargo || 'Cargo'}</div>
 
@@ -140,12 +166,12 @@ const Member = () => {
                                                     <div className="admin-perfil-item">
                                                         <h4 className="admin-mb-0">Informações de Contacto</h4>
                                                     </div>
-                                                    {contato.telefone && contato.telefone.map(tel => (
-                                                        <div className="admin-perfil-item">
+                                                    {contato.telefone && contato.telefone.map((tel, index) => (
+                                                        <div key={index} className="admin-perfil-item">
                                                             <div className="admin-d-flex">
-                                                                <BiEdit />
+                                                                <TbPhone />
                                                                 <div>
-                                                                    <span className="admin-perfil-dado">+244 {tel}</span>
+                                                                    <span className="admin-perfil-dado">+244{tel}</span>
                                                                     <span className="admin-small admin-d-block admin-perfil-title">Telefone</span>
                                                                 </div>
                                                             </div>
@@ -153,9 +179,9 @@ const Member = () => {
                                                     ))}
                                                     <div className="admin-perfil-item">
                                                         <div className="admin-d-flex">
-                                                            <BiEdit />
+                                                            <HiOutlineMail />
                                                             <div>
-                                                                <span className="admin-perfil-dado">{user.email || userLogado.email || 'E-mail'}</span>
+                                                                <span className="admin-perfil-dado">{contato.email || 'E-mail'}</span>
                                                                 <span className="admin-small admin-d-block admin-perfil-title">E-mail</span>
                                                             </div>
                                                         </div>
@@ -167,10 +193,10 @@ const Member = () => {
                                                         <h4 className="admin-mb-0">Informações Básicas</h4>
                                                     </div>
 
-                                                    {member.idioma && member.idioma.map(lang => {
-                                                        <div className="admin-perfil-item admin-m-0">
+                                                    {member.idioma && member.idioma.map((lang, index) => {
+                                                        <div key={index} className="admin-perfil-item admin-m-0">
                                                             <div className="admin-d-flex">
-                                                                <BiEdit />
+                                                                <TbLanguage />
                                                                 <div>
                                                                     <span className="admin-perfil-dado">{lang}</span>
                                                                     <span className="admin-small admin-d-block admin-perfil-title">Idioma</span>
@@ -180,7 +206,7 @@ const Member = () => {
                                                     })}
                                                     <div className="admin-perfil-item admin-m-0">
                                                         <div className="admin-d-flex">
-                                                            <BiEdit />
+                                                            {member.genero === 'Feminino' ? <TbGenderFemale /> : <TbGenderMale />}
                                                             <div>
                                                                 <span className="admin-perfil-dado">{member.genero || 'Género'}</span>
                                                                 <span className="admin-small admin-d-block admin-perfil-title">Género</span>

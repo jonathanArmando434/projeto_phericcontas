@@ -6,7 +6,7 @@ const ChartColumnTurnover = () => {
       type: 'bar',
       height: 350
     },
-    colors: ['#1cbb8c'],
+    colors: ['rgb(0, 227, 150)'],
     title: {text: 'Turnover acumulado no ano'},
     plotOptions: {
       bar: {
@@ -14,7 +14,7 @@ const ChartColumnTurnover = () => {
           ranges: [{
             from: -100,
             to: 0,
-            color: '#dc3545'
+            color: 'rgb(255, 69, 96)'
           }]
         },
         columnWidth: '35%',
@@ -40,7 +40,6 @@ const ChartColumnTurnover = () => {
       }
     }
   }
-
 
   const series = [{
     name: 'Turnover',

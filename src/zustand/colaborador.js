@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import api from "../axios/api";
+import validator from "email-validator";
 
 let errorMsg = ''
 
@@ -7,9 +8,11 @@ const verifyDatas = async (member) => {
     const {
         nome,
         num_bi,
+        email,
         data_nasc,
         genero,
         num_iban,
+        nivel_academico,
         cargo,
         telefone,
         data_inicio,
@@ -22,6 +25,14 @@ const verifyDatas = async (member) => {
     }
     if (!num_bi) {
         errorMsg = 'Preencha o campo do número de BI'
+        return false
+    }
+    if (!email) {
+        errorMsg = 'Preencha o campo de E-mail!'
+        return false
+    }
+    if (!validator.validate(email)) {
+        errorMsg = 'E-mail inválido'
         return false
     }
     if (!data_nasc) {
@@ -38,6 +49,11 @@ const verifyDatas = async (member) => {
     }
     if (!num_iban) {
         errorMsg = 'Preencha o campo do número de IBAN'
+        return false
+    }
+
+    if (!nivel_academico) {
+        errorMsg = 'Seleciona um nível académico'
         return false
     }
 
@@ -60,7 +76,9 @@ const verifyDatas = async (member) => {
 
 const addMember = async (member) => {
     try {
-        const res = await api.post('/colaborador', member)
+        const formData = new FormData()
+        for(const key in member) formData.append(key, member[key])
+        const res = await api.post('/colaborador', formData)
         const data = res.data
         return { msg: data.message, id_colaborador: data.result._id || '' }
     } catch (error) {

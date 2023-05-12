@@ -25,12 +25,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.main-banner .img-fill-1 {
+  background-image: url(../assets/images/slide_01.jpg);
+}
+
+.main-banner .img-fill-2 {
+  background-image: url(../assets/images/slide_02.jpg);
+}
+
+.main-banner .img-fill-3 {
+  background-image: url(../assets/images/slide_03.jpg);
+} 
+
 .main-banner .img-fill {
-    background-image: url(../assets/images/slide_01.jpg);
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    height:95vh;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height:95vh;
 }
 
 .main-banner .img-fill-bg-color{
@@ -77,6 +88,10 @@
     font-weight: 400;
     line-height: 30px;
     margin-bottom: 40px;
+}
+
+.main-banner p.no-mb {
+  margin-bottom: 0
 }
 
 .main-banner a {

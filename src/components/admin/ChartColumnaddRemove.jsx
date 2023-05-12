@@ -6,7 +6,7 @@ const ChartColumn = () => {
       type: 'bar',
       height: '100%'
     },
-    colors: ['#1cbb8c', '#dc3545'],
+    colors: ['rgb(0, 227, 150)', 'rgb(255, 69, 96)'],
     title: { text: 'Admissão vs Demissão' },
     noData: { text: 'Sem dados' },
     plotOptions: {

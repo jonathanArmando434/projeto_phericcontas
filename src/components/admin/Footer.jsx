@@ -1,6 +1,12 @@
+import { FaRegArrowAltCircleUp } from 'react-icons/fa'
+
 import './Footer.css'
 
-const Footer = () => {
+const Footer = ({arrowUp}) => {
+    const handleScrollToUp = () => {
+        arrowUp.current.scrollIntoView({ behavior: 'smooth' })
+    }
+
     return (
         <footer className="admin-footer">
             <div className="admin-container-fluid">
@@ -15,37 +21,9 @@ const Footer = () => {
                             <li className="admin-list-inline-item">
                                 <a
                                     className="admin-text-muted"
-                                    href="https://adminkit.io/"
-                                    target="_blank"
+                                    onClick={handleScrollToUp}
                                 >
-                                    Suporte
-                                </a>
-                            </li>
-                            <li className="admin-list-inline-item">
-                                <a
-                                    className="text-muted"
-                                    href="https://adminkit.io/"
-                                    target="_blank"
-                                >
-                                    Centro de Ajuda
-                                </a>
-                            </li>
-                            <li className="admin-list-inline-item">
-                                <a
-                                    className="text-muted"
-                                    href="https://adminkit.io/"
-                                    target="_blank"
-                                >
-                                    Privacidade
-                                </a>
-                            </li>
-                            <li className="admin-list-inline-item">
-                                <a
-                                    className="text-muted"
-                                    href="https://adminkit.io/"
-                                    target="_blank"
-                                >
-                                    Termos
+                                    <FaRegArrowAltCircleUp />
                                 </a>
                             </li>
                         </ul>

@@ -90,9 +90,6 @@ const FormTask = () => {
         })
 
         setClients(auxClients)
-
-        console.log(auxMembers)
-        console.log(auxClients)
     }
 
     const verifyDatas = () => {
@@ -221,7 +218,7 @@ const FormTask = () => {
                             />
                             <label htmlFor="func-res" className="admin-d-block">Funcionário Responsável</label>
                             <input
-                                className="admin-form-control admin-mb-3 admin-w-me-80 admin-d-inline-block"
+                                className="admin-form-control admin-mb-3 admin-w-me-80 admin-d-inline-block admin-input-associado"
                                 type="text"
                                 placeholder="Seleciona um funcionário"
                                 value={getResponsavelName(task) || ''}
@@ -244,7 +241,7 @@ const FormTask = () => {
                                 Cliente
                             </label>
                             <input
-                                className="admin-form-control admin-mb-3 admin-w-me-80 admin-d-inline-block"
+                                className="admin-form-control admin-mb-3 admin-w-me-80 admin-d-inline-block admin-input-associado"
                                 type="text"
                                 placeholder="Seleciona o cliente"
                                 value={getClientName(task) || ''}

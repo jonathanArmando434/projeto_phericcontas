@@ -1,6 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom'
 import { useState } from 'react'
 import loginZustand from "../../zustand/login"
+import validator from "email-validator";
 
 import './Index.css'
 import './Index.2.0.css'
@@ -28,6 +29,10 @@ const Login = () => {
 
         if (!email) {
             errorMsg = 'Preencha o campo de E-mail!'
+            return false
+        }
+        if (!validator.validate(email)) {
+            errorMsg = 'E-mail inválido'
             return false
         }
         if (!password) {

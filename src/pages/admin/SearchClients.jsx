@@ -12,47 +12,34 @@ import PageTitle from '../../components/admin/PageTitle'
 import './Clients.css'
 
 const Clients = () => {
-    const [clients, setClients] = useState([])
-    const [title, setTitle] = useState('Nossos cliente')
-
     const location = useLocation()
     const url = location.pathname
 
     const navigate = useNavigate()
 
     const { loading, changeLoading } = loginZustand(state => state)
-    const { seachContent, result, ok, cleanSearch } = searchZustand(state => state)
+    const { searchContent, result, ok, cleanSearch } = searchZustand(state => state)
 
-    let isSearch = false
-
-    const getClients = async () => {
-        const res = await api.get('/cliente')
-        const dados = res.data
-
-        setClients(dados)
-    }
+    const [title, setTitle] = useState(`${result.length === 0 ? 'Nenhum' : result.length} resultado (s) para "${searchContent}"`)
 
     useEffect(() => {
-        if(url === '/admin/clientes') getClients()
-        else if(!ok) navigate('/admin/clientes')
+        if(!ok) navigate('/admin/clientes')
         else{
-            setClients(result)
-            setTitle(`${result.length} resultado (s) para "${seachContent}"`)
-            isSearch = true
+            setTitle(`${result.length === 0 ? 'Nenhum' : result.length} resultado (s) para "${searchContent}"`)
             cleanSearch()
         }
-    }, [])
+    }, [result])
 
     return (
         <main className="admin-content">
             <div className="admin-container-fluid admin-p-0">
                 <div className="admin-row">
-                    <PageTitle title={title} btnText={!isSearch && 'Adicionar Cliente'} BtnIcon={!isSearch && IoMdAddCircleOutline} link={!isSearch ? true : false} path={!isSearch && "/admin/cliente/cadastrar"} />
+                    <PageTitle title={title}  />
 
                     <div className="admin-col-12">
                         <div className="admin-row">
                             {
-                                clients.map(client => (
+                                result.map(client => (
                                     <div key={client._id} className="admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card">
                                         <div className="admin-card-content">
                                             <img

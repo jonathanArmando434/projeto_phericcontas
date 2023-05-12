@@ -13,9 +13,6 @@ import Loading from '../../components/Loading'
 
 const Members = () => {
     const [active, setActive] = useState('all')
-    const [members, setMembers] = useState([])
-    const [title, setTitle] = useState('Colaboradores da empresa')
-
     const location = useLocation()
     const url = location.pathname
 
@@ -24,35 +21,21 @@ const Members = () => {
     const { changeLoading } = loginZustand(state => state)
     const { searchContent, result, ok, cleanSearch } = searchZustand(state => state)
 
-    const {query} = useParams()
-
-    let isSearch = false
-
-    const getMembers = async () => {
-        const res = await api.get('/colaborador')
-        const dados = res.data
-
-        const auxDados = dados.filter(value => value.nome !== 'Phericcontas')
-
-        setMembers(auxDados)
-    }
+    const [title, setTitle] = useState(`${result.length === 0 ? 'Nenhum' : result.length} resultado (s) para "${searchContent}"`)
 
     useEffect(() => {
-        if (url === '/admin/membros' || query) getMembers()
-        else if (!ok) navigate('/admin/membros')
+        if (!ok) navigate('/admin/membros')
         else {
-            setMembers(result)
-            setTitle(`${result.length} resultado (s) para "${searchContent}"`)
-            isSearch = true
+            setTitle(`${result.length === 0 ? 'Nenhum' : result.length} resultado (s) para "${searchContent}"`)
             cleanSearch()
         }
-    }, [members])
+    }, [result])
 
     return (
         <main className="admin-content">
             <div className="admin-container-fluid admin-p-0">
                 <div className="admin-row">
-                    <PageTitle title={title} btnText={!isSearch && 'Adicionar colaborador'} BtnIcon={!isSearch && MdOutlinePersonAddAlt1} link={!isSearch ? true : false} path={!isSearch && "/admin/membro/cadastrar"} />
+                    <PageTitle title={title} />
 
                     <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
                         <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>
@@ -65,7 +48,7 @@ const Members = () => {
                     <div className="admin-col-12">
                         <div className="admin-row">
                             {
-                                members.map(member => {
+                                result.map(member => {
                                     if (active === 'all') return (
                                         <div key={member._id} className="admin-card admin-card-member admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card">
                                             <div className="admin-card-content">

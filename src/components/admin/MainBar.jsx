@@ -1,7 +1,8 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { BsBell } from 'react-icons/bs'
-import { BiSearch } from 'react-icons/bi'
+import { BiSearch, BiUserCircle } from 'react-icons/bi'
+import { MdOutlineLogout } from 'react-icons/md'
 import loginZustand from '../../zustand/login'
 import searchZustand from '../../zustand/search'
 
@@ -24,33 +25,35 @@ const MainBar = () => {
     const { handleLogout } = loginZustand(state => state)
     const { handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         e.preventDefault()
 
-        if (url === '/admin/membros') {
-            handleSearchColaborador(search)
-            navigate('/admin/membros/pesquisar/' + search)
+        if (url === '/admin/membros' || url.startsWith('/admin/membros/pesquisar')) {
+            await handleSearchColaborador(search)
+            if(url === '/admin/membros') navigate('/admin/membros/pesquisar/' + search)
         }
-        else if (url === '/admin/clientes') {
-            handleSearchCliente(search)
+        else if (url === '/admin/clientes' || url.startsWith('/admin/clientes/pesquisar')) {
+            await handleSearchCliente(search)
             navigate('/admin/clientes/pesquisar/' + search)
         }
+
+        setSearch('')
     }
 
     const handleClick = (e) => {
-        if (e.target.id === "user") setShowUser('admin-show')
+        if (e.target.id === "user" || e.target.id === "user-img") setShowUser('admin-show')
         else setShowUser('')
-        
-        if(e.target.id === 'alertsDropdown') setShowNotification('admin-show')
+
+        if (e.target.id === 'alertsDropdown') setShowNotification('admin-show')
         else setShowNotification('')
     }
 
     useEffect(() => {
-        if (url === '/admin/membros') {
+        if (url === '/admin/membros' || url.startsWith('/admin/membros/pesquisar/')) {
             setDisplayed(true)
             setAbout('Pesquisar colaborador')
         }
-        else if (url === '/admin/clientes') {
+        else if (url === '/admin/clientes' || url.startsWith('/admin/clientes/pesquisar/')) {
             setDisplayed(true)
             setAbout('Pesquisar cliente')
         }
@@ -89,7 +92,7 @@ const MainBar = () => {
             </div>
             <div className="admin-navbar-collapse admin-collapse">
                 <ul className="admin-navbar-nav admin-navbar-align admin-mb-0">
-                    <li style={{marginRight: '2rem', display: 'none'}} className="admin-nav-item admin-dropdown">
+                    <li style={{ marginRight: '2rem', display: 'none' }} className="admin-nav-item admin-dropdown">
                         <a
                             className="admin-nav-icon admin-dropdown-toggle"
                             id="alertsDropdown"
@@ -101,7 +104,7 @@ const MainBar = () => {
                             </div>
                         </a>
                         <div
-                            style={{left: '-285%'}}
+                            style={{ left: '-285%' }}
                             className={`admin-dropdown-menu admin-dropdown-menu-lg admin-dropdown-menu-end admin-py-0 ${showNotification}`}
                             aria-labelledby="alertsDropdown"
                         >
@@ -178,15 +181,18 @@ const MainBar = () => {
                                 src={avatar}
                                 className="admin-avatar admin-img-fluid admin-rounded admin-me-1"
                                 alt="Usuário"
+                                id='user-img'
                             />
                         </a>
-                        <div style={{ left: '-108%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
+                        <div style={{ left: '-142%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
                             <Link to={'/admin/perfil'} className="admin-dropdown-item">
-                                Perfil
+                                <BiUserCircle />
+                                <span className="admin-ms-2">Perfil</span>
                             </Link>
                             <div className="admin-dropdown-divider" />
                             <a onClick={handleLogout} className="admin-dropdown-item">
-                                Terminar Sessão
+                                <MdOutlineLogout />
+                                <span className='admin-ms-2'>Terminar Sessão</span>
                             </a>
                         </div>
                     </li>

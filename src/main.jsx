@@ -11,8 +11,10 @@ import Home from './pages/Home'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import Tasks from './pages/admin/Tasks'
+import SearchMembers from './pages/admin/SearchMembers'
 import Members from './pages/admin/Members'
 import Clients from './pages/admin/Clients'
+import SearchClients from './pages/admin/SearchClients'
 import FormClient from './pages/admin/FormClient'
 import FormTask from './pages/admin/FormTask'
 import Client from './pages/admin/Client'
@@ -66,9 +68,21 @@ const router = createBrowserRouter([
             </PrivateRoute>
           },
           {
+            path: '/admin/membros/pesquisar/:query',
+            element: <PrivateRoute>
+              <SearchMembers />
+            </PrivateRoute>
+          },
+          {
             path: '/admin/clientes',
             element: <PrivateRoute>
               <Clients />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/clientes/pesquisar/:query',
+            element: <PrivateRoute>
+              <SearchClients />
             </PrivateRoute>
           },
           {

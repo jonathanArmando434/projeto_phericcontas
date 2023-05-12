@@ -3,14 +3,14 @@ import './MoreInfo.css'
 import moreInfo from '../assets/images/more-info.jpg'
 
 const MoreInfo = () => {
-    return(
+    return (
         <div className="more-info" id="about">
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="more-info-content">
                             <div className="row">
-                                <div className="col-md-6">
+                                <div className="col-md-6" style={{height: '100%'}}>
                                     <div className="left-image">
                                         <img src={moreInfo} alt="" />
                                     </div>
@@ -22,18 +22,21 @@ const MoreInfo = () => {
                                             Conheça <em>nossa empresa</em>
                                         </h2>
                                         <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Nulla, dolorum laborum dolores enim repellendus perspiciatis
-                                            maiores doloribus cupiditate, ullam similique quidem ex amet
-                                            reprehenderit.
+                                            A Phericcontas, Lda, surgiu no mercado angolano desde 2009,
+                                            prestando serviços nas áreas de Contabilidade, Fiscalidade,
+                                            Auditoria, e Recursos Humanos. Há mais de 12 anos que
+                                            apoiamos às Micro, Pequenas e Médias Empresas a
+                                            desenvolverem as suas actividades financeiras e económicas.
                                         </p>
                                         <p>
-                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                            Quae laboriosam eveniet reprehenderit earum?
+                                            A actuação no segmento da consultoria em contabilidade
+                                            permitiram-na adquirir know-how, para prestar melhor apoio às
+                                            tomadas de decisões dos seus clientes e colaboradores, com
+                                            relevância significativa no sucesso que estas têm alcançado.
                                         </p>
-                                        <a href="#" className="filled-button">
+                                        {/* <a href="#" className="filled-button">
                                             Ler Mais
-                                        </a>
+                                        </a> */}
                                     </div>
                                 </div>
                             </div>

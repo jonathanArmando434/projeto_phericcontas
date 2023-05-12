@@ -38,7 +38,6 @@ const Tasks = () => {
         try {
             task.status = 'Cancelado'
             task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
-            console.timeLog(task)
             await api.patch(`/tarefa/${id}`, task)
             const aux = tasks.map(value => {
                 if (value.id === id) return task

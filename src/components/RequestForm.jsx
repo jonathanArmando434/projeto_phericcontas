@@ -10,7 +10,7 @@ const RequestForm = ({h4Content, spanContent, aContent, hrefContent = '#contactu
                         <span>{spanContent}</span>
                     </div>
                     <div className="col-md-4">
-                        <a href={aContent !== 'Solicitar' ? hrefContent : '#'} className="border-button">
+                        <a href={hrefContent} className="border-button">
                             {aContent}
                         </a>
                     </div>

@@ -6,7 +6,7 @@ const ChartColumn = ({title}) => {
       type: 'bar',
       height: '100%'
     },
-    colors: ['#1cbb8c'],
+    colors: ['rgb(0, 227, 150)'],
     title: { text: title },
     noData: { text: 'Sem dados' },
     plotOptions: {
@@ -15,7 +15,7 @@ const ChartColumn = ({title}) => {
           ranges: [{
             from: 0,
             to: 49,
-            color: '#dc3545'
+            color: 'rgb(255, 69, 96)'
           }]
         },
         horizontal: false,

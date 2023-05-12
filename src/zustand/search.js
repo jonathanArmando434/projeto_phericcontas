@@ -12,7 +12,8 @@ const search = create(set => ({
         try {
             const res = await api.get('/colaborador/search/' + query)
             const data = res.data
-            set(() => ({ result: data }))
+            const aux = data.filter(col => col.nome !== 'Phericcontas')
+            set(() => ({ result: aux }))
             set(() => ({ok: true}))
             set(() => ({searchContent: query}))
         } catch (error) {

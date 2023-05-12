@@ -1,4 +1,5 @@
-.admin-perfilbar-link, a.admin-perfilbar-link{
+.admin-perfilbar-link,
+a.admin-perfilbar-link {
     border-left: 3px solid transparent;
     color: #666666;
     cursor: pointer;
@@ -45,21 +46,21 @@ a.admin-perfilbar-link svg {
     color: #e9ecef
 }
 
-.admin-perfil-item{
+.admin-perfil-item {
     padding: .6em;
 }
 
-.admin-perfil-item .admin-d-flex{
+.admin-perfil-item .admin-d-flex {
     align-items: center;
 }
 
-.admin-perfil-item svg{
+.admin-perfil-item svg {
     font-size: 2.3rem;
     padding-right: .5rem;
     display: block;
 }
 
-span.admin-perfil-title{
+span.admin-perfil-title {
     margin-top: -.4rem;
     margin-left: 0rem;
 }
@@ -82,16 +83,41 @@ span.admin-perfil-title{
     padding: .6rem;
 }
 
-.admin-perfil li>a{
+.admin-perfil li>a {
     padding: .6rem;
     transition: all .5s;
 }
 
-.admin-perfil li>a:hover{
+.admin-perfil li>a:hover {
+    background-color: #ced4da;
     color: #1F5B95;
 }
 
-.admin-perfil-menu{
+.admin-perfil-menu {
     border-right: 2px solid rgba(9, 9, 9, 0.1);
 }
 
+.admin-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.admin-update-photo-btn {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2.5rem;
+    padding-top: 1.5rem;
+    background-color: #ced4da;
+    color: #1F5B95;
+    border: none;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.admin-update-photo-btn:hover{
+    opacity: .7;
+    color: #1F5B95;
+}

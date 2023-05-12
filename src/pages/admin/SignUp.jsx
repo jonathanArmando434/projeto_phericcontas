@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from "react"
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
-import validator from "email-validator";
 import passwordValidator from 'password-validator';
 
 import logo from "/src/assets/admin/img/icons/logo-2.jpeg"
@@ -14,7 +13,6 @@ import './Login.css'
 import Loading from '../../components/Loading'
 
 const SignUp = () => {
-    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [id_colaborador, setId_colaborador] = useState('')
@@ -44,19 +42,13 @@ const SignUp = () => {
 
     const verifyDatas = async (signupDatas) => {
         const {
-            email,
             password,
             confirmPassword,
             id_colaborador
         } = signupDatas
 
-        if (!email) {
-            errorMsg = 'Preencha o campo de e-mail'
-            return false
-        }
-
-        if (!validator.validate(email)) {
-            errorMsg = 'E-mail inválido'
+        if (!id_colaborador) {
+            errorMsg = 'Preencha o campo de ID do colaborador'
             return false
         }
 
@@ -75,11 +67,6 @@ const SignUp = () => {
             return false
         }
 
-        if (!id_colaborador) {
-            errorMsg = 'Preencha o campo de ID do colaborador'
-            return false
-        }
-
         return true
     }
 
@@ -87,7 +74,6 @@ const SignUp = () => {
         e.preventDefault()
 
         const signupDatas = {
-            email,
             password,
             confirmPassword,
             id_colaborador
@@ -109,7 +95,6 @@ const SignUp = () => {
         if (msg === 'Usuário inserido no sistema com sucesso!') {
             const msgLogin = await handleLogin(
                 {
-                    email,
                     password,
                     id_colaborador
                 }, 'noChecked')
@@ -157,14 +142,14 @@ const SignUp = () => {
                                                     {message}
                                                 </div>}
                                                 <div className="mb-3">
-                                                    <label className="admin-form-label">E-mail</label>
+                                                    <label className="admin-form-label">ID do colaborador</label>
                                                     <input
                                                         className="admin-form-control admin-form-control-lg"
-                                                        type="email"
-                                                        name="email"
-                                                        placeholder="Informe o seu E-mail"
-                                                        value={email}
-                                                        onChange={(e) => setEmail(e.target.value)}
+                                                        type="text"
+                                                        name="id_colaborador"
+                                                        placeholder="Informe o seu ID"
+                                                        value={id_colaborador}
+                                                        onChange={(e) => setId_colaborador(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="mb-3">
@@ -187,17 +172,6 @@ const SignUp = () => {
                                                         placeholder="Repita a sua palavra-passe"
                                                         value={confirmPassword}
                                                         onChange={(e) => setConfirmPassword(e.target.value)}
-                                                    />
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label className="admin-form-label">ID do colaborador</label>
-                                                    <input
-                                                        className="admin-form-control admin-form-control-lg"
-                                                        type="text"
-                                                        name="id_colaborador"
-                                                        placeholder="Informe o seu ID"
-                                                        value={id_colaborador}
-                                                        onChange={(e) => setId_colaborador(e.target.value)}
                                                     />
                                                 </div>
                                                 <small>

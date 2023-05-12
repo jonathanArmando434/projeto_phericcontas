@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { IoMdAddCircleOutline } from 'react-icons/io'
 import { AiOutlinePicture } from 'react-icons/ai'
@@ -18,7 +18,6 @@ const FormClient = () => {
     const [email, setEmail] = useState('')
     const [telefone, setTelefone] = useState([''])
     const [area_negocio, setArea_negocio] = useState('')
-    const [localizacao, setContrato] = useState('')
     const [local, setLocal] = useState([''])
     const [photo, setPhoto] = useState('')
     const [file, setFile] = useState('')
@@ -28,14 +27,20 @@ const FormClient = () => {
     const [method, setMethod] = useState('post')
     const [backup, setBackup] = useState({})
 
-    let localAux = []
-    let telefoneAux = []
-
     const { id } = useParams()
+
+    const pageTopRef = useRef(null);
 
     const { message, allRight, createCliente, editCliente, cleanMessage, cleanAllRight } = clienteZustand(state => state)
 
     const { loading, changeLoading } = loginZustand(state => state)
+
+    let localAux = []
+    let telefoneAux = []
+
+    const scrollToTop = () => {
+        pageTopRef.current.scrollIntoView({ behavior: 'smooth' });
+    };
 
     const PreparingDatas = async () => {
         try {
@@ -48,14 +53,10 @@ const FormClient = () => {
             const resContrato = await api.get(`/contrato/${id}`)
             const contrato = resContrato.data
 
-            const resLocal = await api.get(`/localizacao/${id}`)
-            const localizacao = resLocal.data
-
             const auxBackup = {
                 cliente,
                 contato,
                 contrato,
-                localizacao
             }
 
             setBackup(auxBackup)
@@ -68,8 +69,11 @@ const FormClient = () => {
             setData_inicio(contrato.data_inicio.split('T')[0])
             setData_fim(contrato.data_fim.split('T')[0])
 
-            // const localAux = localizacao.map(local => local.endereco)
-            // setLocal(localAux)
+            const localAux = []
+            for (const loc of contato.localizacao) {
+                localAux.push(loc.endereco)
+            }
+            setLocal(localAux)
         } catch (error) {
             console.log(error)
             alert('Erro no servidor, recarregue a página!')
@@ -115,21 +119,22 @@ const FormClient = () => {
         const aux_1 = removeEmptyValue(local)
 
         const aux_2 = aux_1.map((local, index) => {
+            let localizacao = {}
             if (index === 0) {
-                const localizacao = {
+                localizacao = {
                     endereco: local,
                     isPrincipal: true
                 }
-                return localizacao
             }
-
-            const localizacao = {
-                endereco: local,
-                isPrincipal: false
+            else {
+                localizacao = {
+                    endereco: local,
+                    isPrincipal: false
+                }
             }
             return localizacao
         })
-
+        
         return aux_2
     }
 
@@ -165,6 +170,8 @@ const FormClient = () => {
         if (auxTelefone.length === 0) setTelefone([''])
 
         if (localizacao.length === 0) setLocal([''])
+
+        scrollToTop()
     }
 
     useEffect(() => {
@@ -194,7 +201,7 @@ const FormClient = () => {
     }, [])
 
     return (
-        <main className="admin-content">
+        <main className="admin-content" ref={pageTopRef}>
             <div className="admin-container-fluid admin-p-0">
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
@@ -220,12 +227,15 @@ const FormClient = () => {
                             <label className='admin-form-label' htmlFor="nif">NIF</label>
                             <input
                                 type="text"
+                                minLength="9"
+                                maxLength="9"
                                 className="admin-form-control admin-mb-3"
                                 id="nif"
                                 name="nif"
                                 placeholder="Informe o NIF do novo cliente"
                                 value={nif}
                                 onChange={e => setNif(e.target.value)}
+                                readOnly={method !== 'post' ? true : false}
                             />
                             <label className='admin-form-label' htmlFor="name">Nome</label>
                             <input
@@ -254,6 +264,8 @@ const FormClient = () => {
                                         <input
                                             key={index}
                                             type="text"
+                                            minLength="9"
+                                            maxLength="9"
                                             className={
                                                 (index === (telefone.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
                                                     "admin-form-control admin-mb-3"
@@ -273,7 +285,6 @@ const FormClient = () => {
                                 <a href="#" onClick={(e) => {
                                     e.preventDefault()
                                     setTelefone([...telefone, ''])
-                                    console.log(telefone.length)
                                 }}>
                                     <IoMdAddCircleOutline />
                                 </a>
@@ -299,6 +310,7 @@ const FormClient = () => {
                                     </label>
                                     <input
                                         type="date"
+                                        min={data_inicio || (new Date().toISOString().split('T')[0])}
                                         className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                         id="startContract"
                                         name="startContract"
@@ -312,6 +324,7 @@ const FormClient = () => {
                                     </label>
                                     <input
                                         type="date"
+                                        min={data_fim || (new Date().toISOString().split('T')[0])}
                                         className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                         id="endContract"
                                         name="endContract"

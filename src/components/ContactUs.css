@@ -60,7 +60,7 @@
 }
 
 .callback-form .contact-form {
-	background-color: #1F5B95;
+	background-color: #232323;
 	padding: 60px;
 	border-radius: 5px;
 	text-align: center;
@@ -159,6 +159,20 @@
 .contact-us .contact-form button.filled-button:hover {
 	background-color: #fff;
 	color: #1F5B95;
+}
+
+#contactus-form .section-heading p {
+    display: block;
+    margin-top: 15px;
+    text-transform: uppercase;
+    font-size: 15px;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+#contactus-form .section-heading h2{
+	font-size: 2.6rem;
+	color: #666;
 }
 
 /* Responsive Style */
