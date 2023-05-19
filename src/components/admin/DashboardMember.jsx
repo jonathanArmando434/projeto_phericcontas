@@ -8,9 +8,10 @@ import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 
+import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartColumnDesempenho from './ChartColumnDesempenho'
 
-const DashboardRH = ({ id }) => {
+const DashboardRH = ({ id, data }) => {
     const [member, setMember] = useState({})
     const [contractMember, setContractMember] = useState({})
     const [contractMemberBackup, setContractMemberBackup] = useState({})
@@ -20,6 +21,12 @@ const DashboardRH = ({ id }) => {
     const [message, setMessage] = useState('')
     const [threethBtn, setThreethBtn] = useState('Demitir')
     const [threethBtnIcon, setThreethBtnIcon] = useState(<AiOutlineCloseSquare />)
+    const [finishedOnTime, setFinishedOnTime] = useState({})
+    const [finishedWithDelay, setFinishedWithDelay] = useState({})
+    const [total, setTotal] = useState({})
+    const [monthlyPerformance, setMonthlyPerformance] = useState([])
+
+    console.log(data)
 
 
     const { changeLoading } = loginZustand(state => state)
@@ -92,7 +99,7 @@ const DashboardRH = ({ id }) => {
         else setStatus((data_fim > new Date() ? 'Ativo' : 'Inativo'))
 
         const diferenca = Math.floor(((data_fim).getTime() - (new Date()).getTime()) / (1000 * 60 * 60 * 24))
-        if(diferenca > 0) setDiasRestantes(diferenca)
+        if (diferenca > 0) setDiasRestantes(diferenca)
 
         setContractMember({
             data_inicio: data_inicio.toLocaleDateString(),
@@ -101,84 +108,42 @@ const DashboardRH = ({ id }) => {
         })
     }
 
+    const getDados = async () => {
+        setFinishedOnTime(data.finishedOnTime)
+        setFinishedWithDelay(data.finishedWithDelay)
+        setTotal(data.total)
+        setMonthlyPerformance(data.monthlyPerformance)
+    }
+
     useEffect(() => {
         changeLoading()
         const api_url_member = import.meta.env.VITE_API_URL_MEMBERS
         const api_url_contract = import.meta.env.VITE_API_URL_CONTRACT
         getMember(api_url_member + '/' + id)
         getContractMember(api_url_contract + '/' + id)
+        getDados()
         changeLoading()
     }, [])
 
     return (
-
         <div className="admin-row">
-            <div className="admin-col-4 admin-card">
-                <div className="admin-card-content admin-p-20">
-                    <div className="admin-card-body admin-p-0">
-                        <div className="admin-row">
-                            <div className={`admin-col admin-p-0 admin-mt-0`}>
-                                <h5 className="admin-card-title">Total de tarefas</h5>
-                            </div>
+            <TaskIndicator
+                title={'Total de tarefas'}
+                about={total}
+                col={4}
+            />
 
-                            <div className="admin-col-auto">
-
-                            </div>
-                        </div>
-                        <span className="admin-h3 admin-mt-1 admin-mb-3">537</span>
-                        <div className="admin-mb-0">
-                            <span className="admin-text-success" style={{ display: 'hidden' }}> <i
-                                className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                                100% </span>
-                            <span className="admin-text-muted">das tarefas</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="admin-col-4 admin-card">
-                <div className="admin-card-content admin-p-20">
-                    <div className="admin-card-body admin-p-0">
-                        <div className="admin-row">
-                            <div className={`admin-col admin-p-0 admin-mt-0`}>
-                                <h5 className="admin-card-title">Tarefas feitas no prazo</h5>
-                            </div>
-
-                            <div className="admin-col-auto">
-
-                            </div>
-                        </div>
-                        <span className="admin-h3 admin-mt-1 admin-mb-3">456</span>
-                        <div className="admin-mb-0">
-                            <span className="admin-text-danger"> <i
-                                className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                                45% </span>
-                            <span className="admin-text-muted">das tarefas</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="admin-col-4 admin-card">
-                <div className="admin-card-content admin-p-20">
-                    <div className="admin-card-body admin-p-0">
-                        <div className="admin-row">
-                            <div className={`admin-col admin-p-0 admin-mt-0`}>
-                                <h5 className="admin-card-title">Tarefas feitas com atraso</h5>
-                            </div>
-
-                            <div className="admin-col-auto">
-
-                            </div>
-                        </div>
-                        <span className="admin-h3 admin-mt-1 admin-mb-3">436</span>
-                        <div className="admin-mb-0">
-                            <span className="admin-text-danger"> <i
-                                className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                                55% </span>
-                            <span className="admin-text-muted">das tarefas</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <TaskIndicator
+                title={'Tarefas feitas no prazo'}
+                about={finishedOnTime}
+                col={4}
+            />
+            
+            <TaskIndicator
+                title={'Tarefas feitas com atrazo'}
+                about={finishedWithDelay}
+                col={4}
+            />
 
             <div className="admin-col-12">
                 <div className="admin-row">
@@ -201,7 +166,7 @@ const DashboardRH = ({ id }) => {
                                     {message}
                                 </div>
                             }
-                            <img src={hasPhoto} alt="Christina Mason" className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                            <img src={hasPhoto} alt={member.nome} className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
                             <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
                             <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
 

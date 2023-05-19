@@ -45,15 +45,18 @@ const ContactUs = () => {
                     </div>
                 </div>
                 <div id="contactus-form">
-                    <div className="row contact-form d-flex" style={{justifyContent: 'space-around'}} id="call-back-form">
+                    <div className="row contact-form d-flex" style={{ justifyContent: 'space-around' }} id="call-back-form">
                         <div className="col-md-5">
                             <div className="section-heading">
                                 <h2 className='phone-size'>
                                     Solicitar uma <em>chamada de volta</em>
                                 </h2>
                                 <p>
-                                    Deixe-nos ligar para você e ajudar prontamente.
+                                    Uma maneira conveniente de obter suporte personalizado.
+
+                                    Quando surge uma dúvida ou problema, nada melhor do que ter um suporte personalizado e direto. Com a opção de "Solicitar uma chamada de volta", você pode obter a ajuda necessária de forma ágil e eficiente. Basta preencher um formulário e aguardar o retorno de um especialista qualificado que irá entrar em contato para fornecer a assistência necessária.
                                 </p>
+
                             </div>
                         </div>
                         {/* <div className='col-md-2' /> */}

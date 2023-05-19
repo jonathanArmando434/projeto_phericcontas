@@ -6,7 +6,6 @@ import ChartBarEscolaridade from './ChartBarEscolaridade'
 
 const DashboardRH = () => {
     return (
-
         <div className="admin-row">
             <div className="admin-col-4 admin-card">
                 <div className="admin-card-content admin-p-20">
