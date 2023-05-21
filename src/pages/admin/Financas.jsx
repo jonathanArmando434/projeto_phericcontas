@@ -3,14 +3,38 @@ import { useState, useEffect } from 'react'
 import api from '../../axios/api'
 
 import PageTitle from '../../components/admin/PageTitle'
+import TaskIndicator from '../../components/admin/ TaskIndicator'
 
 const Financas = () => {
+    const [year, setYear] = useState(new Date().getUTCFullYear())
     const [desc, setDesc] = useState('')
     const [valor, setValor] = useState('')
     const [tipo, setTipo] = useState('Entrada')
     const [dados, setDados] = useState([])
     const [message, setMessage] = useState('')
     const [allRight, setAllRight] = useState(false)
+    const [entrada, setEntrada] = useState({})
+    const [saida, setSaida] = useState({})
+    const [total, setTotal] = useState({})
+
+    const getDadosAboutReport = async () => {
+        try {
+            const res = await api.get(`/financas/Annual-report/${year}`)
+            const dados = res.data
+            console.log(dados)
+            setEntrada(dados.entrada)
+            setSaida(dados.saida)
+            setTotal(dados.total)
+        } catch (error) {
+            console.log(error)
+            alert('Houve um erro, tente novamente!')
+        }
+    }
+
+    const handleSunmit = async (e) => {
+        e.preventDefault()
+        getDadosAboutReport()
+    }
 
     const handleDelete = async (id, index) => {
         const res = await api.delete(`/financas/${id}`)
@@ -87,81 +111,39 @@ const Financas = () => {
 
     useEffect(() => {
         getDados()
+        getDadosAboutReport()
     }, [])
 
     return (
         <main className="admin-dashboard admin-content">
             <div className="admin-container-fluid admin-p-0">
                 <div className="admin-row">
-                    <PageTitle title={'Controle de Finanças'} btnText={'Filtrar'} BtnIcon={MdOutlineFilterList} />
+                    <PageTitle
+                        title={'Controle de Finanças'}
+                        BtnIcon={MdOutlineFilterList}
+                        handleSunmit={handleSunmit}
+                        year={year}
+                        setYear={setYear}
+                    />
 
                     <div className="admin-row">
-                        <div className="admin-col-4 admin-card">
-                            <div className="admin-card-content admin-p-20">
-                                <div className="admin-card-body admin-p-0">
-                                    <div className="admin-row">
-                                        <div className={`admin-col admin-p-0 admin-mt-0`}>
-                                            <h5 className="admin-card-title">Entrada: KZ</h5>
-                                        </div>
+                        <TaskIndicator
+                            title={'Entrada: kZ'}
+                            about={entrada}
+                            col={4}
+                        />
 
-                                        <div className="admin-col-auto">
+                        <TaskIndicator
+                            title={'Saída: KZ'}
+                            about={saida}
+                            col={4}
+                        />
 
-                                        </div>
-                                    </div>
-                                    <span className="admin-h3 admin-mt-1 admin-mb-3">1.000.000,00</span>
-                                    <div className="admin-mb-0">
-                                        <span className="admin-text-success"> <i
-                                            className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                                            +3.65% </span>
-                                        <span className="admin-text-muted">Desde a última semana</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="admin-col-4 admin-card">
-                            <div className="admin-card-content admin-p-20">
-                                <div className="admin-card-body admin-p-0">
-                                    <div className="admin-row">
-                                        <div className={`admin-col admin-p-0 admin-mt-0`}>
-                                            <h5 className="admin-card-title">Saída: KZ</h5>
-                                        </div>
-
-                                        <div className="admin-col-auto">
-
-                                        </div>
-                                    </div>
-                                    <span className="admin-h3 admin-mt-1 admin-mb-3">600.000,00</span>
-                                    <div className="admin-mb-0">
-                                        <span className="admin-text-danger"> <i
-                                            className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                                            -3.65% </span>
-                                        <span className="admin-text-muted">Desde a última semana</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="admin-col-4 admin-card">
-                            <div className="admin-card-content admin-p-20">
-                                <div className="admin-card-body admin-p-0">
-                                    <div className="admin-row">
-                                        <div className={`admin-col admin-p-0 admin-mt-0`}>
-                                            <h5 className="admin-card-title">Total: KZ</h5>
-                                        </div>
-
-                                        <div className="admin-col-auto">
-
-                                        </div>
-                                    </div>
-                                    <span className="admin-h3 admin-mt-1 admin-mb-3">400.000,00</span>
-                                    <div className="admin-mb-0">
-                                        <span className="admin-text-danger"> <i
-                                            className="admin-mdi admin-mdi-arrow-bottom-right"></i>
-                                            -3.65% </span>
-                                        <span className="admin-text-muted">Desde a última semana</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <TaskIndicator
+                            title={'Total: KZ'}
+                            about={total}
+                            col={4}
+                        />
                         <div className="admin-col-12">
                             <div className="admin-col-12 admin-d-flex">
                                 <div className="admin-card admin-flex-fill admin-bg-fff" style={{ padding: '2.2rem' }}>

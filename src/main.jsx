@@ -21,11 +21,12 @@ import Client from './pages/admin/Client'
 import Perfil from './pages/admin/Perfil'
 import Financas from './pages/admin/Financas'
 import InfoRH from './pages/admin/InfoRH'
-import SeeMore from './pages/admin/SeeMore'
+import DashboardClient from './pages/admin/DashboardClient'
 import SignUp from './pages/admin/SignUp'
 import Page404 from './components/Page404'
 import FormMember from './pages/admin/FormMember'
 import Index from './pages/admin/Index'
+import DashboardMember from './pages/admin/DashboardMember'
 
 const router = createBrowserRouter([
   {
@@ -152,9 +153,15 @@ const router = createBrowserRouter([
             </PrivateRoute>
           },
           {
-            path: '/admin/info/:about/:id',
+            path: '/admin/info/membro/:id',
             element: <PrivateRoute>
-              <SeeMore />
+              <DashboardMember />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/info/cliente/:id',
+            element: <PrivateRoute>
+              <DashboardClient />
             </PrivateRoute>
           },
         ]

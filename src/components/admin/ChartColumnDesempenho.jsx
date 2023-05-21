@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts'
 
-const ChartColumn = ({title}) => {
+const ChartColumn = ({ title, data }) => {
   const options = {
     chart: {
       type: 'bar',
@@ -49,7 +49,7 @@ const ChartColumn = ({title}) => {
   const series = [
     {
       name: 'Desempenho',
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 24, 20, 50]
+      data: data
     },
   ]
 

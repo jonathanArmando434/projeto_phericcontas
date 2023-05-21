@@ -9,7 +9,6 @@ import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartLine from '../../components/admin/ChartColumn'
 import ChartPie from '../../components/admin/ChartPie'
 import DashboardRH from '../../components/admin/DashboardRH'
-import DashboardMember from '../../components/admin/DashboardMember'
 
 const Dashboard = () => {
     return (

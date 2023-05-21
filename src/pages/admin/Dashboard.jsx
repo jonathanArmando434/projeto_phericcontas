@@ -8,7 +8,6 @@ import PageTitle from '../../components/admin/PageTitle'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartColumn from '../../components/admin/ChartColumn'
 import ChartPie from '../../components/admin/ChartPie'
-import DashboardMember from '../../components/admin/DashboardMember'
 import Loading from '../../components/Loading'
 
 const Dashboard = () => {
