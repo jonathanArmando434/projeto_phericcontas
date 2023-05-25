@@ -31,10 +31,10 @@ const Carousel = () => {
                                 <p>
                                     Os nossos colaboradores Têm as seguintes qualidades:
                                 </p>
-                                <p className="no-mb"><BsCheck /> Especiapstas em suas áreas de atuação;</p>
-                                <p className="no-mb"><BsCheck /> Sólida formação acadêmica e profissional;</p>
-                                <p className="no-mb"><BsCheck /> Experiências em ambientes corporativos;</p>
-                                <p><BsCheck /> Investimento constante em atuapzação e capacitação.</p>
+                                <p className="no-mb ml-4"><span className='principal-color'><BsCheck /></span> Especiapstas em suas áreas de atuação;</p>
+                                <p className="no-mb ml-4"><span className='principal-color'><BsCheck /></span> Sólida formação acadêmica e profissional;</p>
+                                <p className="no-mb ml-4"><span className='principal-color'><BsCheck /></span> Experiências em ambientes corporativos;</p>
+                                <p className='ml-4'><span className='principal-color'><BsCheck /></span> Investimento constante em atuapzação e capacitação.</p>
                                 <p>
                                     Você pode entrar em contato connosco clicando no botão abaixo.
                                 </p>

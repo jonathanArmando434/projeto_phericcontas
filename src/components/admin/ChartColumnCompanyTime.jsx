@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts'
 
-const ChartColumn = () => {
+const ChartColumn = ({ data }) => {
   const options = {
     chart: {
       type: 'bar',
@@ -24,7 +24,7 @@ const ChartColumn = () => {
       colors: ['transparent']
     },
     xaxis: {
-      categories: ['Até 1 ano', 'De 2 à 5 anos', 'De 6 à 10 anos', 'De 11 à 20 anos', 'Mais de 21 anos'],
+      categories: ['Até 1 ano', 'De 2 à 5 anos', 'De 6 à 10 anos', 'De 11 à 20 anos', 'Mais de 20 anos'],
     },
     fill: {
       opacity: 1
@@ -32,15 +32,15 @@ const ChartColumn = () => {
     tooltip: {
       y: {
         formatter: function (val) {
-          return val + " anos"
+          return val
         }
       }
     }
   }
 
   const series = [{
-    name: 'Tempo',
-    data: [44, 55, 57, 56, 61]
+    name: 'Colaboradores',
+    data: data
   }]
 
   return (

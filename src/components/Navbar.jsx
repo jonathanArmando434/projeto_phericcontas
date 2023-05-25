@@ -1,41 +1,45 @@
-import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import logo from '../assets/images/phericcontas_logo.png'
 
 import './Navbar.css'
 
-const Navbar = () => {
-    const [scrollWaited, setScrollWaited] = useState(false)
+const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
+    // const [scrollWaited, setScrollWaited] = useState(false)
     const [current, setCurrent] = useState('')
     const [show, setShow] = useState(false)
 
-    let canBgHeader
+    // const handleScroll = () => {
+    //     const scrollPosition = window.scrollY; // => posição de rolagem
+    //     if (scrollPosition >= 500) setScrollWaited(true)
+    //     else setScrollWaited(true)
+    //     // whatIsCurrent(scrollPosition)
+    // };
 
-    const handleScroll = () => {
-        const scrollPosition = window.scrollY; // => posição de rolagem
-        if (scrollPosition >= 500) setScrollWaited(true)
-        else setScrollWaited(true)
-        // whatIsCurrent(scrollPosition)
-    };
+    const handleClick = (e) => {
+        if (e.target.id === 'menu-top') bannerRef.current.scrollIntoView({ behavior: 'smooth' })
+        else if (e.target.id === 'menu-ourServices') servicesRef.current.scrollIntoView({ behavior: 'smooth' })
+        else if (e.target.id === 'menu-moreInfo') moreInfoRef.current.scrollIntoView({ behavior: 'smooth' })
+        else if (e.target.id === 'menu-contactUs') contactUsRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+
     useEffect(() => {
-        handleScroll();
-        window.addEventListener("scroll", handleScroll);
+        // handleScroll();
+        // window.addEventListener("scroll", handleScroll);
+        document.addEventListener('click', handleClick)
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            // window.removeEventListener("scroll", handleScroll);
+            document.removeEventListener('click', handleClick)
         };
     }, []);
 
-    const whatIsCurrent = (scrollPosition) => {
-        if (scrollPosition >= 0 && scrollPosition < 890) setCurrent('home')
-        else if (scrollPosition >= 890 && scrollPosition < 2210) setCurrent('our-services')
-        else if (scrollPosition >= 2210 && scrollPosition < 3560) setCurrent('about-us')
-        else if (scrollPosition >= 3560) setCurrent('contact-us')
-    }
-
-    canBgHeader = (scrollWaited) ? 'background-header' : ''
+    // const whatIsCurrent = (scrollPosition) => {
+    //     if (scrollPosition >= 0 && scrollPosition < 890) setCurrent('home')
+    //     else if (scrollPosition >= 890 && scrollPosition < 2210) setCurrent('our-services')
+    //     else if (scrollPosition >= 2210 && scrollPosition < 3560) setCurrent('about-us')
+    //     else if (scrollPosition >= 3560) setCurrent('contact-us')
+    // }
 
     return (
-        <header className={canBgHeader}>
+        <header className={'background-header'}>
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <a className="navbar-brand" href="#">
@@ -63,6 +67,7 @@ const Navbar = () => {
                                         e.preventDefault
                                         setShow(false)
                                     }}
+                                    id='menu-top'
                                 >
                                     Início
                                 </a>
@@ -73,6 +78,7 @@ const Navbar = () => {
                                         e.preventDefault
                                         setShow(false)
                                     }}
+                                    id='menu-ourServices'
                                 >
                                     Nossos Serviços
                                 </a>
@@ -82,7 +88,9 @@ const Navbar = () => {
                                     onClick={(e) => {
                                         e.preventDefault
                                         setShow(false)
-                                    }}>
+                                    }}
+                                    id='menu-moreInfo'
+                                >
                                     Sobre Nós
                                 </a>
                             </li>
@@ -91,7 +99,9 @@ const Navbar = () => {
                                     onClick={(e) => {
                                         e.preventDefault
                                         setShow(false)
-                                    }}>
+                                    }}
+                                    id='menu-contactUs'
+                                >
                                     Contate-Nos
                                 </a>
                             </li>

@@ -1,11 +1,13 @@
+import { TbPhone } from 'react-icons/tb'
+
 import './ContactUs.css'
 import './SectionHeading.css'
 
-const ContactUs = () => {
+const ContactUs = ({ contactUsRef }) => {
     return (
-        <div className="contact-information callback-form" id="contactus">
+        <div className="contact-information callback-form" id="contactus" ref={contactUsRef}>
             <div className="container">
-                <div className="row">
+                {/* <div className="row">
                     <div className="col-md-12">
                         <div className="section-heading">
                             <h2 className='phone-size'>
@@ -18,7 +20,7 @@ const ContactUs = () => {
                     </div>
                     <div className="col-md-4">
                         <div className="contact-item">
-                            <i className="fa fa-phone" />
+                        <TbPhone />
                             <h4>Telefone</h4>
                             <p>
                                 +244 928 086 604
@@ -43,7 +45,7 @@ const ContactUs = () => {
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div id="contactus-form">
                     <div className="row contact-form d-flex" style={{ justifyContent: 'space-around' }} id="call-back-form">
                         <div className="col-md-5">

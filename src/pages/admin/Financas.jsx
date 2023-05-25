@@ -21,7 +21,6 @@ const Financas = () => {
         try {
             const res = await api.get(`/financas/Annual-report/${year}`)
             const dados = res.data
-            console.log(dados)
             setEntrada(dados.entrada)
             setSaida(dados.saida)
             setTotal(dados.total)
@@ -106,7 +105,6 @@ const Financas = () => {
         const res = await api.get('/financas')
         const data = res.data
         setDados(data)
-        console.log(data)
     }
 
     useEffect(() => {

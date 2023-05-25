@@ -1,8 +1,10 @@
+import { useRef } from 'react'
+
 import '../assets/bootstrap/css/bootstrap.min.css'
 import '../assets/css/fontawesome.css'
 import './Home.css'
 import '../assets/css/owl.css'
-import SubHeader from "../components/SubHeader";
+
 import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import RequestForm from "../components/RequestForm";
@@ -15,31 +17,42 @@ import Footer from "../components/Footer";
 import SubFooter from "../components/SubFooter";
 
 const Home = () => {
-
-    
+    const bannerRef = useRef(null)
+    const servicesRef = useRef(null)
+    const moreInfoRef = useRef(null)
+    const contactUsRef = useRef(null)
 
     return (
         <div className="Home">
             {/* Header */}
             {/* <SubHeader /> */}
-            <Navbar />
+            <Navbar
+                bannerRef={bannerRef}
+                servicesRef={servicesRef}
+                moreInfoRef={moreInfoRef}
+                contactUsRef={contactUsRef}
+            />
             {/* Page Content */}
             {/* Banner Starts Here */}
-            <Banner />
+            <Banner bannerRef={bannerRef} />
             {/* Request Form */}
             {/* <RequestForm h4Content={'Solicitar uma chamada de volta ?'} spanContent={'Estamos sempre disponíveis para os nossos clientes.'} aContent={'Contate Nos'} /> */}
             {/* Services */}
-            <Services />
+            <Services servicesRef={servicesRef} />
             {/* Fun Facts */}
             <FunFacts />
             {/* Request Form  Budget */}
-            <RequestForm h4Content={'Deseja solicitar uma chamada de volta? ?'} spanContent={'Estamos prontos para ajudá-lo.'} aContent={'Solicitar'} />
+            <RequestForm
+                h4Content={'Deseja solicitar uma chamada de volta? ?'}
+                spanContent={'Estamos prontos para ajudá-lo.'}
+                aContent={'Solicitar'}
+            />
             {/* About us */}
-            <MoreInfo />
+            <MoreInfo moreInfoRef={moreInfoRef} />
             {/* Clients */}
             <Clients />
             {/* Contact Us */}
-            <ContactUs />
+            <ContactUs contactUsRef={contactUsRef} />
             {/* Footer Starts Here */}
             <Footer />
             {/* sub footer */}

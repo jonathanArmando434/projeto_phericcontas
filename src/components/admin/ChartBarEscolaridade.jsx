@@ -1,11 +1,12 @@
 import Chart from 'react-apexcharts'
 
-const ChartBar = () => {
+const ChartBar = ({ data }) => {
   const options = {
     chart: {
       type: 'bar',
       height: 350
     },
+    noData: {text: 'Sem dados'},
     title: {text: 'Nível Académico'},
     plotOptions: {
       bar: {
@@ -18,13 +19,20 @@ const ChartBar = () => {
       enabled: false
     },
     xaxis: {
-      categories: ['Ensino Fundamental', 'Ensino Médio', 'Superior Incompleto', 'Superior Completo'],
+      categories: ['Primeiro ciclo do secundário', 'Ensino Médio', 'Superior Incompleto', 'Superior Completo'],
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val
+        }
+      }
     }
   }
 
   const series = [{
-    name: 'Nível Académico',
-    data: [690, 1100, 1200, 1380]
+    name: 'Colaboradores',
+    data: data
   }]
 
   return (

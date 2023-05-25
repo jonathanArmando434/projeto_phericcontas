@@ -30,7 +30,7 @@ const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit,
 
     return (
         <div className="admin-col-12 admin-title-btn" >
-            {(btnText !== '' && BtnIcon !== '') ?
+            {(BtnIcon) ?
                 ((link) ? (
                     <>
                         <h1 className="admin-h3">{title}</h1>
@@ -56,6 +56,8 @@ const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit,
                                         id="ano"
                                         name="ano"
                                         placeholder="Ano"
+                                        minLength={4}
+                                        maxLength={4}
                                         value={year}
                                         onChange={(e) => setYear(e.target.value)}
                                         ref={anoRef}

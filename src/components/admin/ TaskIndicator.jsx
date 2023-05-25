@@ -1,4 +1,4 @@
-const TaskIndicator = ({ title, about, col }) => {
+const TaskIndicator = ({ title, about, col, aboutPercent = 'desde o último ano'}) => {
     return (
         <div className={`admin-col-${col} admin-card`}>
             <div className="admin-card-content admin-p-20">
@@ -13,16 +13,16 @@ const TaskIndicator = ({ title, about, col }) => {
                     <div className="admin-mb-0">
                         <span 
                             className={
-                                ((about.percent && about.percent > 0)
+                                ((about.percent && about.percent > 0 && aboutPercent === 'desde o último ano')
                                     ? "admin-badge admin-status-success"
-                                    : (about.percent && about.percent < 0)
+                                    : (about.percent && about.percent < 0 && aboutPercent === 'desde o último ano')
                                         ? "admin-badge admin-status-danger"
                                         : 'admin-badge admin-status-info'
                                 )}
                         > <i
                             className="admin-mdi admin-mdi-arrow-bottom-right"></i>
                             {about.percent || 0}% </span>
-                        <span className="admin-text-muted">{'desde o último ano'}</span>
+                        <span className="admin-text-muted">{aboutPercent}</span>
                     </div>
                 </div>
             </div>

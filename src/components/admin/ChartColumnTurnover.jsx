@@ -1,19 +1,20 @@
 import Chart from 'react-apexcharts'
 
-const ChartColumnTurnover = () => {
+const ChartColumnTurnover = ({ data }) => {
   const options = {
     chart: {
       type: 'bar',
       height: 350
     },
+    noData: { text: 'Sem dados' },
     colors: ['rgb(0, 227, 150)'],
     title: {text: 'Turnover acumulado no ano'},
     plotOptions: {
       bar: {
         colors: {
           ranges: [{
-            from: -100,
-            to: 0,
+            from: 0,
+            to: 49,
             color: 'rgb(255, 69, 96)'
           }]
         },
@@ -43,7 +44,7 @@ const ChartColumnTurnover = () => {
 
   const series = [{
     name: 'Turnover',
-    data: [43.3, -18.6, 48.6, -41.1, 39.6, -37.6, 43.3, -18.6, 48.6, -41.1, 39.6, -37.6]
+    data: data
   }]
 
   return (

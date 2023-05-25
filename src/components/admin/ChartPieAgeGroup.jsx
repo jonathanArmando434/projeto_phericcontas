@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts'
 
-const ChartPie = () => {
+const ChartPie = ({ data }) => {
     const options = {
         chart: {
             type: 'donut',
@@ -18,10 +18,17 @@ const ChartPie = () => {
                     position: 'bottom'
                 }
             }
-        }]
+        }],
+        tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + ' colaboradores'
+              }
+            }
+          }
     }
 
-    const series = [44, 55, 41, 56, 78]
+    const series = data
 
     return (
         <Chart options={options} series={series} type="donut" height={347.69} width={'100%'}/>

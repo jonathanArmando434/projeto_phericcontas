@@ -44,4 +44,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  .principal-color{
+    color: #1F5B95;
+    font-size: 2rem;
+    font-weight: 700;
+  }
   

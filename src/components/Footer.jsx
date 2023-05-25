@@ -1,3 +1,6 @@
+import { TbPhone, TbBrandWhatsapp } from 'react-icons/tb'
+import { MdOutlineEmail, MdOutlinePlace } from 'react-icons/md'
+
 import './Footer.css'
 
 const Footer = () => {
@@ -16,19 +19,37 @@ const Footer = () => {
                         <h4>Contatos</h4>
                         <ul className="menu-list">
                             <li>
-                                <span>925955094 / 927791194</span>
-                            </li>
-                            <li>
-                                <span>925955094</span>
-                            </li>
-                            <li>
-                                <span>E-mail: pc.contabilidade012@hotmail.com</span>
+                                <span>
+                                    <span className='principal-color mr-2'>
+                                        <TbPhone />
+                                    </span>
+                                    925955094 / 927791194
+                                </span>
                             </li>
                             <li>
                                 <span>
-                                    Angola-Luanda <br />
-                                    Avenida comandante Valódia nº 236, <br />
-                                    1º andar C - Luanda
+                                    <span className='principal-color mr-2'>
+                                        <TbBrandWhatsapp />
+                                    </span>
+                                    925955094
+                                </span>
+                            </li>
+                            <li>
+                                <span>
+                                    <span className='principal-color mr-2'>
+                                        <MdOutlineEmail />
+                                    </span>
+                                    E-mail: pc.contabilidade012@hotmail.com
+                                </span>
+                            </li>
+                            <li>
+                                <span>
+                                    <span className='principal-color mr-2'>
+                                        <MdOutlinePlace />
+                                    </span>
+                                    <span className='mr-2'>Angola-Luanda <br /></span>
+                                    <span className='pl-18px'>Avenida comandante Valódia nº 236, <br /></span>
+                                    <span className='pl-18px'>1º andar C - Luanda</span>
                                 </span>
                             </li>
                         </ul>

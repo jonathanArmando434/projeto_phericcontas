@@ -48,7 +48,7 @@ const ChartColumn = ({ title, data }) => {
 
   const series = [
     {
-      name: 'Desempenho',
+      name: title,
       data: data
     },
   ]

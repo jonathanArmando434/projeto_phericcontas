@@ -64,6 +64,11 @@ footer ul.menu-list li a:hover {
 	color: #1F5B95;
 }
 
+footer ul.menu-list li span.principal-color {
+    font-size: 2rem;
+    color: #1F5B95;
+}
+
 footer .contact-form input {
 	border-radius: 20px;
 	height: 40px;
@@ -140,6 +145,10 @@ footer .contact-form button.filled-button {
 footer .contact-form button.filled-button:hover {
 	background-color: #fff;
 	color: #1F5B95;
+}
+
+.pl-18px{
+	padding-left: 2.5rem;
 }
 
 /* Responsive Style */

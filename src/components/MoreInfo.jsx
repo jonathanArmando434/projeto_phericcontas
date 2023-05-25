@@ -2,9 +2,9 @@ import './MoreInfo.css'
 
 import moreInfo from '../assets/images/more-info.jpg'
 
-const MoreInfo = () => {
+const MoreInfo = ({ moreInfoRef }) => {
     return (
-        <div className="more-info" id="about">
+        <div className="more-info" id="about" ref={moreInfoRef}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
