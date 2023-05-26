@@ -1,16 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { MdOutlineFilterList, MdDoneOutline } from 'react-icons/md'
-import { BiTrash } from 'react-icons/bi'
-import { FiLoader } from 'react-icons/fi'
-import { CgClipboard } from 'react-icons/cg'
 import api from '../../axios/api'
 
 import './Dashboard.css'
 
 import PageTitle from '../../components/admin/PageTitle'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
-import ChartLine from '../../components/admin/ChartColumn'
-import ChartPie from '../../components/admin/ChartPie'
 
 import ChartPieAgeGroup from '../../components/admin/ChartPieAgeGroup'
 import ChartColumnTurnover from '../../components/admin/ChartColumnTurnover'

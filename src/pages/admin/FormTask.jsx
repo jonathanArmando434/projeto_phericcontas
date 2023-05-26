@@ -18,6 +18,7 @@ const FormTask = () => {
     const [allRight, setAllRight] = useState(false)
     const [btn, setBtn] = useState('Adicionar')
     const [titlePage, setTitlePage] = useState('Adicionar tarefa')
+    const [post, setPost] = useState(true)
 
     const { id } = useParams()
 
@@ -30,8 +31,6 @@ const FormTask = () => {
         setIdResponsavel,
         id_cliente,
         setIdCliente,
-        post,
-        setPost,
         members,
         setMembers,
         clients,
@@ -64,6 +63,7 @@ const FormTask = () => {
     }
 
     const editTask = async (task) => {
+        console.log(task)
         const res = await api.patch(`/tarefa/${id}`, task)
         const data = res.data
 
@@ -127,7 +127,7 @@ const FormTask = () => {
             id_cliente,
         }
 
-        const canPost = await verifyDatas()
+        const canPost = verifyDatas()
 
         if (!canPost) return
 
@@ -165,10 +165,10 @@ const FormTask = () => {
         }
     }
 
-
     useEffect(() => {
         setAllRight(false)
         setMessage('')
+
         if (id) {
             setBtn('Editar')
             setTitlePage('Editar tarefa')
@@ -232,8 +232,8 @@ const FormTask = () => {
                                     setAbout('Funcionário')
                                 }}
                                 type="button"
-                                id=""
-                                className="admin-btn-select admin-btn admin-btn-input admin-button-select"
+                                id="btnSelectAssociate"
+                                className="admin-btn-select admin-btn admin-button-select"
                             >
                                 Selecionar
                             </button>
@@ -255,8 +255,8 @@ const FormTask = () => {
                                     setAbout('Cliente')
                                 }}
                                 type="button"
-                                id=""
-                                className="admin-btn-select admin-btn admin-btn-input admin-button-select"
+                                id="btnSelectAssociate"
+                                className="admin-btn-select admin-btn admin-button-select"
                             >
                                 Selecionar
                             </button>

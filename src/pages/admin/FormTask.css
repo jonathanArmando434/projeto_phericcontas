@@ -5,13 +5,13 @@
 }
 
 .admin-btn-select{
-    background-color: #232323;
+    background-color: #1F5B95;
     color: #fff;
-    border: .1rem solid #232323;
+    border: .1rem solid #1F5B95;
     transition: all .5s;
 }
 
 .admin-btn-select:hover{
     background-color: #fff;
-    color: #232323;
+    color: #1F5B95;
 }

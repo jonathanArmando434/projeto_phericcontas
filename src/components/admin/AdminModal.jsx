@@ -16,37 +16,40 @@ const AdminModal = () => {
 
     const {
         open,
-         setOpen,
-         about,
-         setAbout,
-         id_responsavel,
-         setIdResponsavel,
-         id_cliente,
-         setIdCliente,
-         post, 
-         setPost,
-         members,
-         setMembers,
-         clients,
-         setClients
+        setOpen,
+        about,
+        id_responsavel,
+        setIdResponsavel,
+        id_cliente,
+        setIdCliente,
+        members,
+        setMembers,
+        clients,
+        setClients
     } = taskZustand(state => state)
 
-    const { result, seachContent, handleSearchColaborador, handleSearchCliente, cleanSearch } = searchZustand(state => state)
+    const [title, setTitle] = useState('')
 
-    const handleSearch = (e) => {
+
+    const { searchContent, result, ok, cleanSearch, handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
+
+    const handleSearch = async (e) => {
         e.preventDefault()
+
         if (about === 'Funcionário') {
-            handleSearchColaborador(search)
+            await handleSearchColaborador(search)
             setMembers(result)
-            setTitle(`${result.length} para ${seachContent}`)
+            setTitle(`${result.length} resultado (s) para "${searchContent}"`)
             cleanSearch()
         }
         else {
-            handleSearchCliente(search)
+            await handleSearchCliente(search)
             setClients(result)
-            setTitle(`${result.length} para ${seachContent}`)
+            setTitle(`${result.length} resultado (s) para "${searchContent}"`)
             cleanSearch()
         }
+
+        setSearch('')
     }
 
     const handleonClickMember = (index) => {
@@ -62,6 +65,8 @@ const AdminModal = () => {
 
             aux = [...aux2]
         }
+        else setIdResponsavel('')
+
         setMembers(aux)
     }
 
@@ -78,6 +83,8 @@ const AdminModal = () => {
 
             aux = [...aux2]
         }
+        else setIdCliente('')
+
         setClients(aux)
     }
 
@@ -127,14 +134,14 @@ const AdminModal = () => {
 
         const api_url_client = import.meta.env.VITE_API_URL_CLIENTE
         getClients(api_url_client)
-    }, [])
 
-    useEffect(() => {}, [members, clients])
+        setTitle(`Seleciona um ${about}`)
+    }, [])
 
     return (
         <div id="admin-modal" className={open ? "admin-modal admin-d-block" : "admin-modal"}>
             {/* Modal content */}
-            <div className="admin-modal-content">
+            <div id='modal-content' className="admin-modal-content">
                 {/* <span class="close">&times;</span> */}
                 <div className="admin-bar-modal">
                     <form onSubmit={handleSearch} className="admin-w-100">
@@ -144,11 +151,13 @@ const AdminModal = () => {
                             name="search"
                             className="admin-form-control admin-d-inline-block"
                             placeholder="Pesquisar funcionário"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                         <button
                             type="submit"
                             id="btn-search"
-                            className="admin-btn-input admin-btn admin-button-select"
+                            className="admin-btn-input admin-btn admin-button-select inside"
                         >
                             <BiSearch />
                         </button>
@@ -159,7 +168,7 @@ const AdminModal = () => {
                     <div className="admin-row">
                         <div className="admin-col-12 admin-title-btn">
                             <h1 className="admin-h3 admin-mb-3">
-                                Seleciona um {about}
+                                {title}
                             </h1>
                         </div>
                         <div className="admin-col-12 admin-d-flex">
@@ -169,6 +178,7 @@ const AdminModal = () => {
                                         return (
                                             <div onClick={() => handleonClickMember(index)}
                                                 key={member._id}
+                                                style={{minWidth: '20.5em'}}
                                                 className={
                                                     member.select ?
                                                         "admin-card-selected admin-card admin-card-member admin-col-12 admin-col-md-3 admin-col-lg-4 admin-min-card" :
@@ -197,6 +207,7 @@ const AdminModal = () => {
                                         return (
                                             <div onClick={() => handleonClickClient(index)}
                                                 key={client._id}
+                                                style={{minWidth: '21rem'}}
                                                 className={
                                                     client.select ? "admin-card-selected admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card" :
                                                         "admin-card admin-card-client admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card"
