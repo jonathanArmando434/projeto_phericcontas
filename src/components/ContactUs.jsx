@@ -1,9 +1,32 @@
-import { TbPhone } from 'react-icons/tb'
+import { useState } from 'react';
+import api from '../axios/api';
 
 import './ContactUs.css'
 import './SectionHeading.css'
 
 const ContactUs = ({ contactUsRef }) => {
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [assunto, setAssunto] = useState('');
+    const [mensagem, setMensagem] = useState('');
+    const [password, setPassword] = useState('');
+    const [provider, setProvider] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const dados = { nome, email, assunto, mensagem, password, provider };
+
+            const res = await api.post('/public/email', dados)
+            const { message } = res.data
+            alert(message)
+        } catch (error) {
+            console.log(error)
+            alert('Erro ao enviar e-mail, tente novamente!')
+        }
+    }
+
     return (
         <div className="contact-information callback-form" id="contactus" ref={contactUsRef}>
             <div className="container">
@@ -63,7 +86,7 @@ const ContactUs = ({ contactUsRef }) => {
                         </div>
                         {/* <div className='col-md-2' /> */}
                         <div className="col-md-5">
-                            <form id="contact" action="" method="post">
+                            <form id="contact" onSubmit={handleSubmit}>
                                 <div className="row">
                                     <div className="col-lg-12 col-md-12 col-sm-12">
                                         <fieldset>
@@ -74,6 +97,8 @@ const ContactUs = ({ contactUsRef }) => {
                                                 id="name"
                                                 placeholder="Nome completo"
                                                 required=""
+                                                value={nome}
+                                                onChange={(e) => setNome(e.target.value)}
                                             />
                                         </fieldset>
                                     </div>
@@ -87,6 +112,36 @@ const ContactUs = ({ contactUsRef }) => {
                                                 pattern="[^ @]*@[^ @]*"
                                                 placeholder="Endereço de e-mail"
                                                 required=""
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                            />
+                                        </fieldset>
+                                    </div>
+                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                        <fieldset>
+                                            <input
+                                                name="password"
+                                                type="password"
+                                                className="form-control"
+                                                id="password"
+                                                placeholder="Palava-passe do seu e-mail"
+                                                required=""
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
+                                        </fieldset>
+                                    </div>
+                                    <div className="col-lg-12 col-md-12 col-sm-12">
+                                        <fieldset>
+                                            <input
+                                                name="provider"
+                                                type="text"
+                                                className="form-control"
+                                                id="name"
+                                                placeholder="Informe seu provedor de email (exemplo: 'gmail')"
+                                                required=""
+                                                value={provider}
+                                                onChange={(e) => setProvider(e.target.value)}
                                             />
                                         </fieldset>
                                     </div>
@@ -99,6 +154,8 @@ const ContactUs = ({ contactUsRef }) => {
                                                 id="subject"
                                                 placeholder="Assunto"
                                                 required=""
+                                                value={assunto}
+                                                onChange={(e) => setAssunto(e.target.value)}
                                             />
                                         </fieldset>
                                     </div>
@@ -111,7 +168,8 @@ const ContactUs = ({ contactUsRef }) => {
                                                 id="message"
                                                 placeholder="Sua mensagem"
                                                 required=""
-                                                defaultValue={""}
+                                                value={mensagem}
+                                                onChange={(e) => setMensagem(e.target.value)}
                                             />
                                         </fieldset>
                                     </div>

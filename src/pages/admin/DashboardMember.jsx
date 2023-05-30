@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { MdOutlineFilterList, MdOutlinePerson } from 'react-icons/md'
+import { MdOutlineFilterList, MdOutlinePersonSearch } from 'react-icons/md'
 import { BiEdit } from 'react-icons/bi'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import api from '../../axios/api'
@@ -16,6 +16,8 @@ import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartColumnDesempenho from '../../components/admin/ChartColumnDesempenho'
 
 const Dashboard = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
+    
     const [member, setMember] = useState({})
     const [contractMember, setContractMember] = useState({})
     const [contractMemberBackup, setContractMemberBackup] = useState({})
@@ -195,13 +197,19 @@ const Dashboard = () => {
                                                 {message}
                                             </div>
                                         }
-                                        <img src={hasPhoto} alt={member.nome} className="admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                                        <img
+                                            src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
+                                            alt={member.nome}
+                                            className="admin-rounded-circle admin-mb-2 admin-no-photo"
+                                            width="248"
+                                            height="248"
+                                        />
                                         <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
                                         <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
 
                                         <div>
                                             <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
-                                            <Link to={`/admin/perfil/${id}`} className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePerson /> Ver Perfil</Link>
+                                            <Link to={`/admin/perfil/${id}`} className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePersonSearch /> Ver Perfil</Link>
                                             <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Demitir' ? handleDismiss : handleAdmitir)}>{threethBtnIcon} {threethBtn}</a>
                                         </div>
                                     </div>

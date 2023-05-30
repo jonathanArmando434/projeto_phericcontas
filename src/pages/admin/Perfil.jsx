@@ -14,6 +14,8 @@ import './Perfil.css'
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 
 const Member = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
+
     const [navPerfil, setNavPerfil] = useState('geral')
     const [member, setMember] = useState({})
     const [contato, setContato] = useState({})
@@ -72,7 +74,7 @@ const Member = () => {
         setContato(dados)
     }
 
-     useEffect(() => {
+    useEffect(() => {
         getMember()
         getContato()
     }, [])
@@ -88,7 +90,12 @@ const Member = () => {
                                     <div className="admin-card">
                                         <div className="card-body text-center">
                                             <div className="admin-image-container">
-                                                <img src={hasPhoto} alt={member.nome} className="admin-perfil-photo admin-rounded-circle admin-mb-2 admin-no-photo" width="248" height="248" />
+                                                <img
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
+                                                    alt={member.nome}
+                                                    className="admin-perfil-photo admin-rounded-circle admin-mb-2 admin-no-photo" width="248"
+                                                    height="248"
+                                                />
                                                 <input
                                                     ref={inputFileRef}
                                                     type="file"

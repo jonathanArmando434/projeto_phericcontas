@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { BiEdit } from 'react-icons/bi'
 import { TbClipboardPlus } from 'react-icons/tb'
+import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import api from '../../axios/api'
 import moment from 'moment'
@@ -90,12 +91,7 @@ const Tasks = () => {
         const dados = res.data
 
         if (dados) {
-            const auxDados = []
-
-            const auxForMap = await dados.map(value => getDates(value))
-
-            if (Array.isArray(auxForMap)) auxForMap.map(value => auxDados.unshift(value))
-
+            const auxDados = await dados.map(value => getDates(value))
             setTasks(auxDados)
         }
     }
@@ -161,46 +157,10 @@ const Tasks = () => {
                                                         <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
                                                         <td className="admin-d-none admin-d-md-table-cell">
                                                             <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-check-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <polyline points="9 11 12 14 22 4" />
-                                                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                                                </svg>
+                                                                <AiOutlineCheckSquare />
                                                             </a>
                                                             <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-x-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <rect
-                                                                        x={3}
-                                                                        y={3}
-                                                                        width={18}
-                                                                        height={18}
-                                                                        rx={2}
-                                                                        ry={2}
-                                                                    />
-                                                                    <line x1={9} y1={9} x2={15} y2={15} />
-                                                                    <line x1={15} y1={9} x2={9} y2={15} />
-                                                                </svg>
+                                                                <AiOutlineCloseSquare />
                                                             </a>
                                                             <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
                                                                 <BiEdit />
@@ -230,46 +190,10 @@ const Tasks = () => {
                                                         <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
                                                         <td className="admin-d-none admin-d-md-table-cell">
                                                             <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-check-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <polyline points="9 11 12 14 22 4" />
-                                                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                                                </svg>
+                                                                <AiOutlineCheckSquare />
                                                             </a>
                                                             <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-x-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <rect
-                                                                        x={3}
-                                                                        y={3}
-                                                                        width={18}
-                                                                        height={18}
-                                                                        rx={2}
-                                                                        ry={2}
-                                                                    />
-                                                                    <line x1={9} y1={9} x2={15} y2={15} />
-                                                                    <line x1={15} y1={9} x2={9} y2={15} />
-                                                                </svg>
+                                                                <AiOutlineCloseSquare />
                                                             </a>
                                                             <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
                                                                 <BiEdit />
@@ -299,46 +223,10 @@ const Tasks = () => {
                                                         <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
                                                         <td className="admin-d-none admin-d-md-table-cell">
                                                             <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-check-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <polyline points="9 11 12 14 22 4" />
-                                                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                                                </svg>
+                                                                <AiOutlineCheckSquare />
                                                             </a>
                                                             <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-x-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <rect
-                                                                        x={3}
-                                                                        y={3}
-                                                                        width={18}
-                                                                        height={18}
-                                                                        rx={2}
-                                                                        ry={2}
-                                                                    />
-                                                                    <line x1={9} y1={9} x2={15} y2={15} />
-                                                                    <line x1={15} y1={9} x2={9} y2={15} />
-                                                                </svg>
+                                                                <AiOutlineCloseSquare />
                                                             </a>
                                                             <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
                                                                 <BiEdit />
@@ -368,46 +256,10 @@ const Tasks = () => {
                                                         <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
                                                         <td className="admin-d-none admin-d-md-table-cell">
                                                             <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-check-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <polyline points="9 11 12 14 22 4" />
-                                                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-                                                                </svg>
+                                                                <AiOutlineCheckSquare />
                                                             </a>
                                                             <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    width={24}
-                                                                    height={24}
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="none"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth={2}
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    className="admin-feather admin-feather-x-square admin-align-middle admin-me-2"
-                                                                >
-                                                                    <rect
-                                                                        x={3}
-                                                                        y={3}
-                                                                        width={18}
-                                                                        height={18}
-                                                                        rx={2}
-                                                                        ry={2}
-                                                                    />
-                                                                    <line x1={9} y1={9} x2={15} y2={15} />
-                                                                    <line x1={15} y1={9} x2={9} y2={15} />
-                                                                </svg>
+                                                                <AiOutlineCloseSquare />
                                                             </a>
                                                             <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
                                                                 <BiEdit />

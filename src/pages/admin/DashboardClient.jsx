@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { BiEdit } from 'react-icons/bi'
-import { MdOutlineFilterList, MdOutlinePerson } from 'react-icons/md'
+import { MdOutlineFilterList } from 'react-icons/md'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
+import { RiFileSearchLine } from 'react-icons/ri'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 
@@ -16,6 +17,8 @@ import TaskIndicator from '../../components/admin/ TaskIndicator'
 import PageTitle from '../../components/admin/PageTitle'
 
 const Dashboard = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
+
     const [client, setClient] = useState({})
     const [contractClient, setContractClient] = useState({})
     const [contractClientBackup, setContractClientBackup] = useState({})
@@ -23,7 +26,7 @@ const Dashboard = () => {
     const [status, setStatus] = useState('')
     const [diasRestantes, setDiasRestantes] = useState(0)
     const [message, setMessage] = useState('')
-    const [threethBtn, setThreethBtn] = useState('Cancelar contrato')
+    const [threethBtn, setThreethBtn] = useState('Rescindir')
     const [threethBtnIcon, setThreethBtnIcon] = useState(<AiOutlineCloseSquare />)
     const [finishedOnTime, setFinishedOnTime] = useState({})
     const [finishedWithDelay, setFinishedWithDelay] = useState({})
@@ -91,7 +94,7 @@ const Dashboard = () => {
                 setMessage(`Contrato renovado`)
                 const api_url_contract = import.meta.env.VITE_API_URL_CONTRACT
                 await getContractClient(api_url_contract + '/' + id)
-                setThreethBtn('Cancelar contrato')
+                setThreethBtn('Rescindir')
                 setThreethBtnIcon(<AiOutlineCloseSquare />)
             }
         } catch (error) {
@@ -103,7 +106,7 @@ const Dashboard = () => {
         const res = await api.get(api_url)
         const dados = res.data
 
-        // if (dados.foto_url) setHasPhoto(dados.foto_url)
+        if (dados.foto_url) setHasPhoto(`${apiUrl}/${dados.foto_url}`)
 
         setClient(dados)
     }
@@ -120,7 +123,7 @@ const Dashboard = () => {
         if (!dado.status) {
             setMessage(`Contrato cancelado`)
             setStatus('Cancelado')
-            setThreethBtn('Renovar Contrato')
+            setThreethBtn('Recontratar')
             setThreethBtnIcon(<AiOutlineCheckSquare />)
         }
         else setStatus((data_fim > new Date() ? 'Ativo' : 'Inativo'))
@@ -203,8 +206,8 @@ const Dashboard = () => {
 
                                         <div style={{ marginTop: '.5rem' }}>
                                             <Link to={`/admin/cliente/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
-                                            <a className="admin-btn admin-main-btn admin-me-2" onClick={(threethBtn === 'Cancelar contrato' ? handleCancel : handleRecancel)}>{threethBtnIcon} {threethBtn}</a>
-                                            <Link to="" className="admin-btn admin-main-btn" href="#"><MdOutlinePerson /> Ver Dados</Link>
+                                            <Link to="" className="admin-btn admin-main-btn admin-me-2" href="#"><RiFileSearchLine /> Ver mais</Link>
+                                            <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Rescindir' ? handleCancel : handleRecancel)}>{threethBtnIcon} {threethBtn}</a>
                                         </div>
                                     </div>
                                 </div>

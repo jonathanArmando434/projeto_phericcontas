@@ -12,6 +12,8 @@ import PageTitle from '../../components/admin/PageTitle'
 import './Clients.css'
 
 const Clients = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
+    
     const [clients, setClients] = useState([])
     const [title, setTitle] = useState('Nossos cliente')
 
@@ -57,7 +59,7 @@ const Clients = () => {
                                         <div className="admin-card-content">
                                             <img
                                                 className="admin-card-img-top admin-card-img-client"
-                                                src={clientIMG}
+                                                src={`${apiUrl}/${client.foto_url}` || clientIMG}
                                                 alt={client.nome}
                                                 max-width="276"
                                                 height="138"

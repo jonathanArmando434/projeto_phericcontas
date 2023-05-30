@@ -12,6 +12,8 @@ import Loading from '../../components/Loading'
 
 
 const Members = () => {
+
+    const apiUrl = import.meta.env.VITE_API_URL
     const [active, setActive] = useState('all')
     const [members, setMembers] = useState([])
     const [title, setTitle] = useState('Colaboradores da empresa')
@@ -24,7 +26,7 @@ const Members = () => {
     const { changeLoading } = loginZustand(state => state)
     const { searchContent, result, ok, cleanSearch } = searchZustand(state => state)
 
-    const {query} = useParams()
+    const { query } = useParams()
 
     let isSearch = false
 
@@ -56,6 +58,7 @@ const Members = () => {
 
                     <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
                         <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>
+                        <a onClick={() => setActive('ativo')} className={active === 'ativo' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Ativo</a>
                         <a onClick={() => setActive('pca')} className={active === 'pca' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>PCA</a>
                         <a onClick={() => setActive('gerente')} className={active === 'gerente' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>gerente</a>
                         <a onClick={() => setActive('contabilista-senior')} className={active === 'contabilista-senior' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Contabilista Senior</a>
@@ -71,8 +74,7 @@ const Members = () => {
                                             <div className="admin-card-content">
                                                 <img
                                                     className="admin-card-img-top admin-card-img-member"
-                                                    // src={member.foto_url || userNoPhoto}
-                                                    src={userNoPhoto}
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                     alt={member.nome}
                                                     width="276"
                                                     height="276"
@@ -97,8 +99,7 @@ const Members = () => {
                                             <div className="admin-card-content">
                                                 <img
                                                     className="admin-card-img-top admin-card-img-member"
-                                                    // src={member.foto_url || userNoPhoto}
-                                                    src={userNoPhoto}
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                     alt={member.nome}
                                                     width="276"
                                                     height="276"
@@ -123,8 +124,7 @@ const Members = () => {
                                             <div className="admin-card-content">
                                                 <img
                                                     className="admin-card-img-top admin-card-img-member"
-                                                    // src={member.foto_url || userNoPhoto}
-                                                    src={userNoPhoto}
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                     alt={member.nome}
                                                     width="276"
                                                     height="276"
@@ -149,8 +149,7 @@ const Members = () => {
                                             <div className="admin-card-content">
                                                 <img
                                                     className="admin-card-img-top admin-card-img-member"
-                                                    // src={member.foto_url || userNoPhoto}
-                                                    src={userNoPhoto}
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                     alt={member.nome}
                                                     width="276"
                                                     height="276"
@@ -175,8 +174,7 @@ const Members = () => {
                                             <div className="admin-card-content">
                                                 <img
                                                     className="admin-card-img-top admin-card-img-member"
-                                                    // src={member.foto_url || userNoPhoto}
-                                                    src={userNoPhoto}
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                     alt={member.nome}
                                                     width="276"
                                                     height="276"
@@ -201,8 +199,7 @@ const Members = () => {
                                             <div className="admin-card-content">
                                                 <img
                                                     className="admin-card-img-top admin-card-img-member"
-                                                    // src={member.foto_url || userNoPhoto}
-                                                    src={userNoPhoto}
+                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                     alt={member.nome}
                                                     width="276"
                                                     height="276"
