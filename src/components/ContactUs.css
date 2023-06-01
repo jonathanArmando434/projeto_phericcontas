@@ -1,53 +1,53 @@
 /* Contact Information */
 
 .contact-information {
-	margin-top: 140px;
+	margin-top: 14rem;
 }
 
 .contact-information .contact-item {
-	padding: 60px 30px;
+	padding: 6rem 3rem;
 	background-color: #f7f7f7;
 	text-align: center;
 }
 
 .contact-information .contact-item i {
 	color: #1F5B95;
-	font-size: 48px;
+	font-size: 4.8rem;
 	margin-bottom: 40px;
 }
 
 .contact-information .contact-item h4 {
-	font-size: 20px;
+	font-size: 2rem;
 	font-weight: 700;
-	letter-spacing: 0.25px;
-	margin-bottom: 15px;
+	letter-spacing: .025rem;
+	margin-bottom: 1.5rem;
 }
 
 .contact-information .contact-item p {
-	margin-bottom: 20px;
+	margin-bottom: 2rem;
 }
 
 .contact-information .contact-item a {
 	font-weight: 600;
 	color: #1F5B95;
-	font-size: 15px;
+	font-size: 1.5rem;
 }
 
 /* Call Back Style */
 
 #contactus-form{
-	margin-top: 80px;
-	margin-bottom: 140px;
+	margin-top: 8rem;
+	margin-bottom: 14rem;
 }
 
 .callback-services {
-	border-top: 1px solid #eee;
-	padding-top: 140px;
+	border-top: .1rem solid #eee;
+	padding-top: 14rem;
 }
 
 .contact-us {
 	background-color: #f7f7f7;
-	padding: 140px 0px;
+	padding: 14rem 0;
 }
 
 .contact-us .contact-form {
@@ -56,27 +56,27 @@
 }
 
 .callback-form {
-	margin-top: 140px;
+	margin-top: 14rem;
 }
 
 .callback-form .contact-form {
 	background-color: #f7f7f7;
-	padding: 60px;
-	border-radius: 5px;
+	padding: 6rem;
+	border-radius: .5rem;
 	text-align: center;
 }
 
 .callback-form .contact-form input {
-	border-radius: 20px;
-	height: 40px;
-	line-height: 40px;
+	border-radius: 2rem;
+	height: 4rem;
+	line-height: 4rem;
 	display: inline-block;
-	padding: 0px 15px;
+	padding: 0 1.5rem;
 	color: #6a6a6a;
 	font-size: 13px;
 	text-transform: none;
 	box-shadow: none;
-	margin-bottom: 35px;
+	margin-bottom: 3.5rem;
 }
 
 .callback-form .contact-form input:focus {
@@ -85,17 +85,17 @@
 }
 
 .callback-form .contact-form textarea {
-	border-radius: 20px;
-	height: 120px;
-	max-height: 200px;
-	min-height: 120px;
+	border-radius: 2rem;
+	height: 12rem;
+	max-height: 20rem;
+	min-height: 12rem;
 	display: inline-block;
-	padding: 15px;
+	padding: 1.5rem;
 	color: #6a6a6a;
-	font-size: 13px;
+	font-size: 1.3rem;
 	text-transform: none;
 	box-shadow: none;
-	margin-bottom: 35px;
+	margin-bottom: 3.5rem;
 }
 
 .callback-form .contact-form textarea:focus {
@@ -116,14 +116,14 @@
 .callback-form .contact-form button.border-button {
 	background-color: transparent;
 	color: #fff;
-	border: 2px solid #fff;
-	font-size: 13px;
+	border:.2rem solid #fff;
+	font-size: 1.3rem;
 	text-transform: uppercase;
 	font-weight: 700;
-	padding: 10px 28px;
-	border-radius: 30px;
+	padding: 1rem 2.8rem;
+	border-radius: 3rem;
 	display: inline-block;
-	transition: all 0.3s;
+	transition: all 0.6s;
 	outline: none;
 	box-shadow: none;
 	text-shadow: none;
@@ -139,13 +139,13 @@
 	background-color: #1F5B95;
 	color: #fff;
 	border: none;
-	font-size: 13px;
+	font-size: 1.3rem;
 	text-transform: uppercase;
 	font-weight: 700;
-	padding: 12px 30px;
-	border-radius: 30px;
+	padding: 1.2rem 3rem;
+	border-radius: 3rem;
 	display: inline-block;
-	transition: all 0.3s;
+	transition: all 0.6s;
 	outline: none;
 	box-shadow: none;
 	text-shadow: none;
@@ -159,11 +159,11 @@
 
 #contactus-form .section-heading p {
     display: block;
-    margin-top: 15px;
+    margin-top: 1.5rem;
     text-transform: uppercase;
-    font-size: 15px;
+    font-size: 1.5rem;
     color: #666;
-    letter-spacing: 1px;
+    letter-spacing: .1rem;
 }
 
 #contactus-form .section-heading h2{
@@ -174,14 +174,14 @@
 .callback-form .contact-form button.border-button {
     background-color: #1F5B95;
     color: #fff;
-    border: 2px solid #1F5B95;
-    font-size: 13px;
+    border: .2rem solid #1F5B95;
+    font-size: 1.3rem;
     text-transform: uppercase;
     font-weight: 700;
-    padding: 10px 28px;
-    border-radius: 30px;
+    padding: 1rem 2.8rem;
+    border-radius: 3rem;
     display: inline-block;
-    transition: all 0.3s;
+    transition: all 0.6s;
     outline: none;
     box-shadow: none;
     text-shadow: none;
@@ -192,7 +192,7 @@
 
 @media (max-width: 768px) {
 	.contact-item {
-		margin-bottom: 30px;
+		margin-bottom: 3rem;
 	}
 }
 
@@ -201,12 +201,12 @@
 		margin-top: 0;
 	}
 	.contact-information{
-		margin-top: 70px;
+		margin-top: 7rem;
 	}
 	#call-back-form{
-		margin-top: 40px;
+		margin-top: 4rem;
 	}
 	.callback-form .contact-form{
-		padding: 30px;
+		padding: 3rem;
 	}
 }

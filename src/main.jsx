@@ -17,7 +17,6 @@ import Clients from './pages/admin/Clients'
 import SearchClients from './pages/admin/SearchClients'
 import FormClient from './pages/admin/FormClient'
 import FormTask from './pages/admin/FormTask'
-import Client from './pages/admin/Client'
 import Perfil from './pages/admin/Perfil'
 import Financas from './pages/admin/Financas'
 import InfoRH from './pages/admin/InfoRH'
@@ -108,12 +107,6 @@ const router = createBrowserRouter([
             path: '/admin/tarefa/editar/:id',
             element: <PrivateRoute>
               <FormTask />
-            </PrivateRoute>
-          },
-          {
-            path: '/admin/cliente',
-            element: <PrivateRoute>
-              <Client />
             </PrivateRoute>
           },
           {

@@ -8,10 +8,20 @@
     background-color: #1F5B95;
     color: #fff;
     border: .1rem solid #1F5B95;
-    transition: all .5s;
+    transition: all .6s;
+}
+
+.admin-btn-select svg{
+    color: #fff;
+    transition: all .6s;
 }
 
 .admin-btn-select:hover{
-    background-color: #fff;
-    color: #1F5B95;
+    background-color: #123454;
+    color: #fff;
+    transition: all 0.6s;
+}
+
+.admin-btn-select svg:hover{
+    color: #fff;
 }

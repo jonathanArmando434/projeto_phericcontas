@@ -33,7 +33,7 @@ const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit,
             {(BtnIcon) ?
                 ((link) ? (
                     <>
-                        <h1 className="admin-h3">{title}</h1>
+                        <h1 className="admin-h3 admin-mb-0">{title}</h1>
                         <Link to={path}>
                             <button className="admin-btn-icon">
                                 {btnText}

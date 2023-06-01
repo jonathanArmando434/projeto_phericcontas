@@ -2,44 +2,44 @@
 
 footer {
 	background-color: #232323;
-	padding: 80px 0px;
+	padding: 8rem 0;
 	color: #fff;
 }
 
 footer h4 {
 	color: #fff;
-	font-size: 20px;
+	font-size: 2rem;
 	font-weight: 600;
-	letter-spacing: 0.25px;
-	margin-bottom: 35px;
+	letter-spacing: .025rem;
+	margin-bottom: 3.5rem;
 }
 footer p {
 	color: #fff;
 }
 
 footer ul.social-icons {
-	margin-top: 25px;
+	margin-top: 2.5rem;
 }
 
 footer ul.social-icons li {
 	display: inline-block;
-	margin-right: 5px;
+	margin-right: .5rem;
 }
 
 footer ul.social-icons li:last-child {
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 footer ul.social-icons li a {
-	width: 34px;
-	height: 34px;
+	width: 3.4rem;
+	height: 3.4rem;
 	display: inline-block;
-	line-height: 34px;
+	line-height: 3.4rem;
 	text-align: center;
 	background-color: #fff;
 	color: #232323;
 	border-radius: 50%;
-	transition: all 0.3s;
+	transition: all 0.6s;
 }
 
 footer ul.social-icons li a:hover {
@@ -47,17 +47,17 @@ footer ul.social-icons li a:hover {
 }
 
 footer ul.menu-list li {
-	margin-bottom: 13px;
+	margin-bottom: 1.3rem;
 }
 
 footer ul.menu-list li:last-child {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 footer ul.menu-list li a {
-	font-size: 14px;
+	font-size: 1.4rem;
 	color: #fff;
-	transition: all 0.3s;
+	transition: all 0.6s;
 }
 
 footer ul.menu-list li a:hover {
@@ -70,18 +70,18 @@ footer ul.menu-list li span.principal-color {
 }
 
 footer .contact-form input {
-	border-radius: 20px;
-	height: 40px;
+	border-radius: 2rem;
+	height: 4rem;
 	line-height: 40px;
 	display: inline-block;
-	padding: 0px 15px;
+	padding: 0 1.5rem;
 	color: #aaa!important;
 	background-color: #343434;
-	font-size: 13px;
+	font-size: 1.3rem;
 	text-transform: none;
 	box-shadow: none;
 	border: none;
-	margin-bottom: 15px;
+	margin-bottom: 1.5rem;
 }
 
 footer .contact-form input:focus {
@@ -92,19 +92,19 @@ footer .contact-form input:focus {
 }
 
 footer .contact-form textarea {
-	border-radius: 20px;
-	height: 120px;
-	max-height: 200px;
-	min-height: 120px;
+	border-radius: 2rem;
+	height: 12rem;
+	max-height: 20rem;
+	min-height: 12rem;
 	display: inline-block;
-	padding: 15px;
+	padding: 15rem;
 	color: #aaa!important;
 	background-color: #343434;
-	font-size: 13px;
+	font-size: 1.3rem;
 	text-transform: none;
 	box-shadow: none;
 	border: none;
-	margin-bottom: 15px;
+	margin-bottom: 1.5rem;
 }
 
 footer .contact-form textarea:focus {
@@ -129,13 +129,13 @@ footer .contact-form button.filled-button {
 	color: #fff;
 	background-color: #1F5B95;
 	border: none;
-	font-size: 13px;
+	font-size: 1.3rem;
 	text-transform: uppercase;
 	font-weight: 700;
-	padding: 12px 30px;
-	border-radius: 30px;
+	padding: 1.2rem 3rem;
+	border-radius: 3rem;
 	display: inline-block;
-	transition: all 0.3s;
+	transition: all 0.6s;
 	outline: none;
 	box-shadow: none;
 	text-shadow: none;
@@ -154,47 +154,47 @@ footer .contact-form button.filled-button:hover {
 /* Responsive Style */
 @media (max-width: 768px) {
 	footer {
-		padding: 80px 0px 20px 0px;
+		padding: 8rem 0 2rem 0;
 	}
 	footer h4{
-		font-size: 16px;
+		font-size: 1.6rem;
 	}
 	footer p{
-		font-size: 13px;
+		font-size: 1.3rem;
 	}
 	footer ul.social-icons li{
-		margin-right: 20px;
-		width: 20px;
+		margin-right: 2rem;
+		width: 2rem;
 	}
 	footer ul.menu-list li a{
-		font-size: 13px;
+		font-size: 1.3rem;
 	}
 	footer .footer-item {
-		margin-bottom: 30px;
-		padding-bottom: 30px;
+		margin-bottom: 3rem;
+		padding-bottom: 3rem;
 	}
 	footer {
-		padding: 80px 0px 20px 0px;
+		padding: 8rem 0 2rem 0;
 	}
 	footer .footer-item {
-		border-bottom: 1px solid #343434;
-		margin-bottom: 30px;
-		padding-bottom: 30px;
+		border-bottom: .1rem solid #343434;
+		margin-bottom: 3rem;
+		padding-bottom: 3rem;
 	}
 }
 
 @media (max-width: 425px){
 	footer{
 		padding-top: 0;
-		margin-top: -70px;
+		margin-top: -7rem;
 	}
 	footer h4{
-		font-size: 20px;
-		margin-top: 40px;
+		font-size: 2rem;
+		margin-top: 4rem;
 	}
 	footer .footer-item{
 		margin-bottom: 0;
-		border-bottom: 1px solid #343434;
+		border-bottom: .1rem solid #343434;
 	}
 	footer .last-item{
 		border: none;

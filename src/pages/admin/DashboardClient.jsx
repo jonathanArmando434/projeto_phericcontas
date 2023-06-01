@@ -5,6 +5,11 @@ import { BiEdit } from 'react-icons/bi'
 import { MdOutlineFilterList } from 'react-icons/md'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import { RiFileSearchLine } from 'react-icons/ri'
+import { FaRegAddressCard } from 'react-icons/fa'
+import { MdOutlineDateRange, MdOutlineCameraAlt } from 'react-icons/md'
+import { RiBankLine } from 'react-icons/ri'
+import { TbPhone, TbLanguage, TbGenderFemale, TbGenderMale } from 'react-icons/tb'
+import { HiOutlineMail } from 'react-icons/hi'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 
@@ -21,6 +26,7 @@ const Dashboard = () => {
 
     const [client, setClient] = useState({})
     const [contractClient, setContractClient] = useState({})
+    const [contato, setContato] = useState({})
     const [contractClientBackup, setContractClientBackup] = useState({})
     const [hasPhoto, setHasPhoto] = useState(logo)
     const [status, setStatus] = useState('')
@@ -36,6 +42,8 @@ const Dashboard = () => {
     const [title, setTitle] = useState('Informações do colaborador')
     const [year, setYear] = useState(new Date().getUTCFullYear())
     const [data, setData] = useState({})
+
+    const [show, setShow] = useState('')
 
     const { id } = useParams()
     const { about } = useParams()
@@ -138,12 +146,32 @@ const Dashboard = () => {
         })
     }
 
+    const getContato = async () => {
+        const res = await api.get('/contato-cliente/' + id)
+        const dados = res.data
+
+        setContato(dados)
+    }
+
+    const handleClick = (e) => {
+        if (e.target.id === 'see-more') {
+            setShow('admin-show')
+        }
+        else if (e.target.id !== 'ano') setShow('')
+    }
+
     useEffect(() => {
         changeLoading()
         getClient('/cliente/' + id)
         getContractClient('/contrato/' + id)
+        getContato()
         getDadosAboutReport()
         changeLoading()
+
+        document.addEventListener('click', handleClick)
+        return () => {
+            document.removeEventListener('click', handleClick)
+        }
     }, [])
 
     return (
@@ -206,7 +234,44 @@ const Dashboard = () => {
 
                                         <div style={{ marginTop: '.5rem' }}>
                                             <Link to={`/admin/cliente/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
-                                            <Link to="" className="admin-btn admin-main-btn admin-me-2" href="#"><RiFileSearchLine /> Ver mais</Link>
+                                            <div className="admin-dropdown admin-d-inline-block">
+                                                <a id='see-more' className="admin-btn admin-main-btn admin-me-2 admin-dropdown-toggle" data-bs-toggle="dropdown"><RiFileSearchLine /> Ver mais</a>
+                                                <div style={{ left: '-30%', top: '140%', padding: '1rem', overflow: 'auto' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${show}`}>
+                                                    <div className="admin-row">
+                                                        <div className="admin-col-12">
+                                                            <div className="admin-perfil-item">
+                                                                <div className="admin-d-flex">
+                                                                    <FaRegAddressCard />
+                                                                    <div>
+                                                                        <span className="admin-perfil-dado">{client.nif || '000000000'}</span>
+                                                                        <span className="admin-small admin-d-block admin-perfil-title">NIF</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {contato.telefone && contato.telefone.map((tel, index) => (
+                                                                <div key={index} className="admin-perfil-item">
+                                                                    <div className="admin-d-flex">
+                                                                        <TbPhone />
+                                                                        <div>
+                                                                            <span className="admin-perfil-dado">+244{tel}</span>
+                                                                            <span className="admin-small admin-d-block admin-perfil-title">Telefone</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                            <div className="admin-perfil-item">
+                                                                <div className="admin-d-flex">
+                                                                    <HiOutlineMail />
+                                                                    <div>
+                                                                        <span className="admin-perfil-dado">{contato.email || 'E-mail'}</span>
+                                                                        <span className="admin-small admin-d-block admin-perfil-title">E-mail</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Rescindir' ? handleCancel : handleRecancel)}>{threethBtnIcon} {threethBtn}</a>
                                         </div>
                                     </div>

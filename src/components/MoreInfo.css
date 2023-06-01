@@ -1,7 +1,7 @@
 /* More Info */
 
 .more-info {
-	margin-top: 140px;
+	margin-top: 14rem;
 }
 
 .more-info .left-image img {
@@ -19,8 +19,8 @@
 }
 
 .about-info .right-content {
-	padding: 0px!important;
-	margin-right: 30px;
+	padding: 0!important;
+	margin-right: 3rem;
 }
 
 .more-info .right-content {
@@ -31,15 +31,15 @@
 	text-transform: uppercase;
 	font-size: 15px;
 	color: #666;
-	letter-spacing: 1px;
-	margin-bottom: 10px;
+	letter-spacing: .1rem;
+	margin-bottom: 1rem;
 	display: block;
 }
 
 .more-info .right-content h2 {
-	font-size: 36px;
+	font-size: 3.6rem;
 	font-weight: 600;
-	margin-bottom: 35px;
+	margin-bottom: 3.5rem;
 }
 
 .more-info .right-content em {
@@ -48,36 +48,36 @@
 }
 
 .more-info .right-content p {
-	margin-bottom: 30px;
+	margin-bottom: 3rem;
 }
 
 /* Responsive Style */
 
 @media (max-width: 768px) {
 	.more-info .left-image  {
-		padding-top: 100px;
+		padding-top: 10rem;
 	}
 	.more-info .right-content  {
-		padding: 20px;
-		margin: 20px 0;
+		padding: 2rem;
+		margin: 2rem 0;
 	}
 	.more-info .right-content h2{
-		font-size: 28px;
+		font-size: 2.8rem;
 	}
 	.about-info .right-content {
-		margin-right: 0px;
-		margin-bottom: 30px;
+		margin-right: 0;
+		margin-bottom: 3rem;
 	}
 }
 
 @media (max-width: 425px){
 	.more-info{
-		margin-top: 70px;
+		margin-top: 7rem;
 	}
 	.more-info .left-image{
 		padding-top: 0;
 	}
 	.more-info .right-content h2{
-		font-size: 24px;
+		font-size: 2.4rem;
 	}
 }

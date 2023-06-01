@@ -142,7 +142,7 @@ const Financas = () => {
                             about={total}
                             col={4}
                         />
-                        <div className="admin-col-12">
+                        <div className="admin-col-12admin-white">
                             <div className="admin-col-12 admin-d-flex">
                                 <div className="admin-card admin-flex-fill admin-bg-fff" style={{ padding: '2.2rem' }}>
                                     <form onSubmit={handleSubmit}>
@@ -200,7 +200,7 @@ const Financas = () => {
                             </div>
                             <div className="admin-col-12 admin-d-flex">
                                 <div className="admin-card admin-flex-fill admin-bg-fff">
-                                    <table className="admin-table admin-table-hover admin-my-0">
+                                    <table className="admin-white admin-table admin-table-hover admin-my-0">
                                         <thead>
                                             <tr>
                                                 <th className="admin-d-none admin-d-xl-table-cell" style={{ paddingLeft: '1.2rem' }}>Descrição</th>

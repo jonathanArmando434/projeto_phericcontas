@@ -116,7 +116,7 @@ const Tasks = () => {
                     </div>
                     <div className="admin-col-12 admin-d-flex">
                         <div className="admin-card admin-flex-fill admin-bg-fff">
-                            <table className="admin-table admin-table-hover admin-my-0">
+                            <table style={{backgroundColor: '#fff'}} className="admin-table admin-table-hover admin-my-0 admin-white">
                                 <thead>
                                     <tr>
                                         <th>Serviço</th>

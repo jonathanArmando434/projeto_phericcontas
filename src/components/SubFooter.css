@@ -3,13 +3,13 @@
 .sub-footer {
 	background-color: #343434;
 	text-align: center;
-	padding: 25px 0px;
+	padding: 2.5rem 0;
 }
 
 .sub-footer p {
 	color: #fff;
 	font-weight: 300;
-	letter-spacing: 0.5px;
+	letter-spacing: .05rem;
 }
 
 .sub-footer a {

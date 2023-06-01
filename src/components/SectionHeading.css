@@ -1,10 +1,10 @@
 .section-heading {
 	text-align: center;
-	margin-bottom: 80px;
+	margin-bottom: 8rem;
 }
 
 .section-heading h2 {
-	font-size: 36px;
+	font-size: 3.6rem;
 	font-weight: 600;
 	color: #1e1e1e;
 }
@@ -16,27 +16,27 @@
 
 .section-heading span {
 	display: block;
-	margin-top: 15px;
+	margin-top: 1.5rem;
 	text-transform: uppercase;
-	font-size: 15px;
+	font-size: 1.5rem;
 	color: #666;
-	letter-spacing: 1px;
+	letter-spacing: .1rem;
 }
 
 /* Responsive Style */
 
 @media (max-width: 768px) {
 	.section-heading h2{
-		font-size: 28px;
+		font-size: 2.8rem;
 	}
 }
 
 @media (max-width: 425px){
 	.section-heading{
-		margin-bottom: 40px;
+		margin-bottom: 4rem;
 	}
 	.section-heading h2{
-		font-size: 24px;
+		font-size: 2.4rem;
 	}
 }
 

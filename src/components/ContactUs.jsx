@@ -9,14 +9,12 @@ const ContactUs = ({ contactUsRef }) => {
     const [email, setEmail] = useState('');
     const [assunto, setAssunto] = useState('');
     const [mensagem, setMensagem] = useState('');
-    const [password, setPassword] = useState('');
-    const [provider, setProvider] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const dados = { nome, email, assunto, mensagem, password, provider };
+            const dados = { nome, email, assunto, mensagem };
 
             const res = await api.post('/public/email', dados)
             const { message } = res.data
@@ -114,34 +112,6 @@ const ContactUs = ({ contactUsRef }) => {
                                                 required=""
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                            />
-                                        </fieldset>
-                                    </div>
-                                    <div className="col-lg-12 col-md-12 col-sm-12">
-                                        <fieldset>
-                                            <input
-                                                name="password"
-                                                type="password"
-                                                className="form-control"
-                                                id="password"
-                                                placeholder="Palava-passe do seu e-mail"
-                                                required=""
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-                                        </fieldset>
-                                    </div>
-                                    <div className="col-lg-12 col-md-12 col-sm-12">
-                                        <fieldset>
-                                            <input
-                                                name="provider"
-                                                type="text"
-                                                className="form-control"
-                                                id="name"
-                                                placeholder="Informe seu provedor de email (exemplo: 'gmail')"
-                                                required=""
-                                                value={provider}
-                                                onChange={(e) => setProvider(e.target.value)}
                                             />
                                         </fieldset>
                                     </div>

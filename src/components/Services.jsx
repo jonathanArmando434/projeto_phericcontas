@@ -22,9 +22,9 @@ const Services = ({ servicesRef }) => {
                         </div>
                     </div>
                     <div className="col-md-6 admin-mb-5">
-                        <div className="service-item service-item-01">
+                        <div id='service-item-01' className="service-item">
                             <div style={{ textAlign: 'center' }} className="down-content">
-                                <BsCalculator style={{ fontSize: '4.8rem' }} />
+                                <BsCalculator id='icon-service-01' style={{ fontSize: '4.8rem' }} />
                                 <h4>Organização contabilística</h4>
                                 <p>
                                     Organização de documentos; registo de informações
@@ -34,9 +34,9 @@ const Services = ({ servicesRef }) => {
                         </div>
                     </div>
                     <div className="col-md-6 admin-mb-5">
-                        <div className="service-item service-item-02">
+                        <div id='service-item-02' className="service-item">
                             <div style={{ textAlign: 'center' }} className="down-content">
-                                <GiCheckedShield style={{ fontSize: '4.8rem' }} />
+                                <GiCheckedShield id='icon-service-02' style={{ fontSize: '4.8rem' }} />
                                 <h4>Constituição e legalização de empresas</h4>
                                 <p>
                                     Constituição legal de Empresas; alvará Comercial; certificado de habitabilidade; licenças comerciais válidas.
@@ -45,9 +45,9 @@ const Services = ({ servicesRef }) => {
                         </div>
                     </div>
                     <div className="col-md-6 admin-mb-5">
-                        <div className="service-item service-item-03">
+                        <div id='service-item-03' className="service-item">
                             <div style={{ textAlign: 'center' }} className="down-content">
-                                <GrMoney style={{ fontSize: '4.8rem' }} />
+                                <GrMoney id='icon-service-03' style={{ fontSize: '4.8rem' }} />
                                 <h4>Consultoria fiscal</h4>
                                 <p>
                                     Relatório de contas; mapas fiscais anuais; normativos fiscais; impostos periódicos; declarações a submeter à AGT.
@@ -56,9 +56,9 @@ const Services = ({ servicesRef }) => {
                         </div>
                     </div>
                     <div className="col-md-6 admin-mb-5">
-                        <div className="service-item service-item-04">
+                        <div id='service-item-04' className="service-item">
                             <div style={{ textAlign: 'center' }} className="down-content">
-                                <MdOutlineGroups style={{ fontSize: '4.8rem' }} />
+                                <MdOutlineGroups id='icon-service-04' style={{ fontSize: '4.8rem' }} />
                                 <h4>Gestão de recursos humanos</h4>
                                 <p>
                                     Processamento de salário; elaboração de contractos; controlo de Segurança Social; processos disciplinares.

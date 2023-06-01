@@ -1,7 +1,7 @@
 /* Services */
 
 .services {
-	margin-top: 140px;
+	margin-top: 14rem;
 }
 
 .service-item img {
@@ -11,31 +11,53 @@
 
 .service-item .down-content {
 	background-color: #f7f7f7;
-	padding: 30px;
+	padding: 3rem;
 }
 
 .service-item .down-content h4 {
-	font-size: 20px;
+	font-size: 2rem;
 	font-weight: 700;
-	letter-spacing: 0.25px;
-	margin-top: 15px;
-	margin-bottom: 15px;
+	letter-spacing: .025rem;
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
 }
 
 .service-item .down-content p {
-	margin-bottom: 20px;
+	margin-bottom: 2rem;
+}
+
+#service-item-01 h4,
+#service-item-01 #icon-service-01,
+#service-item-02 h4,
+#service-item-02 #icon-service-02,
+#service-item-03 h4,
+#service-item-03 #icon-service-03,
+#service-item-04 h4,
+#service-item-04 #icon-service-04 {
+	transition: all .6s;
+}
+
+#service-item-01:hover h4,
+#service-item-01:hover #icon-service-01,
+#service-item-02:hover h4,
+#service-item-02:hover #icon-service-02,
+#service-item-03:hover h4,
+#service-item-03:hover #icon-service-03,
+#service-item-04:hover h4,
+#service-item-04:hover #icon-service-04 {
+	color: #1f5b95;
 }
 
 /* Responsive Style */
 
 @media (max-width: 768px) {
 	.services .service-item {
-		margin-bottom: 30px;
+		margin-bottom: 3rem;
 	}
 }
 
-@media (max-width: 425px){
-	.services{
-		margin-top: 70px;
+@media (max-width: 425px) {
+	.services {
+		margin-top: 7rem;
 	}
 }

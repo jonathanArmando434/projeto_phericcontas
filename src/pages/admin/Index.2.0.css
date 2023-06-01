@@ -45,6 +45,8 @@ form svg {
 .admin-bg-fff {
     background-color: #fff;
     border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 2rem 0 rgba(33, 37, 41, .1);
+    border-radius: .5rem;
 }
 
 .admin-bd-transparent {
