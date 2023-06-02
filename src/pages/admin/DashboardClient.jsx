@@ -1,21 +1,19 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { BiEdit } from 'react-icons/bi'
-import { MdOutlineFilterList } from 'react-icons/md'
+import { MdOutlineFilterList, MdOutlineCameraAlt, MdOutlinePlace } from 'react-icons/md'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import { RiFileSearchLine } from 'react-icons/ri'
 import { FaRegAddressCard } from 'react-icons/fa'
-import { MdOutlineDateRange, MdOutlineCameraAlt } from 'react-icons/md'
-import { RiBankLine } from 'react-icons/ri'
-import { TbPhone, TbLanguage, TbGenderFemale, TbGenderMale } from 'react-icons/tb'
+import { TbPhone } from 'react-icons/tb'
 import { HiOutlineMail } from 'react-icons/hi'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 
 import './Dashboard.css'
 
-import logo from '/src/assets/images/logo_phericcontas.jpeg'
+import clientNoLogo from '/src/assets/admin/img/icons/client-no-logo.png'
 
 import ChartColumnDesempenho from '../../components/admin/ChartColumnDesempenho'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
@@ -28,7 +26,7 @@ const Dashboard = () => {
     const [contractClient, setContractClient] = useState({})
     const [contato, setContato] = useState({})
     const [contractClientBackup, setContractClientBackup] = useState({})
-    const [hasPhoto, setHasPhoto] = useState(logo)
+    const [hasPhoto, setHasPhoto] = useState(clientNoLogo)
     const [status, setStatus] = useState('')
     const [diasRestantes, setDiasRestantes] = useState(0)
     const [message, setMessage] = useState('')
@@ -46,9 +44,32 @@ const Dashboard = () => {
     const [show, setShow] = useState('')
 
     const { id } = useParams()
-    const { about } = useParams()
+
+    const inputFileRef = useRef(null)
 
     const { changeLoading } = loginZustand(state => state)
+
+    const handleClickUpdatePhoto = () => {
+        inputFileRef.current.click()
+    }
+
+    const handleFileSelect = async (e) => {
+        try {
+            const selectedFile = e.target.files[0];
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            const res = await api.patch(`/cliente/update-photo/${member._id}`, formData)
+            const { message, result } = res.data
+            if (message === 'Imagem do colaborador atualizado com sucesso!') {
+                setMember(result)
+                alert('Imagem do colaborador atualizado com sucesso!')
+            }
+            else alert('Houve um erro, tente novamente!')
+        } catch (error) {
+            console.log(error)
+            alert('Imagem do colaborador atualizado com sucesso!')
+        }
+    }
 
     const getDadosAboutReport = async () => {
         try {
@@ -113,6 +134,7 @@ const Dashboard = () => {
     const getClient = async (api_url) => {
         const res = await api.get(api_url)
         const dados = res.data
+        console.log(dados.foto_url)
 
         if (dados.foto_url) setHasPhoto(`${apiUrl}/${dados.foto_url}`)
 
@@ -149,6 +171,7 @@ const Dashboard = () => {
     const getContato = async () => {
         const res = await api.get('/contato-cliente/' + id)
         const dados = res.data
+        console.log(dados)
 
         setContato(dados)
     }
@@ -187,7 +210,7 @@ const Dashboard = () => {
                     />
 
 
-                    <div className="admin-row">
+                    <div className="admin-row admin-mt-4">
                         <TaskIndicator
                             title={'Total de tarefas'}
                             about={total}
@@ -228,7 +251,17 @@ const Dashboard = () => {
                                                 {message}
                                             </div>
                                         }
-                                        <img src={hasPhoto} alt="Logo do cliente" className="admin-mb-2 admin-card-img-client" width="248" height="248" />
+                                        <div className='admin-image-container'>
+                                            <img src={hasPhoto} alt="Logo do cliente" className="admin-mb-2 admin-card-img-client" width="248" height="248" />
+                                            <input
+                                                ref={inputFileRef}
+                                                type="file"
+                                                accept="image/*"
+                                                style={{ display: "none" }}
+                                                onChange={handleFileSelect}
+                                            />
+                                            <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn-cli"><MdOutlineCameraAlt /></a>
+                                        </div>
                                         <h5 className="admin-card-title admin-mt-4">{client.nome || 'Nome Completo'}</h5>
                                         <div className="admin-text-muted admin-mb-4">{client.area_negocio || 'Área de Negócio'}</div>
 
@@ -236,7 +269,16 @@ const Dashboard = () => {
                                             <Link to={`/admin/cliente/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
                                             <div className="admin-dropdown admin-d-inline-block">
                                                 <a id='see-more' className="admin-btn admin-main-btn admin-me-2 admin-dropdown-toggle" data-bs-toggle="dropdown"><RiFileSearchLine /> Ver mais</a>
-                                                <div style={{ left: '-30%', top: '140%', padding: '1rem', overflow: 'auto' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${show}`}>
+                                                <div
+                                                    style={{
+                                                        left: '-25%',
+                                                        top: '-820%',
+                                                        padding: '1rem',
+                                                        maxHeight: '24.531rem',
+                                                        overflowY: 'auto'
+                                                    }}
+                                                    className={`admin-dropdown-menu admin-dropdown-menu-end ${show}`}
+                                                >
                                                     <div className="admin-row">
                                                         <div className="admin-col-12">
                                                             <div className="admin-perfil-item">
@@ -268,6 +310,17 @@ const Dashboard = () => {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            {contato.localizacao && contato.localizacao.map((loc, index) => (
+                                                                <div key={index} className="admin-perfil-item">
+                                                                    <div className="admin-d-flex">
+                                                                        <MdOutlinePlace />
+                                                                        <div>
+                                                                            <span className="admin-perfil-dado">{loc.endereco}</span>
+                                                                            <span className="admin-small admin-d-block admin-perfil-title">Endereco</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -318,7 +371,7 @@ const Dashboard = () => {
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div style={{ height: '48%' }} className="admin-card-content admin-chart">
+                                    <div style={{ height: '50%' }} className="admin-card-content">
                                         <ChartColumnDesempenho title={'Relação'} data={monthlyPerformance} />
                                     </div>
                                 </div>

@@ -22,6 +22,7 @@ const FormTask = () => {
     const [btn, setBtn] = useState('Adicionar')
     const [titlePage, setTitlePage] = useState('Adicionar tarefa')
     const [post, setPost] = useState(true)
+    const [stopLoading, setStopLoading] = useState(false)
 
     const { id } = useParams()
 
@@ -120,41 +121,43 @@ const FormTask = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault(e)
+        try {
+            e.preventDefault(e)
 
-        const task = {
-            servico,
-            valor,
-            data_limite,
-            id_responsavel,
-            id_cliente,
+            const task = {
+                servico,
+                valor,
+                data_limite,
+                id_responsavel,
+                id_cliente,
+            }
+
+            const canPost = verifyDatas()
+
+            if (!canPost) return
+
+            changeLoading()
+
+            if (post) {
+                const msg = await addTask(task)
+
+                if (msg === 'Tarefa inserida no sistema com sucesso!') {
+                    setMessage(msg)
+                    setAllRight(true)
+                    cleanDatas()
+                } else alert('Houve um erro, tente novamente!')
+            }
+            else {
+                const msg = await editTask(task)
+
+                if (msg === 'Tarefa atualizada com sucesso!') {
+                    setMessage(msg)
+                    setAllRight(true)
+                } else alert('Houve um erro, tente novamente!')
+            }
+        } finally {
+            changeLoading()
         }
-
-        const canPost = verifyDatas()
-
-        if (!canPost) return
-
-        changeLoading()
-
-        if (post) {
-            const msg = await addTask(task)
-
-            if (msg === 'Tarefa inserida no sistema com sucesso!') {
-                setMessage(msg)
-                setAllRight(true)
-                cleanDatas()
-            } else alert('Houve um erro, tente novamente!')
-        }
-        else {
-            const msg = await editTask(task)
-
-            if (msg === 'Tarefa atualizada com sucesso!') {
-                setMessage(msg)
-                setAllRight(true)
-            } else alert('Houve um erro, tente novamente!')
-        }
-
-        changeLoading()
     }
 
     const PreparingDatas = async () => {
@@ -173,14 +176,20 @@ const FormTask = () => {
     }
 
     useEffect(() => {
-        setAllRight(false)
-        setMessage('')
+        try {
+            changeLoading()
+            setAllRight(false)
+            setMessage('')
 
-        if (id) {
-            setBtn('Editar')
-            setTitlePage('Editar tarefa')
-            setPost(false)
-            PreparingDatas()
+            if (id) {
+                setBtn('Editar')
+                setTitlePage('Editar tarefa')
+                setPost(false)
+                PreparingDatas()
+            }
+        } finally {
+            setStopLoading(true)
+            changeLoading()
         }
     }, [])
 
@@ -190,9 +199,9 @@ const FormTask = () => {
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
 
-                    {loading ? (<MinLoading />) : (
+                    {loading || !stopLoading ? (<MinLoading />) : (
                         <>
-                            <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto div-form">
+                            <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto div-form admin-mt-4">
                                 <form className="form-new" onSubmit={handleSubmit}>
                                     {message && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>
                                         {message}

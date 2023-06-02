@@ -7,7 +7,7 @@ const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit,
     const anoRef = useRef(null)
 
     const handleClick = (e) => {
-        if (e.target.id === 'filter-btn') {
+        if (e.target.id === 'filter-btn-icon') {
             setShow('admin-show')
         }
         else if (e.target.id !== 'ano') setShow('')
@@ -43,10 +43,10 @@ const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit,
                     </>
                 ) : (
                     <>
-                        <h1 className="admin-h3">{title}</h1>
+                        <h1 className="admin-h3 admin-mb-0">{title}</h1>
                         <div className='admin-dropdown'>
                             <button id='filter-btn' className="admin-btn-icon admin-dropdown-toggle" data-bs-toggle="dropdown">
-                                <BtnIcon />
+                                <BtnIcon id='filter-btn-icon' className='admin-m-0' />
                             </button>
                             <div style={{ left: '-142%', padding: '1rem' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${show}`}>
                                 <form onSubmit={handleSunmit}>
@@ -71,7 +71,7 @@ const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit,
                     </>
                 )) :
                 (
-                    <h1 className="admin-h3">{title}</h1>
+                    <h1 className="admin-h3 admin-mb-0">{title}</h1>
                 )
             }
         </div >

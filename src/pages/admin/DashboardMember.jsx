@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { MdOutlineFilterList, MdOutlinePersonSearch } from 'react-icons/md'
+import { MdOutlineFilterList, MdOutlinePersonSearch, MdOutlineCameraAlt } from 'react-icons/md'
 import { BiEdit } from 'react-icons/bi'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import api from '../../axios/api'
@@ -17,7 +17,7 @@ import ChartColumnDesempenho from '../../components/admin/ChartColumnDesempenho'
 
 const Dashboard = () => {
     const apiUrl = import.meta.env.VITE_API_URL
-    
+
     const [member, setMember] = useState({})
     const [contractMember, setContractMember] = useState({})
     const [contractMemberBackup, setContractMemberBackup] = useState({})
@@ -36,8 +36,31 @@ const Dashboard = () => {
     const { id } = useParams()
     const { about } = useParams()
 
+    const inputFileRef = useRef(null)
+
     const { changeLoading } = loginZustand(state => state)
 
+    const handleClickUpdatePhoto = () => {
+        inputFileRef.current.click()
+    }
+
+    const handleFileSelect = async (e) => {
+        try {
+            const selectedFile = e.target.files[0];
+            const formData = new FormData();
+            formData.append("file", selectedFile);
+            const res = await api.patch(`/cliente/update-photo/${member._id}`, formData)
+            const { message, result } = res.data
+            if (message === 'Imagem do colaborador atualizado com sucesso!') {
+                setMember(result)
+                alert('Imagem do colaborador atualizado com sucesso!')
+            }
+            else alert('Houve um erro, tente novamente!')
+        } catch (error) {
+            console.log(error)
+            alert('Imagem do colaborador atualizado com sucesso!')
+        }
+    }
 
     const getDadosAboutReport = async () => {
         try {
@@ -157,7 +180,7 @@ const Dashboard = () => {
                         setYear={setYear}
                     />
 
-                    <div className="admin-row">
+                    <div className="admin-row admin-mt-4">
                         <TaskIndicator
                             title={'Total de tarefas'}
                             about={total}
@@ -197,13 +220,17 @@ const Dashboard = () => {
                                                 {message}
                                             </div>
                                         }
-                                        <img
-                                            src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
-                                            alt={member.nome}
-                                            className="admin-rounded-circle admin-mb-2 admin-no-photo"
-                                            width="248"
-                                            height="248"
-                                        />
+                                        <div className="admin-image-container">
+                                            <img
+                                                ref={inputFileRef}
+                                                src={member.foto_url ? `${apiUrl}/${member.foto_url}` : userNoPhoto}
+                                                alt={member.nome}
+                                                className="admin-rounded-circle admin-mb-2 admin-no-photo"
+                                                width="248"
+                                                height="248"
+                                            />
+                                            <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
+                                        </div>
                                         <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
                                         <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
 

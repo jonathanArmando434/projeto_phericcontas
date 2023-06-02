@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { BiEdit } from 'react-icons/bi'
 import { FaRegAddressCard } from 'react-icons/fa'
-import { MdOutlineDateRange, MdOutlineCameraAlt } from 'react-icons/md'
+import { MdOutlineDateRange, MdOutlineCameraAlt , MdOutlineSchool, MdOutlinePlace, MdOutlineVpnKey } from 'react-icons/md'
 import { RiBankLine } from 'react-icons/ri'
 import { TbPhone, TbLanguage, TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { HiOutlineMail } from 'react-icons/hi'
@@ -59,8 +59,6 @@ const Member = () => {
         const res = await api.get('/colaborador/' + id)
         const dados = res.data
 
-        if (dados.foto_url) setHasPhoto(dados.foto_url)
-
         let aux = { ...dados }
         aux.data_nasc = (new Date(dados.data_nasc.split('T')[0]).toLocaleDateString())
 
@@ -91,7 +89,7 @@ const Member = () => {
                                         <div className="card-body text-center">
                                             <div className="admin-image-container">
                                                 <img
-                                                    src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
+                                                    src={member.foto_url ? `${apiUrl}/${member.foto_url}` : userNoPhoto}
                                                     alt={member.nome}
                                                     className="admin-perfil-photo admin-rounded-circle admin-mb-2 admin-no-photo" width="248"
                                                     height="248"
@@ -105,11 +103,11 @@ const Member = () => {
                                                 />
                                                 <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
                                             </div>
-                                            <h5 className="admin-card-title admin-mb-0">{member.nome || 'Nome'}</h5>
+                                            <h5 className="admin-card-title admin-mb-0 admin-mt-3">{member.nome || 'Nome'}</h5>
                                             <div className="admin-text-muted admin-mb-2">{member.cargo || 'Cargo'}</div>
 
                                             <div>
-                                                <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
+                                                <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn admin-mt-3"><BiEdit /> Editar</Link>
                                             </div>
                                         </div>
                                     </div>
@@ -140,6 +138,15 @@ const Member = () => {
                                         <div className="admin-col-8 admin-p-4">
                                             <div className="admin-row">
                                                 <div className={navPerfil === 'geral' ? "admin-col-12" : "admin-col-12 admin-d-none"}>
+                                                <div className="admin-perfil-item">
+                                                        <div className="admin-d-flex">
+                                                            <MdOutlineVpnKey />
+                                                            <div>
+                                                                <span className="admin-perfil-dado">{member._id || 'ID'}</span>
+                                                                <span className="admin-small admin-d-block admin-perfil-title">ID</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div className="admin-perfil-item">
                                                         <div className="admin-d-flex">
                                                             <FaRegAddressCard />
@@ -164,6 +171,15 @@ const Member = () => {
                                                             <div>
                                                                 <span className="admin-perfil-dado">{member.num_iban || '0000000000000000000000000'}</span>
                                                                 <span className="admin-small admin-d-block admin-perfil-title">IBAN</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="admin-perfil-item admin-m-0">
+                                                        <div className="admin-d-flex">
+                                                            <MdOutlineSchool />
+                                                            <div>
+                                                                <span className="admin-perfil-dado">{member.nivel_academico || 'Ensino médio'}</span>
+                                                                <span className="admin-small admin-d-block admin-perfil-title">Nível académico</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -200,7 +216,7 @@ const Member = () => {
                                                         <h4 className="admin-mb-0">Informações Básicas</h4>
                                                     </div>
 
-                                                    {member.idioma && member.idioma.map((lang, index) => {
+                                                    {member.idioma && member.idioma.map((lang, index) => (
                                                         <div key={index} className="admin-perfil-item admin-m-0">
                                                             <div className="admin-d-flex">
                                                                 <TbLanguage />
@@ -210,13 +226,22 @@ const Member = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    })}
+                                                    ))}
                                                     <div className="admin-perfil-item admin-m-0">
                                                         <div className="admin-d-flex">
                                                             {member.genero === 'Feminino' ? <TbGenderFemale /> : <TbGenderMale />}
                                                             <div>
                                                                 <span className="admin-perfil-dado">{member.genero || 'Género'}</span>
                                                                 <span className="admin-small admin-d-block admin-perfil-title">Género</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="admin-perfil-item">
+                                                        <div className="admin-d-flex">
+                                                            <MdOutlinePlace />
+                                                            <div>
+                                                                <span className="admin-perfil-dado">{contato.endereco || 'Endereco'}</span>
+                                                                <span className="admin-small admin-d-block admin-perfil-title">Endereço</span>
                                                             </div>
                                                         </div>
                                                     </div>

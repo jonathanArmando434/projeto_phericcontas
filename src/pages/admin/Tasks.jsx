@@ -6,17 +6,23 @@ import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import { useState, useEffect } from 'react'
 import api from '../../axios/api'
 import moment from 'moment'
+import loginZustand from '../../zustand/login'
 
 import PageTitle from '../../components/admin/PageTitle'
+import MinLoading from '../../components/admin/MinLoading'
 
 const Tasks = () => {
     const [active, setActive] = useState('all')
     const [tasks, setTasks] = useState([])
     const [responsavel, setResponsavel] = useState([])
     const [cliente, setCliente] = useState([])
+    const [stopLoading, setStopLoading] = useState(false)
+
+    const { loading, changeLoading } = loginZustand(state => state)
 
     const finishTask = async (id, task) => {
         try {
+            changeLoading()
             task.status = 'Finalizado'
             task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
             const data_fim = new Date()
@@ -32,11 +38,14 @@ const Tasks = () => {
         } catch (error) {
             console.log(error)
             alert('Houve um erro, tente novamente!')
+        } finally {
+            changeLoading()
         }
     }
 
     const cancelTask = async (id, task) => {
         try {
+            changeLoading()
             task.status = 'Cancelado'
             task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
             await api.patch(`/tarefa/${id}`, task)
@@ -47,6 +56,8 @@ const Tasks = () => {
             setTasks(aux)
         } catch (error) {
             alert('Houve um erro, tente novamente!')
+        } finally {
+            changeLoading()
         }
     }
 
@@ -97,9 +108,15 @@ const Tasks = () => {
     }
 
     useEffect(() => {
-        getMember()
-        getClient()
-        getTasks()
+        try {
+            changeLoading()
+            getMember()
+            getClient()
+            getTasks()
+        } finally {
+            setStopLoading(true)
+            changeLoading()
+        }
     }, [])
 
     return (
@@ -108,172 +125,176 @@ const Tasks = () => {
                 <div className="admin-row">
                     <PageTitle title={'Lista de tarefas'} btnText={'Adicionar Tarefa'} BtnIcon={TbClipboardPlus} link={true} path={"/admin/tarefa/adicionar"} />
 
-                    <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
-                        <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>
-                        <a onClick={() => setActive('done')} className={active === 'done' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Finalisados</a>
-                        <a onClick={() => setActive('in-progress')} className={active === 'in-progress' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Em Progresso</a>
-                        <a onClick={() => setActive('canceled')} className={active === 'canceled' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Cancelados</a>
-                    </div>
-                    <div className="admin-col-12 admin-d-flex">
-                        <div className="admin-card admin-flex-fill admin-bg-fff">
-                            <table style={{backgroundColor: '#fff'}} className="admin-table admin-table-hover admin-my-0 admin-white">
-                                <thead>
-                                    <tr>
-                                        <th>Serviço</th>
-                                        <th className="admin-d-none admin-d-xl-table-cell">Data de Início</th>
-                                        <th className="admin-d-none admin-d-xl-table-cell">Data Limite</th>
-                                        <th className="admin-d-none admin-d-xl-table-cell">
-                                            Data de Finalização
-                                        </th>
-                                        <th>Estado</th>
-                                        <th className="admin-d-none admin-d-md-table-cell">
-                                            Funcionário Responsável
-                                        </th>
-                                        <th className="admin-d-none admin-d-md-table-cell">Cliente</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        tasks.length > 0 && (
-                                            tasks.map((task) => {
-                                                if (active === 'all') return (
-                                                    <tr key={task._id}>
-                                                        <td>{task.servico}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
-                                                        <td>
-                                                            <span className={
-                                                                (task.status === 'Finalizado'
-                                                                    ? "admin-badge admin-status-success"
-                                                                    : task.status === 'Cancelado'
-                                                                        ? "admin-badge admin-status-danger"
-                                                                        : 'admin-badge admin-status-info'
-                                                                )}>
-                                                                {task.status || 'status'}
-                                                            </span>
-                                                        </td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">
-                                                            <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <AiOutlineCheckSquare />
-                                                            </a>
-                                                            <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <AiOutlineCloseSquare />
-                                                            </a>
-                                                            <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
-                                                                <BiEdit />
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                )
+                    {loading || !stopLoading ? <MinLoading /> : (
+                        <>
+                            <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
+                                <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>
+                                <a onClick={() => setActive('done')} className={active === 'done' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Finalisados</a>
+                                <a onClick={() => setActive('in-progress')} className={active === 'in-progress' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Em Progresso</a>
+                                <a onClick={() => setActive('canceled')} className={active === 'canceled' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Cancelados</a>
+                            </div>
+                            <div className="admin-col-12 admin-d-flex">
+                                <div className="admin-card admin-flex-fill admin-bg-fff">
+                                    <table style={{ backgroundColor: '#fff' }} className="admin-table admin-table-hover admin-my-0 admin-white">
+                                        <thead>
+                                            <tr>
+                                                <th>Serviço</th>
+                                                <th className="admin-d-none admin-d-xl-table-cell">Data de Início</th>
+                                                <th className="admin-d-none admin-d-xl-table-cell">Data Limite</th>
+                                                <th className="admin-d-none admin-d-xl-table-cell">
+                                                    Data de Finalização
+                                                </th>
+                                                <th>Estado</th>
+                                                <th className="admin-d-none admin-d-md-table-cell">
+                                                    Funcionário Responsável
+                                                </th>
+                                                <th className="admin-d-none admin-d-md-table-cell">Cliente</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                tasks.length > 0 && (
+                                                    tasks.map((task) => {
+                                                        if (active === 'all') return (
+                                                            <tr key={task._id}>
+                                                                <td>{task.servico}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
+                                                                <td>
+                                                                    <span className={
+                                                                        (task.status === 'Finalizado'
+                                                                            ? "admin-badge admin-status-success"
+                                                                            : task.status === 'Cancelado'
+                                                                                ? "admin-badge admin-status-danger"
+                                                                                : 'admin-badge admin-status-info'
+                                                                        )}>
+                                                                        {task.status || 'status'}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">
+                                                                    <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
+                                                                        <AiOutlineCheckSquare />
+                                                                    </a>
+                                                                    <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
+                                                                        <AiOutlineCloseSquare />
+                                                                    </a>
+                                                                    <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
+                                                                        <BiEdit />
+                                                                    </Link>
+                                                                </td>
+                                                            </tr>
+                                                        )
 
-                                                else if (active === 'done' && task.status === 'Finalizado') return (
-                                                    <tr key={task._id}>
-                                                        <td>{task.servico}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
-                                                        <td>
-                                                            <span className={
-                                                                (task.status === 'Finalizado'
-                                                                    ? "admin-badge admin-status-success"
-                                                                    : task.status === 'Cancelado'
-                                                                        ? "admin-badge admin-status-danger"
-                                                                        : 'admin-badge admin-status-info'
-                                                                )}>
-                                                                {task.status || 'status'}
-                                                            </span>
-                                                        </td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">
-                                                            <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <AiOutlineCheckSquare />
-                                                            </a>
-                                                            <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <AiOutlineCloseSquare />
-                                                            </a>
-                                                            <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
-                                                                <BiEdit />
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                )
+                                                        else if (active === 'done' && task.status === 'Finalizado') return (
+                                                            <tr key={task._id}>
+                                                                <td>{task.servico}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
+                                                                <td>
+                                                                    <span className={
+                                                                        (task.status === 'Finalizado'
+                                                                            ? "admin-badge admin-status-success"
+                                                                            : task.status === 'Cancelado'
+                                                                                ? "admin-badge admin-status-danger"
+                                                                                : 'admin-badge admin-status-info'
+                                                                        )}>
+                                                                        {task.status || 'status'}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">
+                                                                    <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
+                                                                        <AiOutlineCheckSquare />
+                                                                    </a>
+                                                                    <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
+                                                                        <AiOutlineCloseSquare />
+                                                                    </a>
+                                                                    <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
+                                                                        <BiEdit />
+                                                                    </Link>
+                                                                </td>
+                                                            </tr>
+                                                        )
 
-                                                else if (active === 'in-progress' && task.status === 'Em progresso') return (
-                                                    <tr key={task._id}>
-                                                        <td>{task.servico}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
-                                                        <td>
-                                                            <span className={
-                                                                (task.status === 'Finalizado'
-                                                                    ? "admin-badge admin-status-success"
-                                                                    : task.status === 'Cancelado'
-                                                                        ? "admin-badge admin-status-danger"
-                                                                        : 'admin-badge admin-status-info'
-                                                                )}>
-                                                                {task.status || 'status'}
-                                                            </span>
-                                                        </td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">
-                                                            <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <AiOutlineCheckSquare />
-                                                            </a>
-                                                            <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <AiOutlineCloseSquare />
-                                                            </a>
-                                                            <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
-                                                                <BiEdit />
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
-                                                )
+                                                        else if (active === 'in-progress' && task.status === 'Em progresso') return (
+                                                            <tr key={task._id}>
+                                                                <td>{task.servico}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
+                                                                <td>
+                                                                    <span className={
+                                                                        (task.status === 'Finalizado'
+                                                                            ? "admin-badge admin-status-success"
+                                                                            : task.status === 'Cancelado'
+                                                                                ? "admin-badge admin-status-danger"
+                                                                                : 'admin-badge admin-status-info'
+                                                                        )}>
+                                                                        {task.status || 'status'}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">
+                                                                    <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
+                                                                        <AiOutlineCheckSquare />
+                                                                    </a>
+                                                                    <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
+                                                                        <AiOutlineCloseSquare />
+                                                                    </a>
+                                                                    <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
+                                                                        <BiEdit />
+                                                                    </Link>
+                                                                </td>
+                                                            </tr>
+                                                        )
 
-                                                else if (active === 'canceled' && task.status === 'Cancelado') return (
-                                                    <tr key={task._id}>
-                                                        <td>{task.servico}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
-                                                        <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
-                                                        <td>
-                                                            <span className={
-                                                                (task.status === 'Finalizado'
-                                                                    ? "admin-badge admin-status-success"
-                                                                    : task.status === 'Cancelado'
-                                                                        ? "admin-badge admin-status-danger"
-                                                                        : 'admin-badge admin-status-info'
-                                                                )}>
-                                                                {task.status || 'status'}
-                                                            </span>
-                                                        </td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
-                                                        <td className="admin-d-none admin-d-md-table-cell">
-                                                            <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
-                                                                <AiOutlineCheckSquare />
-                                                            </a>
-                                                            <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
-                                                                <AiOutlineCloseSquare />
-                                                            </a>
-                                                            <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
-                                                                <BiEdit />
-                                                            </Link>
-                                                        </td>
-                                                    </tr>
+                                                        else if (active === 'canceled' && task.status === 'Cancelado') return (
+                                                            <tr key={task._id}>
+                                                                <td>{task.servico}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_inicio}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_limite}</td>
+                                                                <td className="admin-d-none admin-d-xl-table-cell">{task.data_fim || '...'}</td>
+                                                                <td>
+                                                                    <span className={
+                                                                        (task.status === 'Finalizado'
+                                                                            ? "admin-badge admin-status-success"
+                                                                            : task.status === 'Cancelado'
+                                                                                ? "admin-badge admin-status-danger"
+                                                                                : 'admin-badge admin-status-info'
+                                                                        )}>
+                                                                        {task.status || 'status'}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getResponsavelName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">{getClientName(task)}</td>
+                                                                <td className="admin-d-none admin-d-md-table-cell">
+                                                                    <a onClick={() => finishTask(task._id, task)} className="admin-tab-done">
+                                                                        <AiOutlineCheckSquare />
+                                                                    </a>
+                                                                    <a onClick={() => cancelTask(task._id, task)} className="admin-tab-cancel">
+                                                                        <AiOutlineCloseSquare />
+                                                                    </a>
+                                                                    <Link to={'/admin/tarefa/editar/' + task._id} className="admin-tab-edit">
+                                                                        <BiEdit />
+                                                                    </Link>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })
                                                 )
-                                            })
-                                        )
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </main>

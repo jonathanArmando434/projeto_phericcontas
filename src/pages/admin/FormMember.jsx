@@ -10,6 +10,7 @@ import user_no_photo from '/src/assets/admin/img/avatars/user-no-photo.png'
 import './FormMember.css'
 
 import PageTitle from '../../components/admin/PageTitle'
+import MinLoading from '../../components/admin/MinLoading'
 
 const FormMember = () => {
     const [file, setFile] = useState('')
@@ -35,12 +36,13 @@ const FormMember = () => {
     const [checkedFemale, setCheckedFemale] = useState(false)
     const [backup, setBackup] = useState({})
     const [msg, setMsg] = useState('')
+    const [stopLoading, setStopLoading] = useState(false)
 
     const { id } = useParams()
 
     const pageTopRef = useRef(null);
 
-    const { changeLoading } = loginZustand(state => state)
+    const { loading, changeLoading } = loginZustand(state => state)
 
     const { message, allRight, createColaborador, editColaborador, cleanMessage, cleanAllRight } = colaboradorZustand(state => state)
 
@@ -104,45 +106,51 @@ const FormMember = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        try {
+            changeLoading()
+            e.preventDefault()
 
-        const auxIdioma = await removeEmptyValue(idioma)
-        setIdioma(auxIdioma)
+            const auxIdioma = await removeEmptyValue(idioma)
+            setIdioma(auxIdioma)
 
-        const auxTelefone = await removeEmptyValue(telefone)
-        setTelefone(auxTelefone)
+            const auxTelefone = await removeEmptyValue(telefone)
+            setTelefone(auxTelefone)
 
-        cleanMessage()
-        cleanAllRight()
+            cleanMessage()
+            cleanAllRight()
 
-        let member = {
-            file,
-            num_bi,
-            nome,
-            email,
-            telefone,
-            idioma,
-            data_nasc,
-            genero,
-            cargo,
-            num_iban,
-            nivel_academico,
-            data_inicio,
-            data_fim,
-            endereco,
-            status: true
+            let member = {
+                file,
+                num_bi,
+                nome,
+                email,
+                telefone,
+                idioma,
+                data_nasc,
+                genero,
+                cargo,
+                num_iban,
+                nivel_academico,
+                data_inicio,
+                data_fim,
+                endereco,
+                status: true
+            }
+
+            let ok
+            if (method === 'post') ok = await createColaborador(member)
+            else await editColaborador(member, backup, id)
+
+            if (ok && method === 'post') cleanDatas()
+
+            if (auxIdioma.length === 0) setIdioma([""])
+            if (auxTelefone.length === 0) setTelefone([""])
+
+            scrollToTop()
+        } finally {
+            console.log(allRight)
+            changeLoading()
         }
-
-        if (method === 'post') await createColaborador(member)
-        else await editColaborador(member, backup, id)
-
-        if (allRight && method === 'post') cleanDatas()
-
-        if (auxIdioma.length === 0) setIdioma([""])
-
-        if (auxTelefone.length === 0) setTelefone([""])
-
-        scrollToTop()
     }
 
     const cleanDatas = () => {
@@ -178,14 +186,18 @@ const FormMember = () => {
     }, [file])
 
     useEffect(() => {
-        cleanAllRight()
-        cleanMessage()
-        if (id) {
-            setBtn('Editar')
-            setDisplayed('admin-d-none')
-            setTitlePage('Editar colaborador')
-            setMethod('patch')
-            PreparingDatas()
+        try {
+            cleanAllRight()
+            cleanMessage()
+            if (id) {
+                setBtn('Editar')
+                setDisplayed('admin-d-none')
+                setTitlePage('Editar colaborador')
+                setMethod('patch')
+                PreparingDatas()
+            }
+        } finally {
+            setStopLoading(true)
         }
     }, [])
 
@@ -204,234 +216,236 @@ const FormMember = () => {
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
 
-                    <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 mx-auto admin-p-3 div-form">
-                        <form className="form-new" onSubmit={handleSubmit}>
-                            {
-                                message && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>
-                                    {message}
+                    {loading || !stopLoading ? <MinLoading /> : (
+                        <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 mx-auto admin-p-3 div-form admin-mt-4">
+                            <form className="form-new" onSubmit={handleSubmit}>
+                                {
+                                    message && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>
+                                        {message}
+                                    </div>
+                                }
+                                <div className={noDisplayed === 'admin-d-none' ? noDisplayed : 'admin-update-img admin-mb-3'}>
+                                    <label className='admin-form-label' htmlFor="picture">
+                                        <img src={photo} alt="foto de Perfil" className='admin-photo-member' />
+                                        <span style={{ marginTop: '1rem', marginBottom: 0, cursor: 'pointer' }} className='admin-form-label admin-d-block'>{file ? 'Selecionar outra imagem' : 'Seleciona uma imagem'}</span>
+                                        <input type="file" accept='image/*' id='picture' name='picture' onChange={handleOnChangeFile} />
+                                    </label>
                                 </div>
-                            }
-                            <div className={noDisplayed === 'admin-d-none' ? noDisplayed : 'admin-update-img admin-mb-3'}>
-                                <label className='admin-form-label' htmlFor="picture">
-                                    <img src={photo} alt="foto de Perfil" className='admin-photo-member' />
-                                    <span style={{ marginTop: '1rem', marginBottom: 0, cursor: 'pointer' }} className='admin-form-label admin-d-block'>{file ? 'Selecionar outra imagem' : 'Seleciona uma imagem'}</span>
-                                    <input type="file" accept='image/*' id='picture' name='picture' onChange={handleOnChangeFile} />
-                                </label>
-                            </div>
 
-                            <label className='admin-form-label' htmlFor="nome">Nome</label>
-                            <input
-                                type="text"
-                                className="admin-form-control admin-mb-3"
-                                id="nome"
-                                name="nome"
-                                placeholder="Informe o nome do novo membro"
-                                value={nome || ""}
-                                onChange={e => setNome(e.target.value)}
-                            />
-                            <label className='admin-form-label' htmlFor="bi">Número do Bilhete de Identidade</label>
-                            <input
-                                type="text"
-                                minLength="14"
-                                maxLength="14"
-                                className="admin-form-control admin-mb-3"
-                                id="bi"
-                                name="bi"
-                                placeholder="Informe o número do BI do novo membro"
-                                value={num_bi || ""}
-                                onChange={e => setNum_bi(e.target.value)}
-                                readOnly={method !== 'post' ? true : false}
-                            />
-                            <div className="mb-3">
-                                <label className="admin-form-label">E-mail</label>
+                                <label className='admin-form-label' htmlFor="nome">Nome</label>
                                 <input
-                                    className="admin-form-control admin-form-control-lg"
-                                    type="email"
-                                    name="email"
-                                    placeholder="Informe o seu E-mail"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    minLength={12}
-                                    maxLength={100}
+                                    type="text"
+                                    className="admin-form-control admin-mb-3"
+                                    id="nome"
+                                    name="nome"
+                                    placeholder="Informe o nome do novo membro"
+                                    value={nome || ""}
+                                    onChange={e => setNome(e.target.value)}
                                 />
-                            </div>
-                            <div>
-                                <label className='admin-form-label' htmlFor={`idioma${idioma.length}`}>Idioma</label>
-                                {
-                                    idioma && (idioma.map((value, index) => (
-                                        <input
-                                            key={index}
-                                            type="text"
-                                            className={
-                                                (index === (idioma.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
-                                                    "admin-form-control admin-mb-3"
-                                            }
-                                            id={`idioma${(index + 1)}`}
-                                            name={`idioma${(index + 1)}`}
-                                            placeholder="Informe um idioma"
-                                            value={value}
-                                            onChange={e => {
-                                                idiomaAux = idioma.map((value, i) => (index === i ? e.target.value : value))
-                                                setIdioma([...idiomaAux])
-                                            }}
-                                        />
-                                    )))
-                                }
-
-                                <a href="#" onClick={(e) => {
-                                    e.preventDefault()
-                                    setIdioma([...idioma, ''])
-                                }}>
-                                    <IoMdAddCircleOutline />
-                                </a>
-                            </div>
-
-                            <label className='admin-form-label' htmlFor="data-nascimento">Data de Nascimento</label>
-                            <input
-                                type="date"
-                                className="admin-form-control admin-mb-3"
-                                id="data-nascimento"
-                                name="datNascimento"
-                                placeholder="Informe o o E-mail principal do novo membro"
-                                value={data_nasc || ""}
-                                onChange={e => setData_nasc(e.target.value)}
-                                readOnly={method !== 'post' ? true : false}
-                            />
-                            <label className='admin-form-label' htmlFor="">Género</label>
-                            <div className="" onChange={e => setGenero(e.target.value)} readOnly={method !== 'post' ? true : false}>
-                                <label className='admin-form-check'>
+                                <label className='admin-form-label' htmlFor="bi">Número do Bilhete de Identidade</label>
+                                <input
+                                    type="text"
+                                    minLength="14"
+                                    maxLength="14"
+                                    className="admin-form-control admin-mb-3"
+                                    id="bi"
+                                    name="bi"
+                                    placeholder="Informe o número do BI do novo membro"
+                                    value={num_bi || ""}
+                                    onChange={e => setNum_bi(e.target.value)}
+                                    readOnly={method !== 'post' ? true : false}
+                                />
+                                <div className="mb-3">
+                                    <label className="admin-form-label">E-mail</label>
                                     <input
-                                        className="admin-form-check-input"
-                                        type="radio"
-                                        checked={genero === 'Masculino'}
-                                        onChange={(e) => setCheckedMale(e.target.checked)}
-                                        value="Masculino"
-                                        name="genero"
-                                    />
-                                    <span className="admin-form-check-label">Masculino</span>
-                                </label>
-                                <label className='admin-form-check'>
-                                    <input
-                                        className="admin-form-check-input"
-                                        type="radio"
-                                        checked={genero === 'Feminino'}
-                                        onChange={e => setCheckedFemale(e.target.checked)}
-                                        value="Feminino"
-                                        name="genero"
-                                    />
-                                    <span className="admin-form-check-label">Feminino</span>
-                                </label>
-                            </div>
-                            <label className='admin-form-label' htmlFor="cargo">Cargo</label>
-                            <select id="cargo" className="admin-form-select admin-mb-3" value={cargo} onChange={e => setCargo(e.target.value)}>
-                            <option value="PCA">PCA</option>
-                                <option value="Gerente">Gerente</option>
-                                <option value="Contabilista senior">Contabilista senior</option>
-                                <option value="Assistente de contabilidade">Assistente de contabilidade</option>
-                                <option value="Estagiário">Estagiário</option>
-                            </select>
-                            <label className='admin-form-label admin-d-block' htmlFor="number-bank">
-                                Conta Bancária
-                            </label>
-                            <input
-                                type="text"
-                                minLength="25"
-                                maxLength="25"
-                                className="admin-form-control admin-d-inline-block admin-mb-3"
-                                id="iban-bank"
-                                name="ibanBank"
-                                placeholder="IBAN"
-                                value={num_iban || ''}
-                                onChange={e => setNum_iban(e.target.value)}
-                            />
-                            <div>
-                                <label className='admin-form-label' htmlFor={`phone${telefone.length}`}>Telefone / WhatsApp</label>
-                                {
-                                    telefone && (telefone.map((value, index) => (
-                                        <input
-                                            key={index}
-                                            type="text"
-                                            minLength="9"
-                                            maxLength="9"
-                                            className={
-                                                (index === (telefone.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
-                                                    "admin-form-control admin-mb-3"
-                                            }
-                                            id={`phone${(index + 1)}`}
-                                            name={`phone${(index + 1)}`}
-                                            placeholder="Informe um número de telefone / WhatsApp"
-                                            value={value}
-                                            onChange={e => {
-                                                telefoneAux = telefone.map((value, i) => (index === i ? e.target.value : value))
-                                                setTelefone(telefoneAux)
-                                            }}
-                                        />
-                                    )))
-                                }
-
-                                <a href="#" onClick={(e) => {
-                                    e.preventDefault()
-                                    setTelefone([...telefone, ''])
-                                }}>
-                                    <IoMdAddCircleOutline />
-                                </a>
-                            </div>
-
-                            <label className='admin-form-label' htmlFor="endereco">Endereço</label>
-                            <input
-                                type="text"
-                                className="admin-form-control admin-mb-3"
-                                id="endereco"
-                                name="endereco"
-                                placeholder="Informe o endereço do novo membro"
-                                value={endereco || ""}
-                                onChange={e => setEndereco(e.target.value)}
-                            />
-                            <label className='admin-form-label' htmlFor="nivel-academico">Nível académico</label>
-                            <select id="nivel-academico" className="admin-form-select admin-mb-3" value={nivel_academico} onChange={e => setNivelAcademico(e.target.value)}>
-                                <option value="Primeiro cíclo do secundário">Primeiro cíclo do secundário</option>
-                                <option value="Ensino médio">Ensino médio</option>
-                                <option value="Superior incompleto">Superior incompleto</option>
-                                <option value="Superior completo">Superior completo</option>
-                            </select>
-                            <label className='admin-form-label admin-d-block' htmlFor="">
-                                Contrato
-                            </label>
-                            <div className="admin-d-flex admin-justify-content-between">
-                                <div style={{ width: '49.5%' }}>
-                                    <label className='admin-form-label admin-d-block' htmlFor="startContract">
-                                        Início
-                                    </label>
-                                    <input
-                                        type="date"
-                                        min={data_inicio || (new Date().toISOString().split('T')[0])}
-                                        className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
-                                        id="startContract"
-                                        name="startContract"
-                                        value={data_inicio || ''}
-                                        onChange={e => setData_inicio(e.target.value)}
+                                        className="admin-form-control admin-form-control-lg"
+                                        type="email"
+                                        name="email"
+                                        placeholder="Informe o seu E-mail"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        minLength={12}
+                                        maxLength={100}
                                     />
                                 </div>
-                                <div style={{ width: '49.5%' }}>
-                                    <label className='admin-form-label admin-d-block' htmlFor="endContract">
-                                        Fim
-                                    </label>
-                                    <input
-                                        type="date"
-                                        min={data_fim || (new Date().toISOString().split('T')[0])}
-                                        className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
-                                        id="endContract"
-                                        name="endContract"
-                                        value={data_fim || ''}
-                                        onChange={e => setData_fim(e.target.value)}
-                                    />
+                                <div>
+                                    <label className='admin-form-label' htmlFor={`idioma${idioma.length}`}>Idioma</label>
+                                    {
+                                        idioma && (idioma.map((value, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                className={
+                                                    (index === (idioma.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
+                                                        "admin-form-control admin-mb-3"
+                                                }
+                                                id={`idioma${(index + 1)}`}
+                                                name={`idioma${(index + 1)}`}
+                                                placeholder="Informe um idioma"
+                                                value={value}
+                                                onChange={e => {
+                                                    idiomaAux = idioma.map((value, i) => (index === i ? e.target.value : value))
+                                                    setIdioma([...idiomaAux])
+                                                }}
+                                            />
+                                        )))
+                                    }
+
+                                    <a href="#" onClick={(e) => {
+                                        e.preventDefault()
+                                        setIdioma([...idioma, ''])
+                                    }}>
+                                        <IoMdAddCircleOutline />
+                                    </a>
                                 </div>
-                            </div>
-                            <button type="submit" className="admin-btn admin-main-btn admin-form-control admin-mt-3">
-                                {btn}
-                            </button>
-                        </form>
-                    </div>
+
+                                <label className='admin-form-label' htmlFor="data-nascimento">Data de Nascimento</label>
+                                <input
+                                    type="date"
+                                    className="admin-form-control admin-mb-3"
+                                    id="data-nascimento"
+                                    name="datNascimento"
+                                    placeholder="Informe o o E-mail principal do novo membro"
+                                    value={data_nasc || ""}
+                                    onChange={e => setData_nasc(e.target.value)}
+                                    readOnly={method !== 'post' ? true : false}
+                                />
+                                <label className='admin-form-label' htmlFor="">Género</label>
+                                <div className="" onChange={e => setGenero(e.target.value)} readOnly={method !== 'post' ? true : false}>
+                                    <label className='admin-form-check'>
+                                        <input
+                                            className="admin-form-check-input"
+                                            type="radio"
+                                            checked={genero === 'Masculino'}
+                                            onChange={(e) => setCheckedMale(e.target.checked)}
+                                            value="Masculino"
+                                            name="genero"
+                                        />
+                                        <span className="admin-form-check-label">Masculino</span>
+                                    </label>
+                                    <label className='admin-form-check'>
+                                        <input
+                                            className="admin-form-check-input"
+                                            type="radio"
+                                            checked={genero === 'Feminino'}
+                                            onChange={e => setCheckedFemale(e.target.checked)}
+                                            value="Feminino"
+                                            name="genero"
+                                        />
+                                        <span className="admin-form-check-label">Feminino</span>
+                                    </label>
+                                </div>
+                                <label className='admin-form-label' htmlFor="cargo">Cargo</label>
+                                <select id="cargo" className="admin-form-select admin-mb-3" value={cargo} onChange={e => setCargo(e.target.value)}>
+                                    <option value="PCA">PCA</option>
+                                    <option value="Gerente">Gerente</option>
+                                    <option value="Contabilista senior">Contabilista senior</option>
+                                    <option value="Assistente de contabilidade">Assistente de contabilidade</option>
+                                    <option value="Estagiário">Estagiário</option>
+                                </select>
+                                <label className='admin-form-label admin-d-block' htmlFor="number-bank">
+                                    Conta Bancária
+                                </label>
+                                <input
+                                    type="text"
+                                    minLength="25"
+                                    maxLength="25"
+                                    className="admin-form-control admin-d-inline-block admin-mb-3"
+                                    id="iban-bank"
+                                    name="ibanBank"
+                                    placeholder="IBAN"
+                                    value={num_iban || ''}
+                                    onChange={e => setNum_iban(e.target.value)}
+                                />
+                                <div>
+                                    <label className='admin-form-label' htmlFor={`phone${telefone.length}`}>Telefone / WhatsApp</label>
+                                    {
+                                        telefone && (telefone.map((value, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                minLength="9"
+                                                maxLength="9"
+                                                className={
+                                                    (index === (telefone.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
+                                                        "admin-form-control admin-mb-3"
+                                                }
+                                                id={`phone${(index + 1)}`}
+                                                name={`phone${(index + 1)}`}
+                                                placeholder="Informe um número de telefone / WhatsApp"
+                                                value={value}
+                                                onChange={e => {
+                                                    telefoneAux = telefone.map((value, i) => (index === i ? e.target.value : value))
+                                                    setTelefone(telefoneAux)
+                                                }}
+                                            />
+                                        )))
+                                    }
+
+                                    <a href="#" onClick={(e) => {
+                                        e.preventDefault()
+                                        setTelefone([...telefone, ''])
+                                    }}>
+                                        <IoMdAddCircleOutline />
+                                    </a>
+                                </div>
+
+                                <label className='admin-form-label' htmlFor="endereco">Endereço</label>
+                                <input
+                                    type="text"
+                                    className="admin-form-control admin-mb-3"
+                                    id="endereco"
+                                    name="endereco"
+                                    placeholder="Informe o endereço do novo membro"
+                                    value={endereco || ""}
+                                    onChange={e => setEndereco(e.target.value)}
+                                />
+                                <label className='admin-form-label' htmlFor="nivel-academico">Nível académico</label>
+                                <select id="nivel-academico" className="admin-form-select admin-mb-3" value={nivel_academico} onChange={e => setNivelAcademico(e.target.value)}>
+                                    <option value="Primeiro cíclo do secundário">Primeiro cíclo do secundário</option>
+                                    <option value="Ensino médio">Ensino médio</option>
+                                    <option value="Superior incompleto">Superior incompleto</option>
+                                    <option value="Superior completo">Superior completo</option>
+                                </select>
+                                <label className='admin-form-label admin-d-block' htmlFor="">
+                                    Contrato
+                                </label>
+                                <div className="admin-d-flex admin-justify-content-between">
+                                    <div style={{ width: '49.5%' }}>
+                                        <label className='admin-form-label admin-d-block' htmlFor="startContract">
+                                            Início
+                                        </label>
+                                        <input
+                                            type="date"
+                                            min={data_inicio || (new Date().toISOString().split('T')[0])}
+                                            className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
+                                            id="startContract"
+                                            name="startContract"
+                                            value={data_inicio || ''}
+                                            onChange={e => setData_inicio(e.target.value)}
+                                        />
+                                    </div>
+                                    <div style={{ width: '49.5%' }}>
+                                        <label className='admin-form-label admin-d-block' htmlFor="endContract">
+                                            Fim
+                                        </label>
+                                        <input
+                                            type="date"
+                                            min={data_fim || (new Date().toISOString().split('T')[0])}
+                                            className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
+                                            id="endContract"
+                                            name="endContract"
+                                            value={data_fim || ''}
+                                            onChange={e => setData_fim(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <button type="submit" className="admin-btn admin-main-btn admin-form-control admin-mt-3">
+                                    {btn}
+                                </button>
+                            </form>
+                        </div>
+                    )}
                 </div>
             </div>
         </main>

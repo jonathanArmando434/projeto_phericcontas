@@ -124,7 +124,7 @@ const Financas = () => {
                         setYear={setYear}
                     />
 
-                    <div className="admin-row">
+                    <div className="admin-row admin-mt-4">
                         <TaskIndicator
                             title={'Entrada: kZ'}
                             about={entrada}

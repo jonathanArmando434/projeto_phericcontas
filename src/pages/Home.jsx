@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 import '../assets/bootstrap/css/bootstrap.min.css'
 import '../assets/css/fontawesome.css'
@@ -15,14 +15,21 @@ import Clients from "../components/Clients";
 import ContactUs from "../components/ContactUs";
 import Footer from "../components/Footer";
 import SubFooter from "../components/SubFooter";
+import Loading from '../components/Loading'
 
 const Home = () => {
+    const [stopLoading, setStopLoading] = useState(false)
+
     const bannerRef = useRef(null)
     const servicesRef = useRef(null)
     const moreInfoRef = useRef(null)
     const contactUsRef = useRef(null)
 
-    return (
+    useEffect(() => {
+        setTimeout(() => setStopLoading(true), 300)
+    })
+
+    return !stopLoading ? <Loading /> : (
         <div className="Home">
             {/* Header */}
             {/* <SubHeader /> */}

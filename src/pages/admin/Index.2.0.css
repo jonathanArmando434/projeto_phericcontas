@@ -288,14 +288,16 @@ a.admin-btn-nav:hover, a.admin-btn-nav.active {
 
 .admin-btn-icon {
     background-color: transparent;
+    border-radius: .5rem;
     border: none;
-    padding: 0;
+    padding: .5rem 1rem;
     margin: 0;
     margin-top: -1,6rem;
-    transition: all .5s;
+    transition: all .6s;
 }
 
 .admin-btn-icon:hover{
+    background-color: #ced4da;
     color: #1F5B95;
 }
 
@@ -326,4 +328,16 @@ a.admin-btn-nav:hover, a.admin-btn-nav.active {
 .admin-status-info{
     background-color: rgb(254, 247, 219);
     color: rgb(148, 79, 1);
+}
+
+#see-more::after{
+    display: none;
+}
+
+#filter-btn::after{
+    display: none;
+}
+
+#user::after{
+    display: none;
 }

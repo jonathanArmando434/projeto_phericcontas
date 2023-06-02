@@ -115,9 +115,37 @@ span.admin-perfil-title {
     height: 5rem;
     font-size: 1.4rem;
     cursor: pointer;
+    transition: all .6s;
 }
 
 .admin-update-photo-btn:hover{
     opacity: .7;
+    color: #1F5B95;
+}
+
+.admin-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.admin-update-photo-btn-cli {
+    position: absolute;
+    bottom: 7rem;
+    right: -12.5rem;
+    padding-top: 1.5rem;
+    background-color: #ced4da;
+    color: #1F5B95;
+    border: none;
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    opacity: .7;
+    transition: all .6s;
+}
+
+.admin-update-photo-btn-cli:hover{
+    opacity: 1;
     color: #1F5B95;
 }

@@ -187,7 +187,10 @@ const colaborador = create(set => ({
                     const msgContract = await addMemberContract(member, id_contact)
 
                     //caso o contrato do colaborador seja inserido com sucesso - start
-                    if (msgContract === 'Contrato inserido no sistema com sucesso!') set(() => ({ allRight: true }))
+                    if (msgContract === 'Contrato inserido no sistema com sucesso!') {
+                        set(() => ({ allRight: true }))
+                        return true
+                    }
                     
                     else {
                         set(() => ({ message: '' }))

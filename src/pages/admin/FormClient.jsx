@@ -206,7 +206,7 @@ const FormClient = () => {
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
 
-                    <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto admin-p-3 div-form">
+                    <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto admin-p-3 div-form admin-mt-4">
                         <form className="form-new" onSubmit={handleSubmit}>
                             {
                                 message && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>

@@ -5,7 +5,7 @@ import loginZustand from '../../zustand/login'
 import searchZustand from '../../zustand/search'
 import api from '../../axios/api'
 
-import clientIMG from '../../assets/admin/img/icons/client-02.jpeg'
+import clientNoLogo from '/src/assets/admin/img/icons/client-no-logo.png'
 
 import PageTitle from '../../components/admin/PageTitle'
 
@@ -16,6 +16,7 @@ const Clients = () => {
     
     const [clients, setClients] = useState([])
     const [title, setTitle] = useState('Nossos cliente')
+    const [hasPhoto, setHasPhoto] = useState(clientNoLogo)
 
     const location = useLocation()
     const url = location.pathname
@@ -30,7 +31,9 @@ const Clients = () => {
     const getClients = async () => {
         const res = await api.get('/cliente')
         const dados = res.data
-
+        
+        if (dados.foto_url) setHasPhoto(`${apiUrl}/${dados.foto_url}`)
+        
         setClients(dados)
     }
 
@@ -51,7 +54,7 @@ const Clients = () => {
                 <div className="admin-row">
                     <PageTitle title={title} btnText={!isSearch && 'Adicionar Cliente'} BtnIcon={!isSearch && IoMdAddCircleOutline} link={!isSearch ? true : false} path={!isSearch && "/admin/cliente/cadastrar"} />
 
-                    <div className="admin-col-12">
+                    <div className="admin-col-12 admin-mt-4">
                         <div className="admin-row">
                             {
                                 clients.map(client => (
@@ -59,7 +62,7 @@ const Clients = () => {
                                         <div className="admin-card-content">
                                             <img
                                                 className="admin-card-img-top admin-card-img-client"
-                                                src={`${apiUrl}/${client.foto_url}` || clientIMG}
+                                                src={client.foto_url ? `${apiUrl}/${client.foto_url}` : clientNoLogo}
                                                 alt={client.nome}
                                                 max-width="276"
                                                 height="138"

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 import passwordValidator from 'password-validator';
@@ -17,6 +17,8 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [id_colaborador, setId_colaborador] = useState('')
     const [message, setMessage] = useState('')
+    const [stopLoading, setStopLoading] = useState(false)
+
     const navigate = useNavigate()
 
     const { loading, handleLogin, changeLoading } = loginZustand(state => state)
@@ -120,7 +122,11 @@ const SignUp = () => {
         }
     }
 
-    return (loading ? <Loading /> :
+    useEffect(() => {
+        setTimeout(() => setStopLoading(true), 300)
+    })
+
+    return (loading || !stopLoading ? <Loading /> :
         (
             <main className="admin admin-login admin-d-flex admin-vw-100 admin-vh-100 admin-main-login">
                 <div className="admin-container-login">

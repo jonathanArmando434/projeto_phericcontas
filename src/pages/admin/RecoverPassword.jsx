@@ -94,7 +94,7 @@ const Login = () => {
                                                     className="admin-img-fluid"
                                                 />
                                             </div>
-                                            <form onSubmit={handleSubmit}>
+                                            <form >
                                                 {message && <div style={{ marginBottom: '.8rem', marginTop: '.8rem' }} className='admin-msg-danger'>
                                                     {message}
                                                 </div>}
@@ -111,39 +111,13 @@ const Login = () => {
                                                         maxLength={100}
                                                     />
                                                 </div>
-                                                <div className="mb-3">
-                                                    <label className="admin-form-label">Palavra-passe</label>
-                                                    <input
-                                                        className="admin-form-control admin-form-control-lg"
-                                                        type="password"
-                                                        name="password"
-                                                        placeholder="Informe a sua palavra-passe"
-                                                        value={password}
-                                                        onChange={(e) => setPassword(e.target.value)}
-                                                    />
-                                                    <small>
-                                                        <Link to={'/admin/palavra-passe/recuperar'}>Esqueceu a palavra-passe?</Link>
-                                                    </small>
-                                                </div>
-                                                <div className='mb-3'>
-                                                    <label className="admin-mb-0">
-                                                        <input
-                                                            type="checkbox"
-                                                            name="remember-me"
-                                                            defaultChecked={remeberMe}
-                                                            onChange={(e) => setRememberMe(e.target.checked)}
-                                                        />
-                                                        <span className="">
-                                                            Lembre-se de mim da próxima vez
-                                                        </span>
-                                                    </label>
-                                                </div>
+                                                
                                                 <small className="">
-                                                    Você ainda não tem uma conta? <Link to="/admin/cadastrar">Cadastre-se</Link>
+                                                    Desejas voltar para início de sessão? <Link to="/admin/entrar">Login</Link>
                                                 </small>
                                                 <div className="admin-text-center admin-mt-3">
                                                     <button type="submit" className="admin-btn admin-btn admin-main-btn admin-form-control">
-                                                        Entrar
+                                                        Recuperar palavra-passe
                                                     </button>
                                                 </div>
                                             </form>

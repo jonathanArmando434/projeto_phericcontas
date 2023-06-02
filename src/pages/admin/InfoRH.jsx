@@ -72,7 +72,7 @@ const Dashboard = () => {
                 <div className="admin-row">
                     <PageTitle title={'Informações de Recursos Humanos'} />
 
-                    <div className="admin-row">
+                    <div className="admin-row admin-mt-4">
                         <TaskIndicator
                             title={'Colaboradores ativos'}
                             about={total}
