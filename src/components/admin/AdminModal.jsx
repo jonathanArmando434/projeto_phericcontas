@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import api from '../../axios/api'
 import searchZustand from '../../zustand/search'
 import taskZustand from '../../zustand/task'
-import loginZustand from "../../zustand/login"
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 import clientIMG from '../../assets/admin/img/icons/client-02.jpeg'
@@ -18,6 +17,8 @@ const AdminModal = () => {
     const [hasLogo, setHasLogo] = useState(clientIMG)
     const [loadingToModal, setLoadingToModal] = useState(false)
     const [isSearch, setIsSearch] = useState(false)
+    const [title, setTitle] = useState('')
+    const [titleSearch, setTitleSearch] = useState('')
 
     const {
         open,
@@ -33,14 +34,13 @@ const AdminModal = () => {
         setClients
     } = taskZustand(state => state)
 
-    const [title, setTitle] = useState('')
-
-    const { loading, handleLogin, changeLoading } = loginZustand(state => state)
-
     const { searchContent, result, ok, cleanSearch, handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
 
     const principalRef = useRef(null)
     const secundaryRef = useRef(null)
+
+
+    let searchContentPrev = ''
 
     const handleSearch = async (e) => {
         try {
@@ -48,25 +48,33 @@ const AdminModal = () => {
 
             e.preventDefault()
 
-            if (about === 'Funcionário') {
-                await handleSearchColaborador(search)
-                setTitle(`${result.length} resultado (s) para "${searchContent}"`)
+            if (about === 'funcionário') {
+                const returned = await handleSearchColaborador(search)
+                setTitle(`${returned.resultTotal} resultado (s) para "${returned.query}"`)
                 cleanSearch()
             }
             else {
-                await handleSearchCliente(search)
-                setTitle(`${result.length} resultado (s) para "${searchContent}"`)
+                const returned = await handleSearchCliente(search)
+                setTitle(`${returned.resultTotal} resultado (s) para "${returned.query}"`)
                 cleanSearch()
             }
 
             setSearch('')
             setIsSearch(true)
-
-            setLoadingToModal(false)
         } catch (error) {
             console.log(error)
             alert('A pesquisa falhou, tente novamente!')
+        }finally{
+            setLoadingToModal(false)
         }
+    }
+
+    const closeModal = () => {
+        setOpen(!open)
+        setIsSearch(false)
+        principalRef.current.classList.remove('admin-d-none')
+        secundaryRef.current.classList.add('admin-d-none')
+        setTitle(`Seleciona um ${about}`)
     }
 
     const handleonClickMember = (index) => {
@@ -190,12 +198,7 @@ const AdminModal = () => {
                                 </button>
                             </form>
                             <span
-                                onClick={() => {
-                                    setOpen(!open)
-                                    setIsSearch(false)
-                                    principalRef.current.classList.remove('admin-d-none')
-                                    secundaryRef.current.classList.add('admin-d-none')
-                                }}
+                                onClick={closeModal}
                                 className="admin-close"
                             >
                                 x

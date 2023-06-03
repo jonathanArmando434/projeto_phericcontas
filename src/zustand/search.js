@@ -16,6 +16,7 @@ const search = create(set => ({
             set(() => ({ result: aux }))
             set(() => ({ok: true}))
             set(() => ({searchContent: query}))
+            return {query, resultTotal: aux.length}
         } catch (error) {
             console.log(error)
         }
@@ -28,6 +29,7 @@ const search = create(set => ({
             set(() => ({ result: data }))
             set(() => ({ok: true}))
             set(() => ({searchContent: query}))
+            return {query, resultTotal: data.length}
         } catch (error) {
             console.log(error)
         }

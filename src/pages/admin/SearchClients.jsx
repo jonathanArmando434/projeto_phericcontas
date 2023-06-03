@@ -36,7 +36,7 @@ const Clients = () => {
                 <div className="admin-row">
                     <PageTitle title={title}  />
 
-                    <div className="admin-col-12">
+                    <div style={{ marginTop: '2.5rem' }} className="admin-col-12">
                         <div className="admin-row">
                             {
                                 result.map(client => (
