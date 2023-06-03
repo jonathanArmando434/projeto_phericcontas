@@ -18,7 +18,6 @@ const AdminModal = () => {
     const [loadingToModal, setLoadingToModal] = useState(false)
     const [isSearch, setIsSearch] = useState(false)
     const [title, setTitle] = useState('')
-    const [titleSearch, setTitleSearch] = useState('')
 
     const {
         open,
@@ -34,7 +33,7 @@ const AdminModal = () => {
         setClients
     } = taskZustand(state => state)
 
-    const { searchContent, result, ok, cleanSearch, handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
+    const { result, cleanSearch, handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
 
     const principalRef = useRef(null)
     const secundaryRef = useRef(null)
@@ -43,10 +42,16 @@ const AdminModal = () => {
     let searchContentPrev = ''
 
     const handleSearch = async (e) => {
+        e.preventDefault()
+        
+        //verificando se a string é vazia, se contem apenas espaços em branco, se possui caracteres especias  
+        if (
+            (search.trim().length === 0) ||
+            (/^[^\w\s]+$/.test(search))
+        ) return
+
         try {
             setLoadingToModal(true)
-
-            e.preventDefault()
 
             if (about === 'funcionário') {
                 const returned = await handleSearchColaborador(search)
@@ -64,7 +69,7 @@ const AdminModal = () => {
         } catch (error) {
             console.log(error)
             alert('A pesquisa falhou, tente novamente!')
-        }finally{
+        } finally {
             setLoadingToModal(false)
         }
     }

@@ -28,9 +28,15 @@ const MainBar = () => {
     const handleSearch = async (e) => {
         e.preventDefault()
 
+        //verificando se a string é vazia, se contem apenas espaços em branco, se possui caracteres especias  
+        if (
+            (search.trim().length === 0) ||
+            (/^[^\w\s]+$/.test(search))
+        ) return
+
         if (url === '/admin/membros' || url.startsWith('/admin/membros/pesquisar')) {
             await handleSearchColaborador(search)
-            if(url === '/admin/membros') navigate('/admin/membros/pesquisar/' + search)
+            if (url === '/admin/membros') navigate('/admin/membros/pesquisar/' + search)
         }
         else if (url === '/admin/clientes' || url.startsWith('/admin/clientes/pesquisar')) {
             await handleSearchCliente(search)
