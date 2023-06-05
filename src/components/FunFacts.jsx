@@ -1,13 +1,10 @@
-import { useState } from 'react'
+import homeZustand from '../zustand/home'
 
 import './FunFacts.css'
 
 const FunFacts = () => {
-    const [ experienceOfwork, setExperienceOfWork ] = useState(945)
-    const [goodFeedOfClients, setGoodFeedOfClients ] = useState(1280)
-    const [ projectsDone, setProjectsDone ] = useState(578)
-    const [ members, setMembers ] = useState(26)
-    
+    const { members, clients, tasksFinished, clientsLogo } = homeZustand(state => state);
+
     return(
         <div className="fun-facts">
             <div className="container">
@@ -20,13 +17,13 @@ const FunFacts = () => {
                     </div>
                     <div className="col-md-3 col-6">
                         <div className="count-area-content">
-                            <div className="count-digit">{projectsDone}</div>
+                            <div className="count-digit">{tasksFinished}</div>
                             <div className="count-title">Projetos Concluídos</div>
                         </div>
                     </div>
                     <div className="col-md-3 col-6">
                         <div className="count-area-content">
-                            <div className="count-digit">{goodFeedOfClients}</div>
+                            <div className="count-digit">{clients}</div>
                             <div className="count-title">Clientes</div>
                         </div>
                     </div>

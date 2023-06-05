@@ -42,19 +42,19 @@ const Carousel = () => {
                 </div>
             </div>
             <div className="d-flex container-slider-logo m-0 row">
-                <div className="m-0 col-3 box-logo">
-                    <img className='logo-client' src={client5} alt="" />
-                </div>
-                <div className="m-0 col-3 box-logo">
-                    <img className='logo-client' src={client6} alt="" />
-                </div>
-                <div className="m-0 col-3 box-logo">
-                    <img className='logo-client' src={client7} alt="" />
-                </div>
-                <div className="m-0 col-3 box-logo">
-                    <img className='logo-client' src={client8} alt="" />
-                </div>
+            <div className="m-0 col-3 box-logo">
+                <img className='logo-client' src={client5} alt="" />
             </div>
+            <div className="m-0 col-3 box-logo">
+                <img className='logo-client' src={client6} alt="" />
+            </div>
+            <div className="m-0 col-3 box-logo">
+                <img className='logo-client' src={client7} alt="" />
+            </div>
+            <div className="m-0 col-3 box-logo">
+                <img className='logo-client' src={client8} alt="" />
+            </div>
+        </div>
         </Slider>
     );
 };

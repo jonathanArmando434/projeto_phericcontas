@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
+import homeZustand from '../zustand/home'
 
 import '../assets/bootstrap/css/bootstrap.min.css'
 import '../assets/css/fontawesome.css'
@@ -25,8 +26,16 @@ const Home = () => {
     const moreInfoRef = useRef(null)
     const contactUsRef = useRef(null)
 
+    const { members, clients, tasksFinished, clientsLogo, getPubliicInfo } = homeZustand(state => state);
+
     useEffect(() => {
-        setTimeout(() => setStopLoading(true), 300)
+        try {
+            getPubliicInfo()
+        } catch (error) {
+            console.log(error)
+        }finally{
+            setStopLoading(true)
+        }
     })
 
     return !stopLoading ? <Loading /> : (
