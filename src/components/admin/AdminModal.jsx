@@ -84,7 +84,11 @@ const AdminModal = () => {
 
     const handleonClickMember = (index) => {
         let aux = [...members]
-        aux[index].select = !aux[index].select
+
+        const select = aux[index].select
+
+        aux[index].select = !select
+
         if (aux[index].select === true) {
             setIdResponsavel(aux[index]._id)
 
@@ -102,7 +106,11 @@ const AdminModal = () => {
 
     const handleonClickClient = (index) => {
         let aux = [...clients]
-        aux[index].select = !aux[index].select
+
+        const select = aux[index].select
+
+        aux[index].select = !select
+
         if (aux[index].select === true) {
             setIdCliente(aux[index]._id)
 
@@ -122,14 +130,12 @@ const AdminModal = () => {
         const res = await api.get(api_url)
         const dados = res.data
 
-        if (dados.foto_url) setHasPhoto(dados.foto_url)
-
         const auxDados = []
 
         dados.forEach(value => {
             if (value.nome !== 'Phericcontas'
                 && value.cargo !== 'PCA'
-                && value.cargo !== 'Gerente') auxDados.unshift({ ...value, select: false })
+                && value.cargo !== 'Gerente') auxDados.push({ ...value, select: false })
         })
 
         auxDados.forEach((value, index) => {
@@ -143,19 +149,15 @@ const AdminModal = () => {
         const res = await api.get(api_url)
         const dados = res.data
 
-        if (dados.foto_url) setHasLogo(dados.foto_url)
-
         const auxDados = []
 
         dados.forEach(value => {
-            auxDados.unshift({ ...value, select: false })
+            auxDados.push({ ...value, select: false })
         })
 
         auxDados.forEach((value, index) => {
-            if (value._id === id_cliente) handleonClickMember(index)
+            if (value._id === id_cliente) handleonClickClient(index)
         })
-
-        setClients(auxDados)
     }
 
     useEffect(() => {

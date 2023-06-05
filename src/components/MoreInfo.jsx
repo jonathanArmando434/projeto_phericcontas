@@ -24,7 +24,7 @@ const MoreInfo = ({ moreInfoRef }) => {
                                         <p>
                                             A Phericcontas, Lda, surgiu no mercado angolano desde 2009,
                                             prestando serviços nas áreas de Contabilidade, Fiscalidade,
-                                            Auditoria, e Recursos Humanos. Há mais de 12 anos que
+                                            Auditoria, e Recursos Humanos. Há mais de {new Date().getFullYear() - 2010} anos que
                                             apoiamos às Micro, Pequenas e Médias Empresas a
                                             desenvolverem as suas actividades financeiras e económicas.
                                         </p>

@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const settings = {
-    dots: true,
+    dots: false,
     arrows: true,
     infinite: true,
     speed: 500,

@@ -7,3 +7,8 @@
     max-width: 26rem;
     min-width: 26rem;
 }
+
+.logo-app{
+    border-radius: 50%;
+    margin-right: 3%;
+}

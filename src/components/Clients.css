@@ -69,6 +69,22 @@
 	margin: 2.5rem auto 0 auto;
 }
 
+div.container-slider-logo{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* div.container-slider-logo div.box-logo{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+} */
+
+img.logo-client{
+	max-width: 15.6rem;
+}
+
 @media (max-width: 425px){
 	.partners.testimonials{
 		margin-top: 7rem;

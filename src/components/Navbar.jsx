@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 
 import './Navbar.css'
 
+import logoPheric from '../assets/admin/img/icons/logo-pheric.png'
+
 const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
     // const [scrollWaited, setScrollWaited] = useState(false)
     const [current, setCurrent] = useState('')
@@ -42,7 +44,8 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
         <header className={'background-header'}>
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
-                    <a className="navbar-brand" href="#">
+                    <a className="navbar-brand">
+                        <img src={logoPheric} alt="phericcontas" className="logo-app" />
                         <h2>Phericcontas</h2>
                     </a>
                     <button

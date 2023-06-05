@@ -62,6 +62,21 @@ button[id="btn-search"] {
     max-height: 87%;
 }
 
+/* start modal update photo*/
+
+.admin-modal-content .admin-content-update-photo {
+    padding: 2rem 14rem;
+    height: 90%;
+}
+
+.admin-update-img>label img.admin-photo {
+    /* max-height: 40.872rem; */
+    max-height: 85%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* end modal update photo*/
+
 .admin-card-selected {
     background-color: #1F5B95;
     padding: 0.4rem;
@@ -69,6 +84,24 @@ button[id="btn-search"] {
 
 .admin-card-selected>.admin-card-content {
     border: none;
+}
+
+a.btn-cancel {
+    padding: 1rem;
+    background-color: transparent;
+    border: none;
+    color: #1F5B95;
+    transition: all .6s;
+
+}
+
+a.btn-cancel:hover {
+    background-color: #ced4da;
+    color: #1F5B95;
+}
+
+a.btn-update {
+    padding: 1rem;
 }
 
 /* The Close Button */

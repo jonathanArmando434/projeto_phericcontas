@@ -6,6 +6,8 @@ import { FaRegHandshake } from 'react-icons/fa'
 import { HiOutlineDocumentReport } from 'react-icons/hi'
 import { GiMoneyStack } from 'react-icons/gi'
 
+import logoPheric from '../../assets/admin/img/icons/logo-pheric.png' 
+
 import './SideBar.css'
 
 const SideBar = () => {
@@ -15,6 +17,7 @@ const SideBar = () => {
             <nav id="sidebar" className="admin-sidebar admin-js-sidebar">
                 <div className="admin-sidebar-content admin-js-simplebar">
                     <Link to="/admin" className="admin-sidebar-brand">
+                        <img src={logoPheric} alt="phericcontas" className="logo-app" />
                         <span className="admin-align-middle">PHERICCONTAS</span>
                     </Link>
                     <ul className="admin-sidebar-nav">

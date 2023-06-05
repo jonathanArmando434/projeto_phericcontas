@@ -14,6 +14,8 @@ import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 import PageTitle from '../../components/admin/PageTitle'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
 import ChartColumnDesempenho from '../../components/admin/ChartColumnDesempenho'
+import MinLoading from '../../components/admin/MinLoading'
+import AdminModalUpdatePhoto from '/src/components/admin/AdminModalUpdatePhoto'
 
 const Dashboard = () => {
     const apiUrl = import.meta.env.VITE_API_URL
@@ -32,35 +34,13 @@ const Dashboard = () => {
     const [total, setTotal] = useState({})
     const [monthlyPerformance, setMonthlyPerformance] = useState([])
     const [year, setYear] = useState(new Date().getUTCFullYear())
+    const [open, setOpen] = useState(false)
 
     const { id } = useParams()
-    const { about } = useParams()
 
     const inputFileRef = useRef(null)
 
     const { changeLoading } = loginZustand(state => state)
-
-    const handleClickUpdatePhoto = () => {
-        inputFileRef.current.click()
-    }
-
-    const handleFileSelect = async (e) => {
-        try {
-            const selectedFile = e.target.files[0];
-            const formData = new FormData();
-            formData.append("file", selectedFile);
-            const res = await api.patch(`/cliente/update-photo/${member._id}`, formData)
-            const { message, result } = res.data
-            if (message === 'Imagem do colaborador atualizado com sucesso!') {
-                setMember(result)
-                alert('Imagem do colaborador atualizado com sucesso!')
-            }
-            else alert('Houve um erro, tente novamente!')
-        } catch (error) {
-            console.log(error)
-            alert('Imagem do colaborador atualizado com sucesso!')
-        }
-    }
 
     const getDadosAboutReport = async () => {
         try {
@@ -122,11 +102,9 @@ const Dashboard = () => {
         }
     }
 
-    const getMember = async (api_url) => {
-        const res = await api.get(api_url)
+    const getMember = async () => {
+        const res = await api.get('/colaborador/' + id)
         const dados = res.data
-
-        if (dados.foto_url) setHasPhoto(dados.foto_url)
 
         setMember(dados)
     }
@@ -229,7 +207,7 @@ const Dashboard = () => {
                                                 width="248"
                                                 height="248"
                                             />
-                                            <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
+                                            <a onClick={() => setOpen(!open)} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
                                         </div>
                                         <h5 className="admin-card-title admin-mt-4">{member.nome || 'Nome Completo'}</h5>
                                         <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
@@ -290,6 +268,13 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div >
+
+                    <AdminModalUpdatePhoto
+                        open={open}
+                        setOpen={setOpen}
+                        id={id}
+                        getAssociateUpdated={getMember}
+                    />
                 </div>
             </div>
         </main>

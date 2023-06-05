@@ -18,6 +18,8 @@ import clientNoLogo from '/src/assets/admin/img/icons/client-no-logo.png'
 import ChartColumnDesempenho from '../../components/admin/ChartColumnDesempenho'
 import TaskIndicator from '../../components/admin/ TaskIndicator'
 import PageTitle from '../../components/admin/PageTitle'
+import MinLoading from '../../components/admin/MinLoading'
+import AdminModalUpdatePhoto from '/src/components/admin/AdminModalUpdatePhoto'
 
 const Dashboard = () => {
     const apiUrl = import.meta.env.VITE_API_URL
@@ -36,6 +38,7 @@ const Dashboard = () => {
     const [finishedWithDelay, setFinishedWithDelay] = useState({})
     const [total, setTotal] = useState({})
     const [monthlyPerformance, setMonthlyPerformance] = useState([])
+    const [open, setOpen] = useState(false)
 
     const [title, setTitle] = useState('Informações do colaborador')
     const [year, setYear] = useState(new Date().getUTCFullYear())
@@ -48,28 +51,6 @@ const Dashboard = () => {
     const inputFileRef = useRef(null)
 
     const { changeLoading } = loginZustand(state => state)
-
-    const handleClickUpdatePhoto = () => {
-        inputFileRef.current.click()
-    }
-
-    const handleFileSelect = async (e) => {
-        try {
-            const selectedFile = e.target.files[0];
-            const formData = new FormData();
-            formData.append("file", selectedFile);
-            const res = await api.patch(`/cliente/update-photo/${member._id}`, formData)
-            const { message, result } = res.data
-            if (message === 'Imagem do colaborador atualizado com sucesso!') {
-                setMember(result)
-                alert('Imagem do colaborador atualizado com sucesso!')
-            }
-            else alert('Houve um erro, tente novamente!')
-        } catch (error) {
-            console.log(error)
-            alert('Imagem do colaborador atualizado com sucesso!')
-        }
-    }
 
     const getDadosAboutReport = async () => {
         try {
@@ -131,10 +112,9 @@ const Dashboard = () => {
         }
     }
 
-    const getClient = async (api_url) => {
-        const res = await api.get(api_url)
+    const getClient = async () => {
+        const res = await api.get('/cliente/' + id)
         const dados = res.data
-        console.log(dados.foto_url)
 
         if (dados.foto_url) setHasPhoto(`${apiUrl}/${dados.foto_url}`)
 
@@ -171,7 +151,6 @@ const Dashboard = () => {
     const getContato = async () => {
         const res = await api.get('/contato-cliente/' + id)
         const dados = res.data
-        console.log(dados)
 
         setContato(dados)
     }
@@ -258,9 +237,8 @@ const Dashboard = () => {
                                                 type="file"
                                                 accept="image/*"
                                                 style={{ display: "none" }}
-                                                onChange={handleFileSelect}
                                             />
-                                            <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn-cli"><MdOutlineCameraAlt /></a>
+                                            <a onClick={() => setOpen(!open)} className="admin-update-photo-btn-cli"><MdOutlineCameraAlt /></a>
                                         </div>
                                         <h5 className="admin-card-title admin-mt-4">{client.nome || 'Nome Completo'}</h5>
                                         <div className="admin-text-muted admin-mb-4">{client.area_negocio || 'Área de Negócio'}</div>
@@ -378,6 +356,13 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div >
+
+                    <AdminModalUpdatePhoto
+                        open={open}
+                        setOpen={setOpen}
+                        id={id}
+                        getAssociateUpdated={getClient}
+                    />
                 </div>
             </div>
         </main>

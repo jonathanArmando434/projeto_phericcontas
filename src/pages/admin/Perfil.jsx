@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { BiEdit } from 'react-icons/bi'
 import { FaRegAddressCard } from 'react-icons/fa'
-import { MdOutlineDateRange, MdOutlineCameraAlt , MdOutlineSchool, MdOutlinePlace, MdOutlineVpnKey } from 'react-icons/md'
+import { MdOutlineDateRange, MdOutlineCameraAlt, MdOutlineSchool, MdOutlinePlace, MdOutlineVpnKey } from 'react-icons/md'
 import { RiBankLine } from 'react-icons/ri'
 import { TbPhone, TbLanguage, TbGenderFemale, TbGenderMale } from 'react-icons/tb'
 import { HiOutlineMail } from 'react-icons/hi'
@@ -13,18 +13,20 @@ import './Perfil.css'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
 
-const Member = () => {
+import MinLoading from '../../components/admin/MinLoading'
+import AdminModalUpdatePhoto from '/src/components/admin/AdminModalUpdatePhoto'
+
+const Perfil = () => {
     const apiUrl = import.meta.env.VITE_API_URL
 
     const [navPerfil, setNavPerfil] = useState('geral')
     const [member, setMember] = useState({})
     const [contato, setContato] = useState({})
-    const [user, setUser] = useState({})
-    const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
+    const [open, setOpen] = useState(false)
 
     let { id } = useParams()
 
-    const inputFileRef = useRef(null)
+    // const inputFileRef = useRef(null)
 
     let isUser = true
     if (id) isUser = false
@@ -33,33 +35,36 @@ const Member = () => {
 
     if (!id) id = userLogado.id_colaborador
 
-    const handleClickUpdatePhoto = () => {
-        inputFileRef.current.click()
-    }
+    // const handleClickUpdatePhoto = () => {
+    //     inputFileRef.current.click()
+    // }
 
-    const handleFileSelect = async (e) => {
-        try {
-            const selectedFile = e.target.files[0];
-            const formData = new FormData();
-            formData.append("file", selectedFile);
-            const res = await api.patch(`/colaborador/update-photo/${member._id}`, formData)
-            const { message, result } = res.data
-            if (message === 'Imagem do colaborador atualizado com sucesso!') {
-                setMember(result)
-                alert('Imagem do colaborador atualizado com sucesso!')
-            }
-            else alert('Houve um erro, tente novamente!')
-        } catch (error) {
-            console.log(error)
-            alert('Imagem do colaborador atualizado com sucesso!')
-        }
-    }
+    // const handleFileSelect = async (e) => {
+    //     changeLoading()
+    //     try {
+    //         const selectedFile = e.target.files[0];
+    //         const formData = new FormData();
+    //         formData.append("file", selectedFile);
+    //         const res = await api.patch(`/colaborador/update-photo/${member._id}`, formData)
+    //         const { message, result } = res.data
+    //         if (message === 'Imagem do colaborador atualizado com sucesso!') {
+    //             setMember(result)
+    //             alert('Imagem do colaborador atualizado com sucesso!')
+    //         }
+    //         else alert('Houve um erro, tente novamente!')
+    //     } catch (error) {
+    //         console.log(error)
+    //         alert('Imagem do colaborador atualizado com sucesso!')
+    //     } finally {
+    //         changeLoading()
+    //     }
+    // }
 
     const getMember = async () => {
         const res = await api.get('/colaborador/' + id)
         const dados = res.data
 
-        let aux = { ...dados }
+        const aux = { ...dados }
         aux.data_nasc = (new Date(dados.data_nasc.split('T')[0]).toLocaleDateString())
 
         setMember(aux)
@@ -77,7 +82,7 @@ const Member = () => {
         getContato()
     }, [])
 
-    return (
+    return (loading ? <MinLoading /> : (
         <main className="admin-member admin-content admin-bg-fff">
             <div className="admin-container-fluid admin-p-0">
                 <div className="admin-perfil admin-row">
@@ -94,14 +99,7 @@ const Member = () => {
                                                     className="admin-perfil-photo admin-rounded-circle admin-mb-2 admin-no-photo" width="248"
                                                     height="248"
                                                 />
-                                                <input
-                                                    ref={inputFileRef}
-                                                    type="file"
-                                                    accept="image/*"
-                                                    style={{ display: "none" }}
-                                                    onChange={handleFileSelect}
-                                                />
-                                                <a onClick={handleClickUpdatePhoto} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
+                                                <a onClick={() => setOpen(!open)} className="admin-update-photo-btn"><MdOutlineCameraAlt /></a>
                                             </div>
                                             <h5 className="admin-card-title admin-mb-0 admin-mt-3">{member.nome || 'Nome'}</h5>
                                             <div className="admin-text-muted admin-mb-2">{member.cargo || 'Cargo'}</div>
@@ -138,7 +136,7 @@ const Member = () => {
                                         <div className="admin-col-8 admin-p-4">
                                             <div className="admin-row">
                                                 <div className={navPerfil === 'geral' ? "admin-col-12" : "admin-col-12 admin-d-none"}>
-                                                <div className="admin-perfil-item">
+                                                    <div className="admin-perfil-item">
                                                         <div className="admin-d-flex">
                                                             <MdOutlineVpnKey />
                                                             <div>
@@ -247,20 +245,23 @@ const Member = () => {
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
+                                <AdminModalUpdatePhoto
+                                    open={open}
+                                    setOpen={setOpen}
+                                    id={id}
+                                    getAssociateUpdated={getMember}
+                                />
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-
-
         </main>
-    )
+    ))
 }
 
-export default Member
+export default Perfil
