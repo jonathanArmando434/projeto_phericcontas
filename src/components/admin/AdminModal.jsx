@@ -5,16 +5,16 @@ import searchZustand from '../../zustand/search'
 import taskZustand from '../../zustand/task'
 
 import userNoPhoto from '/src/assets/admin/img/avatars/user-no-photo.png'
-import clientIMG from '../../assets/admin/img/icons/client-02.jpeg'
+import clientIMG from '../../assets/admin/img/icons/client-no-logo.png'
 
 import './AdminModal.css'
 
 import ModalLoading from './ModalLoading'
 
 const AdminModal = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
+
     const [search, setSearch] = useState('')
-    const [hasPhoto, setHasPhoto] = useState(userNoPhoto)
-    const [hasLogo, setHasLogo] = useState(clientIMG)
     const [loadingToModal, setLoadingToModal] = useState(false)
     const [isSearch, setIsSearch] = useState(false)
     const [title, setTitle] = useState('')
@@ -158,6 +158,8 @@ const AdminModal = () => {
         auxDados.forEach((value, index) => {
             if (value._id === id_cliente) handleonClickClient(index)
         })
+
+        setClients(auxDados)
     }
 
     useEffect(() => {
@@ -235,8 +237,8 @@ const AdminModal = () => {
                                                         <div className="admin-card-content">
                                                             <img
                                                                 className="admin-card-img-top admin-card-img-member"
-                                                                src={hasPhoto}
-                                                                alt="Unsplash"
+                                                                src={member.foto_url ? `${apiUrl}/${member.foto_url}` : userNoPhoto}
+                                                                alt={member.nome}
                                                                 width="276"
                                                                 height="276"
                                                             />
@@ -264,8 +266,8 @@ const AdminModal = () => {
                                                         <div className="admin-card-content">
                                                             <img
                                                                 className="admin-card-img-top admin-card-img-client"
-                                                                src={hasLogo}
-                                                                alt="Unsplash"
+                                                                src={client.foto_url ? `${apiUrl}/${client.foto_url}` : clientIMG}
+                                                                alt={client.nome}
                                                                 max-width="276"
                                                                 height="138"
                                                             />
@@ -295,8 +297,8 @@ const AdminModal = () => {
                                                         <div className="admin-card-content">
                                                             <img
                                                                 className="admin-card-img-top admin-card-img-member"
-                                                                src={hasPhoto}
-                                                                alt="Unsplash"
+                                                                src={member.foto_url ? `${apiUrl}/${member.foto_url}` : userNoPhoto}
+                                                                alt={member.nome}
                                                                 width="276"
                                                                 height="276"
                                                             />
@@ -324,8 +326,8 @@ const AdminModal = () => {
                                                         <div className="admin-card-content">
                                                             <img
                                                                 className="admin-card-img-top admin-card-img-client"
-                                                                src={hasLogo}
-                                                                alt="Unsplash"
+                                                                src={client.foto_url ? `${apiUrl}/${client.foto_url}` : clientIMG}
+                                                                alt={client.nome}
                                                                 max-width="276"
                                                                 height="138"
                                                             />
