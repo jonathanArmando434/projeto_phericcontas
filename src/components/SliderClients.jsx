@@ -29,6 +29,20 @@ const Carousel = () => {
         <Slider {...settings}>
             <div className="d-flex container-slider-logo m-0 row">
                 <div className="m-0 col-3 box-logo">
+                    <img className='logo-client' src={client5} alt="" />
+                </div>
+                <div className="m-0 col-3 box-logo">
+                    <img className='logo-client' src={client6} alt="" />
+                </div>
+                <div className="m-0 col-3 box-logo">
+                    <img className='logo-client' src={client7} alt="" />
+                </div>
+                <div className="m-0 col-3 box-logo">
+                    <img className='logo-client' src={client8} alt="" />
+                </div>
+            </div>
+            <div className="d-flex container-slider-logo m-0 row">
+                <div className="m-0 col-3 box-logo">
                     <img className='logo-client' src={client1} alt="" />
                 </div>
                 <div className="m-0 col-3 box-logo">
@@ -41,20 +55,6 @@ const Carousel = () => {
                     <img className='logo-client' src={client4} alt="" />
                 </div>
             </div>
-            <div className="d-flex container-slider-logo m-0 row">
-            <div className="m-0 col-3 box-logo">
-                <img className='logo-client' src={client5} alt="" />
-            </div>
-            <div className="m-0 col-3 box-logo">
-                <img className='logo-client' src={client6} alt="" />
-            </div>
-            <div className="m-0 col-3 box-logo">
-                <img className='logo-client' src={client7} alt="" />
-            </div>
-            <div className="m-0 col-3 box-logo">
-                <img className='logo-client' src={client8} alt="" />
-            </div>
-        </div>
         </Slider>
     );
 };

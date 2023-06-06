@@ -16,7 +16,6 @@ const Tasks = () => {
     const [tasks, setTasks] = useState([])
     const [responsavel, setResponsavel] = useState([])
     const [cliente, setCliente] = useState([])
-    const [stopLoading, setStopLoading] = useState(false)
 
     const { loading, changeLoading } = loginZustand(state => state)
 
@@ -114,7 +113,6 @@ const Tasks = () => {
             getClient()
             getTasks()
         } finally {
-            setStopLoading(true)
             changeLoading()
         }
     }, [])
@@ -125,7 +123,7 @@ const Tasks = () => {
                 <div className="admin-row">
                     <PageTitle title={'Lista de tarefas'} btnText={'Adicionar Tarefa'} BtnIcon={TbClipboardPlus} link={true} path={"/admin/tarefa/adicionar"} />
 
-                    {loading || !stopLoading ? <MinLoading /> : (
+                    {loading ? <MinLoading /> : (
                         <>
                             <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
                                 <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>

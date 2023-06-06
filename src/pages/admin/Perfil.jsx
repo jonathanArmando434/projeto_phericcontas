@@ -26,39 +26,12 @@ const Perfil = () => {
 
     let { id } = useParams()
 
-    // const inputFileRef = useRef(null)
-
     let isUser = true
     if (id) isUser = false
 
     const { loading, userLogado, changeLoading } = loginZustand(state => state)
 
     if (!id) id = userLogado.id_colaborador
-
-    // const handleClickUpdatePhoto = () => {
-    //     inputFileRef.current.click()
-    // }
-
-    // const handleFileSelect = async (e) => {
-    //     changeLoading()
-    //     try {
-    //         const selectedFile = e.target.files[0];
-    //         const formData = new FormData();
-    //         formData.append("file", selectedFile);
-    //         const res = await api.patch(`/colaborador/update-photo/${member._id}`, formData)
-    //         const { message, result } = res.data
-    //         if (message === 'Imagem do colaborador atualizado com sucesso!') {
-    //             setMember(result)
-    //             alert('Imagem do colaborador atualizado com sucesso!')
-    //         }
-    //         else alert('Houve um erro, tente novamente!')
-    //     } catch (error) {
-    //         console.log(error)
-    //         alert('Imagem do colaborador atualizado com sucesso!')
-    //     } finally {
-    //         changeLoading()
-    //     }
-    // }
 
     const getMember = async () => {
         const res = await api.get('/colaborador/' + id)

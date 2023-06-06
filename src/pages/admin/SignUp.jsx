@@ -75,39 +75,45 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const signupDatas = {
-            password,
-            confirmPassword,
-            id_colaborador
+        try {
+            const signupDatas = {
+                password,
+                confirmPassword,
+                id_colaborador
+            }
+
+            const canPost = await verifyDatas(signupDatas)
+            if (!canPost) {
+                setMessage(errorMsg)
+                errorMsg = ''
+                return
+            }
+
+            changeLoading()
+
+            const msg = await handleSignup(signupDatas)
+
+            if (msg === 'Usuário inserido no sistema com sucesso!') {
+                const res = await api.get(`/contato-colaborador/${id_colaborador}`)
+                const { email } = res.data
+                const msgLogin = await handleLogin(
+                    {
+                        email,
+                        password,
+                    }, 'noChecked')
+
+                console.log(msgLogin + ' - msgLogin')
+
+                if (msgLogin === 'Autenticação realizada com sucesso!') navigate('/admin')
+            }
+
+            else if (typeof msg === 'string'
+                && msg !== 'Usuário inserido no sistema com sucesso!'
+                && msg !== 'Houve um erro no servidor, tenta novamente!') setMessage(msg)
+            else alert('Erro no servidor, tente novamente!')
+        } finally {
+            changeLoading()
         }
-
-        const canPost = await verifyDatas(signupDatas)
-        if (!canPost) {
-            setMessage(errorMsg)
-            errorMsg = ''
-            return
-        }
-
-        changeLoading()
-
-        const msg = await handleSignup(signupDatas)
-
-        changeLoading()
-
-        if (msg === 'Usuário inserido no sistema com sucesso!') {
-            const msgLogin = await handleLogin(
-                {
-                    password,
-                    id_colaborador
-                }, 'noChecked')
-
-            if (msgLogin === 'Autenticação realizada com sucesso!') navigate('/admin')
-        }
-
-        else if (typeof msg === 'string'
-            && msg !== 'Usuário inserido no sistema com sucesso!'
-            && msg !== 'Houve um erro no servidor, tenta novamente!') setMessage(msg)
-        else alert('Erro no servidor, tente novamente!')
     }
 
     const handleSignup = async (signupDatas) => {

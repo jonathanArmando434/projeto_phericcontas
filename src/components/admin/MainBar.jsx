@@ -5,25 +5,38 @@ import { BiSearch, BiUserCircle } from 'react-icons/bi'
 import { MdOutlineLogout } from 'react-icons/md'
 import loginZustand from '../../zustand/login'
 import searchZustand from '../../zustand/search'
+import api from '../../axios/api'
 
 import avatar from '../../assets/admin/img/avatars/user-no-photo.png'
 
 import './MainBar.css'
 
 const MainBar = () => {
+    const apiUrl = import.meta.env.VITE_API_URL
+
     const [showUser, setShowUser] = useState('')
     const [showNotification, setShowNotification] = useState('')
     const [displayed, setDisplayed] = useState(false)
     const [about, setAbout] = useState('')
     const [search, setSearch] = useState('')
+    const [member, setMember] = useState({})
 
     const location = useLocation()
     const url = location.pathname
 
     const navigate = useNavigate()
 
-    const { handleLogout } = loginZustand(state => state)
+    const { userLogado, handleLogout } = loginZustand(state => state)
     const { handleSearchColaborador, handleSearchCliente } = searchZustand(state => state)
+
+    const id = userLogado.id_colaborador
+
+    const getMember = async () => {
+        const res = await api.get('/colaborador/' + id)
+        const dados = res.data
+        setMember(dados)
+        console
+    }
 
     const handleSearch = async (e) => {
         e.preventDefault()
@@ -67,6 +80,8 @@ const MainBar = () => {
     }, [url])
 
     useEffect(() => {
+        getMember()
+
         document.addEventListener("click", handleClick);
         return () => {
             document.removeEventListener("click", handleClick);
@@ -184,7 +199,7 @@ const MainBar = () => {
                             id='user'
                         >
                             <img
-                                src={avatar}
+                                src={member.foto_url ? `${apiUrl}/${member.foto_url}` : avatar} 
                                 className="admin-avatar admin-img-fluid admin-rounded admin-me-1"
                                 alt="Usuário"
                                 id='user-img'

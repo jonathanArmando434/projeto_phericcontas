@@ -25,7 +25,6 @@ const Dashboard = () => {
 
     const getDados = async () => {
         try {
-            changeLoading()
             const res = await api.get(`/tarefa/AnnualReport/${year}`)
             const dados = res.data
             setFinished(dados.finished)
@@ -37,19 +36,26 @@ const Dashboard = () => {
         } catch (error) {
             console.log(error)
             alert('Houve um erro, tente novamente!')
-        } finally {
-            setStopLoading(true)
-            changeLoading()
-        }
+        } 
     }
 
     const handleSunmit = async (e) => {
         e.preventDefault()
-        getDados()
+        try {
+            changeLoading()
+            getDados()
+        } finally {
+            changeLoading()
+        }
     }
 
     useEffect(() => {
-        getDados()
+        try {
+            changeLoading()
+            getDados()
+        } finally {
+            changeLoading()
+        }
     }, [])
 
     return (
@@ -64,7 +70,7 @@ const Dashboard = () => {
                         setYear={setYear}
                     />
 
-                    {loading || !stopLoading ? <MinLoading /> : (
+                    {loading ? <MinLoading /> : (
                         <div className="admin-row admin-mt-4">
                             <TaskIndicator
                                 title={'Tarefas finalizadas'}

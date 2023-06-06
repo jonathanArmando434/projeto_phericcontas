@@ -11,7 +11,6 @@ const PrivateRoute = ({ children }) => {
         if (token) {
             changeAuthenticated(true)
             api.defaults.headers.authorization = `Bearer ${token}`
-            console.log("existe!")
         }
     }, [])
 
