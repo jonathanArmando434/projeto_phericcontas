@@ -9,6 +9,8 @@ const ContactUs = ({ contactUsRef }) => {
     const [email, setEmail] = useState('');
     const [assunto, setAssunto] = useState('');
     const [mensagem, setMensagem] = useState('');
+    const [msg, setMsg] = useState('')
+    const [allRight, setAllRight] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,55 +20,22 @@ const ContactUs = ({ contactUsRef }) => {
 
             const res = await api.post('/public/email', dados)
             const { message } = res.data
-            alert(message)
+            setMsg(message)
+            setAllRight(true)
         } catch (error) {
             console.log(error)
-            alert('Erro ao enviar e-mail, tente novamente!')
+            setMsg('Erro ao enviar e-mail, tente novamente!')
+        }finally{
+            setTimeout(() => {
+                setAllRight(false)
+                setMsg('')
+            }, 5000)
         }
     }
 
     return (
         <div className="contact-information callback-form" id="contactus" ref={contactUsRef}>
             <div className="container">
-                {/* <div className="row">
-                    <div className="col-md-12">
-                        <div className="section-heading">
-                            <h2 className='phone-size'>
-                                Entre em contato <em>Connosco</em>
-                            </h2>
-                            <span>
-                                Estamos aqui para atender suas necessidades. Contate-nos!
-                            </span>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="contact-item">
-                        <TbPhone />
-                            <h4>Telefone</h4>
-                            <p>
-                                +244 928 086 604
-                            </p>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="contact-item">
-                            <i className="fa fa-envelope" />
-                            <h4>Email</h4>
-                            <p>
-                                pc.contabilidade012@hotmail.com
-                            </p>
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="contact-item">
-                            <i className="fa fa-map-marker" />
-                            <h4>Loalização</h4>
-                            <p>
-                                Avenida comandante Valódia nº 236
-                            </p>
-                        </div>
-                    </div>
-                </div> */}
                 <div id="contactus-form">
                     <div className="row contact-form d-flex" style={{ justifyContent: 'space-around' }} id="call-back-form">
                         <div className="col-md-5">
@@ -82,9 +51,11 @@ const ContactUs = ({ contactUsRef }) => {
 
                             </div>
                         </div>
-                        {/* <div className='col-md-2' /> */}
                         <div className="col-md-5">
                             <form id="contact" onSubmit={handleSubmit}>
+                                {msg && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>
+                                    <p style={allRight ? {color: 'rgb(0, 104, 74)'} : { color: 'rgb(91, 0, 0)' }}>{msg}</p>
+                                </div>}
                                 <div className="row">
                                     <div className="col-lg-12 col-md-12 col-sm-12">
                                         <fieldset>
@@ -107,7 +78,6 @@ const ContactUs = ({ contactUsRef }) => {
                                                 type="text"
                                                 className="form-control"
                                                 id="email"
-                                                pattern="[^ @]*@[^ @]*"
                                                 placeholder="Endereço de e-mail"
                                                 required=""
                                                 value={email}
