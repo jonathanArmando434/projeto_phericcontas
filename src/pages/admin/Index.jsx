@@ -11,8 +11,6 @@ import Loading from '../../components/Loading'
 import loginZustand from '../../zustand/login'
 
 const Index = () => {
-    const {loading} = loginZustand(state => state)
-
     const arrowUp = useRef(null)
     return (
         <div className="admin" ref={arrowUp}>

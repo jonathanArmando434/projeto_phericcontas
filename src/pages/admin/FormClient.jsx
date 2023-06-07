@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom'
 import { IoMdAddCircleOutline } from 'react-icons/io'
 import { AiOutlinePicture } from 'react-icons/ai'
 import clienteZustand from '../../zustand/cliente'
-import loginZustand from '../../zustand/login'
 import api from '../../axios/api'
 
 import './FormClient.css'
 
 import PageTitle from '../../components/admin/PageTitle'
+import MinLoading from '../../components/admin/MinLoading'
 
 const FormClient = () => {
     const [data_inicio, setData_inicio] = useState('')
@@ -33,7 +33,7 @@ const FormClient = () => {
 
     const { message, allRight, createCliente, editCliente, cleanMessage, cleanAllRight } = clienteZustand(state => state)
 
-    const { loading, changeLoading } = loginZustand(state => state)
+    const [loading, setLoading] = useState(true)
 
     let localAux = []
     let telefoneAux = []
@@ -134,44 +134,50 @@ const FormClient = () => {
             }
             return localizacao
         })
-        
+
         return aux_2
     }
 
     const handleSubmit = async e => {
         e.preventDefault()
 
-        const auxTelefone = removeEmptyValue(telefone)
-        setTelefone(auxTelefone)
+        try {
+            setLoading(true)
 
-        const localizacao = generateLocal()
+            const auxTelefone = removeEmptyValue(telefone)
+            setTelefone(auxTelefone)
 
-        cleanMessage()
-        cleanAllRight()
+            const localizacao = generateLocal()
 
-        let client = {
-            file,
-            nif,
-            nome,
-            telefone,
-            email,
-            area_negocio,
-            data_inicio,
-            data_fim,
-            localizacao,
-            status: true
+            cleanMessage()
+            cleanAllRight()
+
+            let client = {
+                file,
+                nif,
+                nome,
+                telefone,
+                email,
+                area_negocio,
+                data_inicio,
+                data_fim,
+                localizacao,
+                status: true
+            }
+
+            if (method === 'post') await createCliente(client)
+            else await editCliente(client, backup, id)
+
+            if (allRight && method === 'post') cleanDatas()
+
+            if (auxTelefone.length === 0) setTelefone([''])
+
+            if (localizacao.length === 0) setLocal([''])
+
+            scrollToTop()
+        } finally {
+            setLoading(false)
         }
-
-        if (method === 'post') await createCliente(client)
-        else await editCliente(client, backup, id)
-
-        if (allRight && method === 'post') cleanDatas()
-
-        if (auxTelefone.length === 0) setTelefone([''])
-
-        if (localizacao.length === 0) setLocal([''])
-
-        scrollToTop()
     }
 
     useEffect(() => {
@@ -189,14 +195,18 @@ const FormClient = () => {
 
 
     useEffect(() => {
-        cleanAllRight()
-        cleanMessage()
-        if (id) {
-            setBtn('Editar')
-            setDisplayed('admin-d-none')
-            setTitlePage('Editar cliente')
-            setMethod('patch')
-            PreparingDatas()
+        try {
+            cleanAllRight()
+            cleanMessage()
+            if (id) {
+                setBtn('Editar')
+                setDisplayed('admin-d-none')
+                setTitlePage('Editar cliente')
+                setMethod('patch')
+                PreparingDatas()
+            }
+        } finally {
+            setLoading(false)
         }
     }, [])
 
@@ -206,169 +216,171 @@ const FormClient = () => {
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
 
-                    <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto admin-p-3 div-form admin-mt-4">
-                        <form className="form-new" onSubmit={handleSubmit}>
-                            {
-                                message && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>
-                                    {message}
+                    {loading ? <MinLoading /> : (
+                        <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto admin-p-3 div-form admin-mt-4">
+                            <form className="form-new" onSubmit={handleSubmit}>
+                                {
+                                    message && <div className={(allRight ? 'admin-msg-success' : 'admin-msg-danger')}>
+                                        {message}
+                                    </div>
+                                }
+                                <div className={noDisplayed ? noDisplayed : "admin-update-img admin-mb-3"}>
+                                    <label className='admin-form-label' htmlFor="picture">
+                                        {
+                                            photo ?
+                                                <img src={photo} alt="logo do cliente" className='admin-logo-cliente' /> :
+                                                <AiOutlinePicture />
+                                        }
+                                        <label className='admin-form-label admin-d-block'>Seleciona uma imagem</label>
+                                        <input type="file" accept='image/*' id='picture' name='picture' onChange={handleOnChangeFile} />
+                                    </label>
                                 </div>
-                            }
-                            <div className={noDisplayed ? noDisplayed : "admin-update-img admin-mb-3"}>
-                                <label className='admin-form-label' htmlFor="picture">
+                                <label className='admin-form-label' htmlFor="nif">NIF</label>
+                                <input
+                                    type="text"
+                                    minLength="9"
+                                    maxLength="9"
+                                    className="admin-form-control admin-mb-3"
+                                    id="nif"
+                                    name="nif"
+                                    placeholder="Informe o NIF do novo cliente"
+                                    value={nif}
+                                    onChange={e => setNif(e.target.value)}
+                                    readOnly={method !== 'post' ? true : false}
+                                />
+                                <label className='admin-form-label' htmlFor="name">Nome</label>
+                                <input
+                                    type="text"
+                                    className="admin-form-control admin-mb-3"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Informe o nome do novo cliente"
+                                    value={nome}
+                                    onChange={e => setNome(e.target.value)}
+                                />
+                                <label className='admin-form-label' htmlFor="area-negocio">Área de Negócio</label>
+                                <input
+                                    type="text"
+                                    className="admin-form-control admin-mb-3"
+                                    id="area-negocio"
+                                    name="area-negocio"
+                                    placeholder="Informe a área de negócio novo cliente"
+                                    value={area_negocio}
+                                    onChange={e => setArea_negocio(e.target.value)}
+                                />
+                                <div>
+                                    <label className='admin-form-label' htmlFor={`phone${telefone.length}`}>Telefone / WhatsApp</label>
                                     {
-                                        photo ?
-                                            <img src={photo} alt="logo do cliente" className='admin-logo-cliente' /> :
-                                            <AiOutlinePicture />
+                                        telefone && (telefone.map((value, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                minLength="9"
+                                                maxLength="9"
+                                                className={
+                                                    (index === (telefone.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
+                                                        "admin-form-control admin-mb-3"
+                                                }
+                                                id={`phone${(index + 1)}`}
+                                                name={`phone${(index + 1)}`}
+                                                placeholder="Informe um número de telefone / WhatsApp"
+                                                value={value}
+                                                onChange={e => {
+                                                    telefoneAux = telefone.map((value, i) => (index === i ? e.target.value : value))
+                                                    setTelefone(telefoneAux)
+                                                }}
+                                            />
+                                        )))
                                     }
-                                    <label className='admin-form-label admin-d-block'>Seleciona uma imagem</label>
-                                    <input type="file" accept='image/*' id='picture' name='picture' onChange={handleOnChangeFile} />
+
+                                    <a href="#" onClick={(e) => {
+                                        e.preventDefault()
+                                        setTelefone([...telefone, ''])
+                                    }}>
+                                        <IoMdAddCircleOutline />
+                                    </a>
+                                </div>
+                                <label className='admin-form-label' htmlFor="email">E-mail</label>
+                                <input
+                                    type="email"
+                                    className="admin-form-control admin-mb-3"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Informe o E-mail principal do novo cliente"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                />
+
+                                <label className='admin-form-label admin-d-block' htmlFor="">
+                                    Contrato
                                 </label>
-                            </div>
-                            <label className='admin-form-label' htmlFor="nif">NIF</label>
-                            <input
-                                type="text"
-                                minLength="9"
-                                maxLength="9"
-                                className="admin-form-control admin-mb-3"
-                                id="nif"
-                                name="nif"
-                                placeholder="Informe o NIF do novo cliente"
-                                value={nif}
-                                onChange={e => setNif(e.target.value)}
-                                readOnly={method !== 'post' ? true : false}
-                            />
-                            <label className='admin-form-label' htmlFor="name">Nome</label>
-                            <input
-                                type="text"
-                                className="admin-form-control admin-mb-3"
-                                id="name"
-                                name="name"
-                                placeholder="Informe o nome do novo cliente"
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
-                            />
-                            <label className='admin-form-label' htmlFor="area-negocio">Área de Negócio</label>
-                            <input
-                                type="text"
-                                className="admin-form-control admin-mb-3"
-                                id="area-negocio"
-                                name="area-negocio"
-                                placeholder="Informe a área de negócio novo cliente"
-                                value={area_negocio}
-                                onChange={e => setArea_negocio(e.target.value)}
-                            />
-                            <div>
-                                <label className='admin-form-label' htmlFor={`phone${telefone.length}`}>Telefone / WhatsApp</label>
-                                {
-                                    telefone && (telefone.map((value, index) => (
+                                <div className="admin-d-flex admin-justify-content-between">
+                                    <div style={{ width: '49.5%' }}>
+                                        <label className='admin-form-label admin-d-block' htmlFor="startContract">
+                                            Início
+                                        </label>
                                         <input
-                                            key={index}
-                                            type="text"
-                                            minLength="9"
-                                            maxLength="9"
-                                            className={
-                                                (index === (telefone.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
-                                                    "admin-form-control admin-mb-3"
-                                            }
-                                            id={`phone${(index + 1)}`}
-                                            name={`phone${(index + 1)}`}
-                                            placeholder="Informe um número de telefone / WhatsApp"
-                                            value={value}
-                                            onChange={e => {
-                                                telefoneAux = telefone.map((value, i) => (index === i ? e.target.value : value))
-                                                setTelefone(telefoneAux)
-                                            }}
+                                            type="date"
+                                            min={data_inicio || (new Date().toISOString().split('T')[0])}
+                                            className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
+                                            id="startContract"
+                                            name="startContract"
+                                            value={data_inicio || ''}
+                                            onChange={e => setData_inicio(e.target.value)}
                                         />
-                                    )))
-                                }
-
-                                <a href="#" onClick={(e) => {
-                                    e.preventDefault()
-                                    setTelefone([...telefone, ''])
-                                }}>
-                                    <IoMdAddCircleOutline />
-                                </a>
-                            </div>
-                            <label className='admin-form-label' htmlFor="email">E-mail</label>
-                            <input
-                                type="email"
-                                className="admin-form-control admin-mb-3"
-                                id="email"
-                                name="email"
-                                placeholder="Informe o E-mail principal do novo cliente"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)}
-                            />
-
-                            <label className='admin-form-label admin-d-block' htmlFor="">
-                                Contrato
-                            </label>
-                            <div className="admin-d-flex admin-justify-content-between">
-                                <div style={{ width: '49.5%' }}>
-                                    <label className='admin-form-label admin-d-block' htmlFor="startContract">
-                                        Início
-                                    </label>
-                                    <input
-                                        type="date"
-                                        min={data_inicio || (new Date().toISOString().split('T')[0])}
-                                        className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
-                                        id="startContract"
-                                        name="startContract"
-                                        value={data_inicio || ''}
-                                        onChange={e => setData_inicio(e.target.value)}
-                                    />
-                                </div>
-                                <div style={{ width: '49.5%' }}>
-                                    <label className='admin-form-label admin-d-block' htmlFor="endContract">
-                                        Fim
-                                    </label>
-                                    <input
-                                        type="date"
-                                        min={data_fim || (new Date().toISOString().split('T')[0])}
-                                        className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
-                                        id="endContract"
-                                        name="endContract"
-                                        value={data_fim || ''}
-                                        onChange={e => setData_fim(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className='admin-form-label' htmlFor={`local${local.length}`}>Localização</label>
-                                {
-                                    local && (local.map((value, index) => (
+                                    </div>
+                                    <div style={{ width: '49.5%' }}>
+                                        <label className='admin-form-label admin-d-block' htmlFor="endContract">
+                                            Fim
+                                        </label>
                                         <input
-                                            key={index}
-                                            type="text"
-                                            className={
-                                                (index === (local.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
-                                                    "admin-form-control admin-mb-3"
-                                            }
-                                            id={`lacal${(index + 1)}`}
-                                            name={`lacal${(index + 1)}`}
-                                            placeholder="Informe uma localização"
-                                            value={value}
-                                            onChange={e => {
-                                                localAux = local.map((value, i) => (index === i ? e.target.value : value))
-                                                setLocal(localAux)
-                                            }}
+                                            type="date"
+                                            min={data_fim || (new Date().toISOString().split('T')[0])}
+                                            className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
+                                            id="endContract"
+                                            name="endContract"
+                                            value={data_fim || ''}
+                                            onChange={e => setData_fim(e.target.value)}
                                         />
-                                    )))
-                                }
+                                    </div>
+                                </div>
 
-                                <a onClick={(e) => {
-                                    e.preventDefault()
-                                    setLocal([...local, ''])
-                                }}>
-                                    <IoMdAddCircleOutline />
-                                </a>
-                            </div>
-                            <button type="submit" className="admin-btn admin-main-btn admin-form-control admin-mt-3">
-                                {btn}
-                            </button>
-                        </form>
-                    </div>
+                                <div>
+                                    <label className='admin-form-label' htmlFor={`local${local.length}`}>Localização</label>
+                                    {
+                                        local && (local.map((value, index) => (
+                                            <input
+                                                key={index}
+                                                type="text"
+                                                className={
+                                                    (index === (local.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
+                                                        "admin-form-control admin-mb-3"
+                                                }
+                                                id={`lacal${(index + 1)}`}
+                                                name={`lacal${(index + 1)}`}
+                                                placeholder="Informe uma localização"
+                                                value={value}
+                                                onChange={e => {
+                                                    localAux = local.map((value, i) => (index === i ? e.target.value : value))
+                                                    setLocal(localAux)
+                                                }}
+                                            />
+                                        )))
+                                    }
+
+                                    <a onClick={(e) => {
+                                        e.preventDefault()
+                                        setLocal([...local, ''])
+                                    }}>
+                                        <IoMdAddCircleOutline />
+                                    </a>
+                                </div>
+                                <button type="submit" className="admin-btn admin-main-btn admin-form-control admin-mt-3">
+                                    {btn}
+                                </button>
+                            </form>
+                        </div>
+                    )}
                 </div>
             </div>
         </main>

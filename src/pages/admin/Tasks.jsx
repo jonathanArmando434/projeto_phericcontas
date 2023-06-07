@@ -17,11 +17,21 @@ const Tasks = () => {
     const [responsavel, setResponsavel] = useState([])
     const [cliente, setCliente] = useState([])
 
-    const { loading, changeLoading } = loginZustand(state => state)
+    const [loading, setLoading] = useState(true)
+
+    const addFinanca = async (task) => {
+        const dado = {
+            desc: task.servico,
+            valor: task.valor,
+            tipo: 'Entrada'
+        }
+
+        await api.post('/financas', dado)
+    }
 
     const finishTask = async (id, task) => {
         try {
-            changeLoading()
+            setLoading(true)
             task.status = 'Finalizado'
             task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
             const data_fim = new Date()
@@ -30,7 +40,9 @@ const Tasks = () => {
 
             updatedDatas.data_fim = data_fim.toLocaleDateString()
             const aux = tasks.map(value => {
-                if (value._id === id) return updatedDatas
+                if (value._id === id) {
+                    addFinanca(value)
+                }
                 return value
             })
             setTasks(aux)
@@ -38,13 +50,13 @@ const Tasks = () => {
             console.log(error)
             alert('Houve um erro, tente novamente!')
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }
 
     const cancelTask = async (id, task) => {
         try {
-            changeLoading()
+            setLoading(true)
             task.status = 'Cancelado'
             task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
             await api.patch(`/tarefa/${id}`, task)
@@ -56,7 +68,7 @@ const Tasks = () => {
         } catch (error) {
             alert('Houve um erro, tente novamente!')
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }
 
@@ -108,12 +120,11 @@ const Tasks = () => {
 
     useEffect(() => {
         try {
-            changeLoading()
             getMember()
             getClient()
             getTasks()
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }, [])
 

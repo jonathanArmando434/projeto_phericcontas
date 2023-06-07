@@ -16,11 +16,11 @@ const Login = () => {
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
     const [remeberMe, setRememberMe] = useState(false)
-    const [stopLoading, setStopLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
-    const { loading, handleLogin, changeLoading } = loginZustand(state => state)
+    const { handleLogin } = loginZustand(state => state)
 
     let errorMsg = ''
     const verifyDatas = async (loginDtas) => {
@@ -48,36 +48,34 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const loginDatas = {
-            email,
-            password
+        try {
+            setLoading(true)
+
+            const loginDatas = {
+                email,
+                password
+            }
+
+            const canPost = await verifyDatas(loginDatas)
+            if (!canPost) {
+                setMessage(errorMsg)
+                errorMsg = ''
+                return
+            }
+
+            const msg = await handleLogin(loginDatas, remeberMe)
+
+            if (msg === 'Autenticação realizada com sucesso!') navigate('/admin')
+            else if (typeof msg === 'string'
+                && msg !== 'Autenticação realizada com sucesso!'
+                && msg !== 'Houve um erro no servidor, tenta novamente!') setMessage(msg)
+            else alert('Erro no servidor, tente novamente!')
+        } finally {
+            setLoading(false)
         }
-
-        const canPost = await verifyDatas(loginDatas)
-        if (!canPost) {
-            setMessage(errorMsg)
-            errorMsg = ''
-            return
-        }
-
-        changeLoading()
-
-        const msg = await handleLogin(loginDatas, remeberMe)
-
-        changeLoading()
-
-        if (msg === 'Autenticação realizada com sucesso!') navigate('/admin')
-        else if (typeof msg === 'string'
-            && msg !== 'Autenticação realizada com sucesso!'
-            && msg !== 'Houve um erro no servidor, tenta novamente!') setMessage(msg)
-        else alert('Erro no servidor, tente novamente!')
     }
 
-    useEffect(() => {
-        setTimeout(() => setStopLoading(true), 300)
-    })
-
-    return (loading || !stopLoading ? <Loading /> :
+    return (loading ? <Loading /> :
         (
             <main className="admin admin-login admin-d-flex admin-vw-100 admin-vh-100 admin-main-login">
                 <div className="admin-container-login">

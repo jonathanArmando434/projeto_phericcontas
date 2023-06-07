@@ -19,9 +19,7 @@ const Dashboard = () => {
     const [total, setTotal] = useState({})
     const [qntServices, setQntServices] = useState([])
     const [monthlyEarnings, setMonthlyEarnings] = useState([])
-    const [stopLoading, setStopLoading] = useState(false)
-
-    const { loading, changeLoading } = loginZustand(state => state)
+    const [loading, setLoading] = useState(true)
 
     const getDados = async () => {
         try {
@@ -42,19 +40,18 @@ const Dashboard = () => {
     const handleSunmit = async (e) => {
         e.preventDefault()
         try {
-            changeLoading()
+            setLoading(true)
             getDados()
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }
 
     useEffect(() => {
         try {
-            changeLoading()
             getDados()
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }, [])
 

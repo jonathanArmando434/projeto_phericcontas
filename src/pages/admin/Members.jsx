@@ -17,14 +17,13 @@ const Members = () => {
     const [active, setActive] = useState('all')
     const [members, setMembers] = useState([])
     const [title, setTitle] = useState('Colaboradores da empresa')
-    const [stopLoading, setStopLoading] = useState(false)
 
     const location = useLocation()
     const url = location.pathname
 
     const navigate = useNavigate()
 
-    const { loading, changeLoading } = loginZustand(state => state)
+    const [ loading, setLoading ] = useState(true)
     const { searchContent, result, ok, cleanSearch } = searchZustand(state => state)
 
     const { query } = useParams()
@@ -42,7 +41,6 @@ const Members = () => {
 
     useEffect(() => {
         try {
-            changeLoading()
             if (url === '/admin/membros' || query) getMembers()
             else if (!ok) navigate('/admin/membros')
             else {
@@ -52,8 +50,7 @@ const Members = () => {
                 cleanSearch()
             }
         } finally {
-            setStopLoading(true)
-            changeLoading()
+            setLoading(false)
         }
     }, [members])
 
@@ -63,7 +60,7 @@ const Members = () => {
                 <div className="admin-row">
                     <PageTitle title={title} btnText={!isSearch && 'Adicionar colaborador'} BtnIcon={!isSearch && MdOutlinePersonAddAlt1} link={!isSearch ? true : false} path={!isSearch && "/admin/membro/cadastrar"} />
 
-                    {loading || !stopLoading ? <MinLoading /> : (
+                    {loading ? <MinLoading /> : (
                         <>
                             <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
                                 <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>

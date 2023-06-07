@@ -42,7 +42,7 @@ const FormMember = () => {
 
     const pageTopRef = useRef(null);
 
-    const { loading, changeLoading } = loginZustand(state => state)
+    const [ loading, setLoading ] = useState(true)
 
     const { message, allRight, createColaborador, editColaborador, cleanMessage, cleanAllRight } = colaboradorZustand(state => state)
 
@@ -107,7 +107,7 @@ const FormMember = () => {
 
     const handleSubmit = async (e) => {
         try {
-            changeLoading()
+            setLoading(true)
             e.preventDefault()
 
             const auxIdioma = await removeEmptyValue(idioma)
@@ -148,8 +148,7 @@ const FormMember = () => {
 
             scrollToTop()
         } finally {
-            console.log(allRight)
-            changeLoading()
+            setLoading(false)
         }
     }
 
@@ -197,7 +196,7 @@ const FormMember = () => {
                 PreparingDatas()
             }
         } finally {
-            setStopLoading(true)
+            setLoading(false)
         }
     }, [])
 
@@ -216,7 +215,7 @@ const FormMember = () => {
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
 
-                    {loading || !stopLoading ? <MinLoading /> : (
+                    {loading ? <MinLoading /> : (
                         <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 mx-auto admin-p-3 div-form admin-mt-4">
                             <form className="form-new" onSubmit={handleSubmit}>
                                 {

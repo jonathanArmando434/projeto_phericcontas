@@ -22,7 +22,6 @@ const FormTask = () => {
     const [btn, setBtn] = useState('Adicionar')
     const [titlePage, setTitlePage] = useState('Adicionar tarefa')
     const [post, setPost] = useState(true)
-    const [stopLoading, setStopLoading] = useState(false)
 
     const { id } = useParams()
 
@@ -41,7 +40,7 @@ const FormTask = () => {
         setClients
     } = taskZustand(state => state)
 
-    const { loading, changeLoading } = loginZustand(state => state)
+    const [ loading, setLoading ] = useState(true)
 
     const getResponsavelName = (task) => {
         let colaborador
@@ -136,7 +135,7 @@ const FormTask = () => {
 
             if (!canPost) return
 
-            changeLoading()
+            setLoading(true)
 
             if (post) {
                 const msg = await addTask(task)
@@ -156,7 +155,7 @@ const FormTask = () => {
                 } else alert('Houve um erro, tente novamente!')
             }
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }
 
@@ -177,7 +176,6 @@ const FormTask = () => {
 
     useEffect(() => {
         try {
-            changeLoading()
             setAllRight(false)
             setMessage('')
 
@@ -188,8 +186,7 @@ const FormTask = () => {
                 PreparingDatas()
             }
         } finally {
-            setStopLoading(true)
-            changeLoading()
+            setLoading(false)
         }
     }, [])
 
@@ -199,7 +196,7 @@ const FormTask = () => {
                 <div className="admin-row">
                     <PageTitle title={titlePage} />
 
-                    {loading || !stopLoading ? (<MinLoading />) : (
+                    {loading ? (<MinLoading />) : (
                         <>
                             <div className="admin-col-12 admin-col-lg-6 admin-bg-fff admin-br-5 admin-mx-auto div-form admin-mt-4">
                                 <form className="form-new" onSubmit={handleSubmit}>

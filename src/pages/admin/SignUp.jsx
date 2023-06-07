@@ -17,11 +17,11 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [id_colaborador, setId_colaborador] = useState('')
     const [message, setMessage] = useState('')
-    const [stopLoading, setStopLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
 
-    const { loading, handleLogin, changeLoading } = loginZustand(state => state)
+    const { handleLogin } = loginZustand(state => state)
 
     let errorMsg = ''
 
@@ -76,6 +76,8 @@ const SignUp = () => {
         e.preventDefault()
 
         try {
+            setLoading(true)
+
             const signupDatas = {
                 password,
                 confirmPassword,
@@ -88,8 +90,6 @@ const SignUp = () => {
                 errorMsg = ''
                 return
             }
-
-            changeLoading()
 
             const msg = await handleSignup(signupDatas)
 
@@ -112,7 +112,7 @@ const SignUp = () => {
                 && msg !== 'Houve um erro no servidor, tenta novamente!') setMessage(msg)
             else alert('Erro no servidor, tente novamente!')
         } finally {
-            changeLoading()
+            setLoading(false)
         }
     }
 
@@ -128,11 +128,7 @@ const SignUp = () => {
         }
     }
 
-    useEffect(() => {
-        setTimeout(() => setStopLoading(true), 300)
-    })
-
-    return (loading || !stopLoading ? <Loading /> :
+    return (loading ? <Loading /> :
         (
             <main className="admin admin-login admin-d-flex admin-vw-100 admin-vh-100 admin-main-login">
                 <div className="admin-container-login">

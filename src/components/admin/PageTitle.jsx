@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
+import loginZustand from '../../zustand/login'
 
 const PageTitle = ({ title, btnText , BtnIcon, link = false, path, handleSunmit, year, setYear }) => {
     const [show, setShow] = useState('')
 
     const anoRef = useRef(null)
+
+    const {changeLoading} = loginZustand(state => state)
 
     const handleClick = (e) => {
         if (e.target.id === 'filter-btn-icon') {
