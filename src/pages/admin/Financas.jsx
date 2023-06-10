@@ -194,7 +194,8 @@ const Financas = () => {
                                                         Valor
                                                     </label>
                                                     <input
-                                                        type="text"
+                                                        type="number"
+                                                        min={1}
                                                         className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                                         id="endContract"
                                                         name="endContract"

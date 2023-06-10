@@ -3,13 +3,18 @@ import { MdOutlineEmail, MdOutlinePlace } from 'react-icons/md'
 
 import './Footer.css'
 
+import logoPheric from '../assets/admin/img/icons/logo-pheric.png'
+
 const Footer = () => {
     return (
         <footer>
             <div className="container">
                 <div className="row d-flex" style={{ justifyContent: 'space-around' }}>
                     <div className="col-md-3 footer-item">
-                        <h4>Phericcontas</h4>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '3.5rem' }}>
+                            <img src={logoPheric} alt="logo" className="logo-app" />
+                            <h4 className='admin-align-middle'>Phericcontas</h4>
+                        </div>
                         <p>
                             PRESTAÇÃO DE SERVIÇOS DE <br />CONTABILIDADE E
                             AUDITÓRIA, <br />LDA

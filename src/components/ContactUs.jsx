@@ -4,7 +4,9 @@ import api from '../axios/api';
 import './ContactUs.css'
 import './SectionHeading.css'
 
-const ContactUs = ({ contactUsRef }) => {
+import Loading from '../components/Loading'
+
+const ContactUs = ({ contactUsRef, setOpen }) => {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [assunto, setAssunto] = useState('');
@@ -12,20 +14,30 @@ const ContactUs = ({ contactUsRef }) => {
     const [msg, setMsg] = useState('')
     const [allRight, setAllRight] = useState(false)
 
+    const cleanData = () => {
+        setNome('')
+        setEmail('')
+        setAssunto('')
+        setMensagem('')
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
+            setOpen(true)
             const dados = { nome, email, assunto, mensagem };
 
             const res = await api.post('/public/email', dados)
             const { message } = res.data
-            setMsg(message)
+            setMsg("Solicitação enviada com sucesso!")
             setAllRight(true)
+            cleanData()
         } catch (error) {
             console.log(error)
-            setMsg('Erro ao enviar e-mail, tente novamente!')
+            setMsg('Houve um erro, tente novamente!')
         }finally{
+            setOpen(false)
             setTimeout(() => {
                 setAllRight(false)
                 setMsg('')

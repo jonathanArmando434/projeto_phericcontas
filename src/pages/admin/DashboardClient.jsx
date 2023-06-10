@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { BiEdit } from 'react-icons/bi'
+import { BiEdit, BiTrash } from 'react-icons/bi'
 import { MdOutlineFilterList, MdOutlineCameraAlt, MdOutlinePlace } from 'react-icons/md'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import { RiFileSearchLine } from 'react-icons/ri'
 import { FaRegAddressCard } from 'react-icons/fa'
 import { TbPhone } from 'react-icons/tb'
 import { HiOutlineMail } from 'react-icons/hi'
+import { FiMoreVertical } from 'react-icons/fi'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 
@@ -40,6 +41,7 @@ const Dashboard = () => {
     const [monthlyPerformance, setMonthlyPerformance] = useState([])
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [showUser, setShowUser] = useState('')
 
     const [title, setTitle] = useState('Informações do colaborador')
     const [year, setYear] = useState(new Date().getUTCFullYear())
@@ -174,6 +176,9 @@ const Dashboard = () => {
             setShow('admin-show')
         }
         else if (e.target.id !== 'ano') setShow('')
+
+        if (e.target.id === "btn-more-actions" || e.target.id === "icon-btn-more-actions") setShowUser('admin-show')
+        else setShowUser('')
     }
 
     useEffect(() => {
@@ -262,7 +267,7 @@ const Dashboard = () => {
                                                 <div className="admin-text-muted admin-mb-4">{client.area_negocio || 'Área de Negócio'}</div>
 
                                                 <div style={{ marginTop: '.5rem' }}>
-                                                    <Link to={`/admin/cliente/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
+                                                    <a className="admin-btn admin-main-btn admin-me-2" onClick={(threethBtn === 'Rescindir' ? handleCancel : handleRecancel)}>{threethBtnIcon} {threethBtn}</a>
                                                     <div className="admin-dropdown admin-d-inline-block">
                                                         <a id='see-more' className="admin-btn admin-main-btn admin-me-2 admin-dropdown-toggle" data-bs-toggle="dropdown"><RiFileSearchLine /> Ver mais</a>
                                                         <div
@@ -321,7 +326,20 @@ const Dashboard = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Rescindir' ? handleCancel : handleRecancel)}>{threethBtnIcon} {threethBtn}</a>
+                                                    <div className="admin-dropdown admin-d-inline-block">
+                                                        <a id='btn-more-actions' className="admin-dropdown-toggle admin-btn admin-main-btn" data-bs-toggle="dropdown"><FiMoreVertical id='icon-btn-more-actions' /> Mais Ações</a>
+                                                        <div style={{ top: '-250%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
+                                                            <Link to={`/admin/cliente/editar/${id}`} className="admin-dropdown-item">
+                                                                <BiEdit />
+                                                                <span className="admin-ms-2">Editar</span>
+                                                            </Link>
+                                                            <div className="admin-dropdown-divider" />
+                                                            <a className="admin-dropdown-item">
+                                                                <BiTrash />
+                                                                <span className='admin-ms-2'>Eliminar</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

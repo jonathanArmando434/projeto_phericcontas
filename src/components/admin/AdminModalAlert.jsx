@@ -9,13 +9,19 @@ import "./AdminModal.css";
 
 import ModalLoading from "./ModalLoading";
 
-const AdminModal = ({ open, setOpen, id, getAssociateUpdated }) => {
+const AdminModal = ({
+  open,
+  setOpen,
+  id = "00000000000000000",
+  getAssociateUpdated = () => {},
+}) => {
   const [photo, setPhoto] = useState("");
   const [file, setFile] = useState("");
   const [loadingToModal, setLoadingToModal] = useState(false);
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState("Título");
   const [msg, setMsg] = useState("");
   const [ok, setOk] = useState(false);
+  const [btnNoCancel, setBtnNoCancel] = useState("Ok, percebi");
 
   const location = useLocation();
   const url = location.pathname;
@@ -124,7 +130,9 @@ const AdminModal = ({ open, setOpen, id, getAssociateUpdated }) => {
   return (
     <div
       id="admin-modal"
-      className={open ? "admin-modal admin-d-block" : "admin-modal"}
+      className={
+        open ? "admin-modal admin-d-block" : "admin-modal"
+      }
     >
       {loadingToModal ? (
         <ModalLoading />
@@ -136,72 +144,18 @@ const AdminModal = ({ open, setOpen, id, getAssociateUpdated }) => {
             </a>
           </div>
           {/* Modal content */}
-          <div id="modal-content" className="admin-modal-content">
-            <div className="admin-bar-modal">
-              <div className="admin-title-btn">
-                <h1 className="admin-h3 admin-mb-3">{title}</h1>
-              </div>
-            </div>
-            {/* <span class="close">&times;</span> */}
-            <main className="admin-content-update-photo">
-              <div
-                style={{ height: "100%" }}
-                className="admin-row admin-d-flex"
-              >
-                {msg && (
-                  <div
-                    style={{
-                      maxHeight: "6%",
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                    className={
-                      ok ? "admin-msg-success m-0" : "admin-msg-danger m-0"
-                    }
-                  >
-                    {msg}
+          <div className="admin-modal-alert-d-center">
+            <div id="modal-content" className="admin-modal-alert-content">
+              {/* <span class="close">&times;</span> */}
+              <main className="admin-content-alert">
+                <div className="admin-row admin-d-flex">
+                  <div className="admin-col-12">
+                    <h1 className="admin-h3 admin-mb-3">{title}</h1>
+                    <p>
+                      {msg ||
+                        "Tem certeza que vc deseja deletar o colaborador Jonathan-Armando do sistem"}
+                    </p>
                   </div>
-                )}
-                <div
-                  style={{ height: "85%" }}
-                  className={"admin-col-12 admin-update-img"}
-                >
-                  <label
-                    style={{ height: "100%" }}
-                    className="admin-form-label"
-                    htmlFor="picture"
-                  >
-                    {photo ? (
-                      <img
-                        src={photo}
-                        alt="logo do cliente"
-                        className="admin-photo"
-                      />
-                    ) : (
-                      <AiOutlinePicture />
-                    )}
-                    <span
-                      style={{
-                        marginTop: "1rem",
-                        marginBottom: 0,
-                        cursor: "pointer",
-                      }}
-                      className="admin-form-label admin-d-block"
-                    >
-                      {file
-                        ? "Selecionar outra imagem"
-                        : "Seleciona uma imagem"}
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="picture"
-                      name="picture"
-                      onChange={handleOnChangeFile}
-                    />
-                  </label>
-                </div>
-                {!msg && (
                   <div
                     style={{
                       display: "flex",
@@ -221,13 +175,13 @@ const AdminModal = ({ open, setOpen, id, getAssociateUpdated }) => {
                         onClick={handleUpdate}
                         className="btn-update admin-btn admin-me-2 admin-main-btn"
                       >
-                        Atualizar
+                        {btnNoCancel}
                       </a>
                     </div>
                   </div>
-                )}
-              </div>
-            </main>
+                </div>
+              </main>
+            </div>
           </div>
         </>
       )}

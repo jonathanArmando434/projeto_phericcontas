@@ -63,8 +63,6 @@ const MainBar = () => {
         if (e.target.id === "user" || e.target.id === "user-img") setShowUser('admin-show')
         else setShowUser('')
 
-        if (e.target.id === 'alertsDropdown') setShowNotification('admin-show')
-        else setShowNotification('')
     }
 
     useEffect(() => {
@@ -205,7 +203,7 @@ const MainBar = () => {
                                 id='user-img'
                             />
                         </a>
-                        <div style={{ left: '-142%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
+                        <div style={{ left: '-155%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
                             <Link to={'/admin/perfil'} className="admin-dropdown-item">
                                 <BiUserCircle />
                                 <span className="admin-ms-2">Perfil</span>

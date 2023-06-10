@@ -9,6 +9,7 @@ import taskZustand from '../../zustand/task'
 import './FormTask.css'
 
 import AdminModal from '/src/components/admin/AdminModal'
+import AdminModalAlert from '/src/components/admin/AdminModalAlert'
 import PageTitle from '../../components/admin/PageTitle'
 import MinLoading from '../../components/admin/MinLoading'
 import task from '../../zustand/task'
@@ -282,6 +283,7 @@ const FormTask = () => {
                             </div>
                             {/* The Modal */}
                             <AdminModal />
+                            {/* <AdminModalAlert open={open} setOpen={setOpen} /> */}
                         </>
                     )}
 

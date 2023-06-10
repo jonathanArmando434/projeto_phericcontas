@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
+import { BiEdit, BiTrash } from 'react-icons/bi'
 import { MdOutlineFilterList, MdOutlinePersonSearch, MdOutlineCameraAlt } from 'react-icons/md'
-import { BiEdit } from 'react-icons/bi'
+import { FiMoreVertical } from 'react-icons/fi'
 import { AiOutlineCloseSquare, AiOutlineCheckSquare } from 'react-icons/ai'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
@@ -36,10 +37,17 @@ const Dashboard = () => {
     const [year, setYear] = useState(new Date().getUTCFullYear())
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [showUser, setShowUser] = useState('')
+
 
     const { id } = useParams()
 
     const inputFileRef = useRef(null)
+
+    const handleMoreActions = (e) => {
+        if (e.target.id === "btn-more-actions" || e.target.id === "icon-btn-more-actions") setShowUser('admin-show')
+        else setShowUser('')
+    }
 
     const getDadosAboutReport = async () => {
         try {
@@ -153,6 +161,11 @@ const Dashboard = () => {
             getMember(api_url_member + '/' + id)
             getContractMember(api_url_contract + '/' + id)
             getDadosAboutReport()
+
+            document.addEventListener("click", handleMoreActions);
+            return () => {
+                document.removeEventListener("click", handleMoreActions);
+            };
         } finally {
             setLoading(false)
         }
@@ -227,9 +240,22 @@ const Dashboard = () => {
                                                 <div className="admin-text-muted admin-mb-4">{member.cargo || 'Cargo'}</div>
 
                                                 <div>
-                                                    <Link to={`/admin/membro/editar/${id}`} className="admin-btn admin-me-2 admin-main-btn"><BiEdit /> Editar</Link>
+                                                    <a className="admin-btn admin-me-2 admin-main-btn" onClick={(threethBtn === 'Demitir' ? handleDismiss : handleAdmitir)}>{threethBtnIcon} {threethBtn}</a>
                                                     <Link to={`/admin/perfil/${id}`} className="admin-btn admin-me-2 admin-main-btn" href="#"><MdOutlinePersonSearch /> Ver Perfil</Link>
-                                                    <a className="admin-btn admin-main-btn" onClick={(threethBtn === 'Demitir' ? handleDismiss : handleAdmitir)}>{threethBtnIcon} {threethBtn}</a>
+                                                    <div className="admin-dropdown admin-d-inline-block">
+                                                        <a id='btn-more-actions' className="admin-dropdown-toggle admin-btn admin-main-btn" data-bs-toggle="dropdown"><FiMoreVertical id='icon-btn-more-actions' /> Mais Ações</a>
+                                                        <div style={{ top: '-250%' }} className={`admin-dropdown-menu admin-dropdown-menu-end ${showUser}`}>
+                                                            <Link to={`/admin/membro/editar/${id}`} className="admin-dropdown-item">
+                                                                <BiEdit />
+                                                                <span className="admin-ms-2">Editar</span>
+                                                            </Link>
+                                                            <div className="admin-dropdown-divider" />
+                                                            <a className="admin-dropdown-item">
+                                                                <BiTrash />
+                                                                <span className='admin-ms-2'>Eliminar</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

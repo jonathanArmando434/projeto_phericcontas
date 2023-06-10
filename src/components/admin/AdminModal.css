@@ -39,7 +39,7 @@ button[id="btn-search"] {
     /* Full height */
     background-color: rgb(0, 0, 0);
     /* Fallback color */
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
     /* Black w/ opacity */
 }
 
@@ -77,6 +77,40 @@ button[id="btn-search"] {
 
 /* end modal update photo*/
 
+/* start modal alert*/
+
+.admin-modal-alert-d-center{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .admin-modal{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+.admin-modal-alert-content {
+    background-color: #f5f7fb;
+    margin: 2.5% auto;
+    /* 15% from the top and centered */
+    border: 0.1rem solid #888;
+    width: 30%;
+    border-radius: .5rem;
+}
+
+.admin-content-alert{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 3rem;
+}
+
+/* end modal alert*/
+
 .admin-card-selected {
     background-color: #1F5B95;
     padding: 0.4rem;
@@ -106,16 +140,22 @@ a.btn-update {
 
 /* The Close Button */
 
-.admin-close {
-    color: #aaa;
-    float: right;
-    font-size: 2.8rem;
-    font-weight: bold;
+.div-close-model{
+    position: fixed;
+    right: 2%;
+    top: 1.5%;
+    background-color: #fff;
+    color: #ced4da;
+    border-radius: 50%;
+    transition: all .3s;
 }
 
-.admin-close:hover,
-.admin-close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.div-close-model:hover{
+    opacity: .9;
+}
+
+.admin-close {
+    font-size: 2.8rem;
+    margin: 0;
+    padding: 1rem;
 }

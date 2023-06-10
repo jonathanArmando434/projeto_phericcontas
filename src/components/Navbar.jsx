@@ -45,7 +45,7 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
             <nav className="navbar navbar-expand-lg">
                 <div className="container">
                     <a className="navbar-brand">
-                        <img src={logoPheric} alt="phericcontas" className="logo-app" />
+                        <img src={logoPheric} alt="logo" className="logo-app" />
                         <h2>Phericcontas</h2>
                     </a>
                     <button

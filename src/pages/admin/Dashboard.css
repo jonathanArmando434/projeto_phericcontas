@@ -2,3 +2,7 @@
     height: 37.769rem;
     padding: 1rem;
 }
+
+#btn-more-actions::after{
+    display: none;
+}
