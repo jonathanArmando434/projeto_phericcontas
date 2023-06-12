@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, BrowserRouter, Routes, Route } from 'react-router-dom'
+import loginZustand from './zustand/login'
 
 import PrivateRoute from './routes/PrivateRoute'
 
@@ -28,6 +29,8 @@ import Index from './pages/admin/Index'
 import DashboardMember from './pages/admin/DashboardMember'
 import RecoverPassword from './pages/admin/RecoverPassword'
 import ResetPassword from './pages/admin/ResetPassword'
+
+const { userLogado } = loginZustand(state => state)
 
 const router = createBrowserRouter([
   {
@@ -165,6 +168,91 @@ const router = createBrowserRouter([
             path: '/admin/info/cliente/:id',
             element: <PrivateRoute>
               <DashboardClient />
+            </PrivateRoute>
+          },
+        ]
+      },
+
+    ]
+  }
+])
+
+const routerRest = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <Page404 />,
+    children: [
+      {
+        path: '/',
+        element: <Home />
+      },
+      {
+        path: '/admin/entrar',
+        element: <Login />
+      },
+      {
+        path: '/admin/palavra-passe/recuperar',
+        element: <RecoverPassword />
+      },
+      {
+        path: '/admin/palavra-passe/redefinir/:token',
+        element: <ResetPassword />
+      },
+      {
+        path: '/admin/cadastrar',
+        element: <SignUp />
+      },
+      {
+        path: '/admin',
+        element: <Index />,
+        children: [
+          {
+            path: '/admin',
+            element: <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/tarefas',
+            element: <PrivateRoute>
+              <Tasks />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/membros',
+            element: <PrivateRoute>
+              <Members />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/membros/pesquisar/:query',
+            element: <PrivateRoute>
+              <SearchMembers />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/clientes',
+            element: <PrivateRoute>
+              <Clients />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/clientes/pesquisar/:query',
+            element: <PrivateRoute>
+              <SearchClients />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/perfil',
+            element: <PrivateRoute>
+              <Perfil />
+            </PrivateRoute>
+          },
+          {
+            path: '/admin/perfil/:id',
+            element: <PrivateRoute>
+              <Perfil />
             </PrivateRoute>
           },
         ]

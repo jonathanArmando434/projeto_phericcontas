@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import api from "../../axios/api";
 
 import PageTitle from "../../components/admin/PageTitle";
-import TaskIndicator from "../../components/admin/ TaskIndicator";
+import TaskIndicator from "../../components/admin/TaskIndicator";
 import MinLoading from "../../components/admin/MinLoading";
 import AdminModalAlert from "/src/components/admin/AdminModalAlert";
 
