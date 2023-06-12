@@ -48,3 +48,21 @@
     margin-left: .6rem;
     color: #495057;
 }
+
+div.password {
+    display: relative;
+    display: inline-block;
+}
+
+.password-input{
+    padding-right: 3rem;
+}
+
+button.btn-eye{
+    position: absolute;
+    top: 52.5%;
+    right: 40.5%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from "react"
+import { AiOutlineEye , AiOutlineEyeInvisible} from 'react-icons/ai'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 import passwordValidator from 'password-validator';
@@ -8,7 +9,7 @@ import logo from "/src/assets/admin/img/icons/logo-2.jpeg"
 
 import './Index.css'
 import './Index.2.0.css'
-import './Login.css'
+import './SignUp.css'
 
 import Loading from '../../components/Loading'
 
@@ -18,6 +19,8 @@ const SignUp = () => {
     const [id_colaborador, setId_colaborador] = useState('')
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
+    const [showPassword1, setShowPassword1] = useState(false)
+    const [showPassword2, setShowPassword2] = useState(false)
 
     const navigate = useNavigate()
 
@@ -160,25 +163,41 @@ const SignUp = () => {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label className="admin-form-label">Palavra-passe</label>
+                                                    <div className='admin-password'>
                                                     <input
                                                         className="admin-form-control admin-form-control-lg"
-                                                        type="password"
+                                                        type={showPassword1 ? "text" : "password"}
                                                         name="password"
                                                         placeholder="Informe a sua palavra-passe"
                                                         value={password}
                                                         onChange={(e) => setPassword(e.target.value)}
                                                     />
+                                                    <button 
+                                                    className='btn-eye-signup1'
+                                                    type='button'
+                                                    onClick={() => setShowPassword1(!showPassword1)}>
+                                                        {showPassword1 ? <AiOutlineEyeInvisible /> :  <AiOutlineEye /> }
+                                                    </button>
+                                                   </div>
                                                 </div>
                                                 <div className="mb-3">
                                                     <label className="admin-form-label">Confirmar palavra-passe</label>
+                                                    <div className='admin-password'>
                                                     <input
                                                         className="admin-form-control admin-form-control-lg"
-                                                        type="password"
+                                                        type={showPassword2 ? "text" : "password"}
                                                         name="confirmPassword"
                                                         placeholder="Repita a sua palavra-passe"
                                                         value={confirmPassword}
                                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                                     />
+                                                    <button 
+                                                    className='btn-eye-signup2'
+                                                    type='button'
+                                                    onClick={() => setShowPassword2(!showPassword2)}>
+                                                        {showPassword2 ? <AiOutlineEyeInvisible /> :  <AiOutlineEye /> }
+                                                    </button>
+                                                   </div>
                                                 </div>
                                                 <small>
                                                     Vocẽ já está cadastrado? <Link to="/admin/entrar">Entrar</Link>

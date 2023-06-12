@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { AiOutlineEye , AiOutlineEyeInvisible} from 'react-icons/ai'
 import loginZustand from "../../zustand/login"
 import validator from "email-validator";
 
@@ -17,6 +18,7 @@ const Login = () => {
     const [message, setMessage] = useState('')
     const [remeberMe, setRememberMe] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
 
     const navigate = useNavigate()
 
@@ -111,14 +113,22 @@ const Login = () => {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label className="admin-form-label">Palavra-passe</label>
+                                                   <div className='admin-password'>
                                                     <input
-                                                        className="admin-form-control admin-form-control-lg"
-                                                        type="password"
+                                                        className="password-input admin-form-control admin-form-control-lg"
+                                                        type={showPassword ? "text" : "password"}
                                                         name="password"
                                                         placeholder="Informe a sua palavra-passe"
                                                         value={password}
                                                         onChange={(e) => setPassword(e.target.value)}
                                                     />
+                                                    <button 
+                                                    className='btn-eye'
+                                                    type='button'
+                                                    onClick={() => setShowPassword(!showPassword)}>
+                                                        {showPassword ? <AiOutlineEyeInvisible /> :  <AiOutlineEye /> }
+                                                    </button>
+                                                   </div>
                                                     <small>
                                                         <Link to={'/admin/palavra-passe/recuperar'}>Esqueceu a palavra-passe?</Link>
                                                     </small>

@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { AiOutlineEye , AiOutlineEyeInvisible} from 'react-icons/ai'
 import api from "../../axios/api";
 import loginZustand from "../../zustand/login";
 import passwordValidator from "password-validator";
@@ -18,6 +19,7 @@ const ResetPassword = () => {
   const [id_colaborador, setId_colaborador] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
 
   const navigate = useNavigate();
 
@@ -168,27 +170,37 @@ const ResetPassword = () => {
                         <label className="admin-form-label">
                           Nova palavra-passe
                         </label>
-                        <input
-                          className="admin-form-control admin-form-control-lg"
-                          type="password"
-                          name="password"
-                          placeholder="Informe a sua palavra-passe"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <div className='admin-password'>
+                                                    <input
+                                                        className="admin-form-control admin-form-control-lg"
+                                                        type={showPassword ? "text" : "password"}
+                                                        name="password"
+                                                        placeholder="Informe a sua palavra-passe"
+                                                        value={password}
+                                                        onChange={(e) => setPassword(e.target.value)}
+                                                    />
+                                                    <button 
+                                                    className='btn-eye-signup'
+                                                    type='button'
+                                                    onClick={() => setShowPassword(!showPassword)}>
+                                                        {showPassword ? <AiOutlineEyeInvisible /> :  <AiOutlineEye /> }
+                                                    </button>
+                                                   </div>
                       </div>
                       <div className="mb-3">
                         <label className="admin-form-label">
                           Confirmar nova palavra-passe
                         </label>
-                        <input
-                          className="admin-form-control admin-form-control-lg"
-                          type="password"
-                          name="confirmPassword"
-                          placeholder="Repita a sua palavra-passe"
-                          value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
+                        <div className='admin-password'>
+                                                    <input
+                                                        className="admin-form-control admin-form-control-lg"
+                                                        type={showPassword ? "text" : "password"}
+                                                        name="confirmPassword"
+                                                        placeholder="Repita a sua palavra-passe"
+                                                        value={confirmPassword}
+                                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                                    />
+                                                   </div>
                       </div>
                       <small>
                         Desejas voltar para o início de sessão?{" "}
