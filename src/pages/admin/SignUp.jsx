@@ -102,8 +102,6 @@ const SignUp = () => {
                         password,
                     }, 'noChecked')
 
-                console.log(msgLogin + ' - msgLogin')
-
                 if (msgLogin === 'Autenticação realizada com sucesso!') navigate('/admin')
             }
 

@@ -86,13 +86,6 @@ button[id="btn-search"] {
     align-items: center;
 }
 
-/* .admin-modal{
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
-
 .admin-modal-alert-content {
     background-color: #f5f7fb;
     margin: 2.5% auto;
@@ -120,17 +113,18 @@ button[id="btn-search"] {
     border: none;
 }
 
-a.btn-cancel {
+#modal-content a.btn-cancel {
     padding: 1rem;
     background-color: transparent;
-    border: none;
+    border-color: transparent;
     color: #1F5B95;
     transition: all .6s;
 
 }
 
-a.btn-cancel:hover {
+#modal-content a.btn-cancel:hover {
     background-color: #ced4da;
+    border-color: #ced4da;
     color: #1F5B95;
 }
 

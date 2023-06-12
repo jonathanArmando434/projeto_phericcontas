@@ -37,11 +37,11 @@ const Dashboard = () => {
         } 
     }
 
-    const handleSunmit = async (e) => {
+    const handleFilter = async (e) => {
         e.preventDefault()
         try {
             setLoading(true)
-            getDados()
+            await getDados()
         } finally {
             setLoading(false)
         }
@@ -62,7 +62,7 @@ const Dashboard = () => {
                     <PageTitle
                         title={'Painel de análise'}
                         BtnIcon={MdOutlineFilterList}
-                        handleSunmit={handleSunmit}
+                        handleSunmit={handleFilter}
                         year={year}
                         setYear={setYear}
                     />

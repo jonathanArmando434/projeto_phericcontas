@@ -27,6 +27,7 @@ import FormMember from './pages/admin/FormMember'
 import Index from './pages/admin/Index'
 import DashboardMember from './pages/admin/DashboardMember'
 import RecoverPassword from './pages/admin/RecoverPassword'
+import ResetPassword from './pages/admin/ResetPassword'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/admin/palavra-passe/recuperar',
         element: <RecoverPassword />
+      },
+      {
+        path: '/admin/palavra-passe/redefinir/:token',
+        element: <ResetPassword />
       },
       {
         path: '/admin/cadastrar',
