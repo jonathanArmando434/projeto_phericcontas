@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import {
   MdOutlineFilterList,
@@ -53,6 +53,10 @@ const Dashboard = () => {
   const [dCancelBtn, setDCancelBtn] = useState(false);
 
   const { id } = useParams();
+
+  const navigate = useNavigate()
+
+  const { userLogado } = loginZustand((state) => state);
 
   const inputFileRef = useRef(null);
 
@@ -217,6 +221,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     try {
+      if(userLogado.access !== "total") navigate(`/admin/info/membro/${userLogado.id_colaborador}`)
       const api_url_member = import.meta.env.VITE_API_URL_MEMBERS;
       const api_url_contract = import.meta.env.VITE_API_URL_CONTRACT;
       getMember(api_url_member + "/" + id);
