@@ -5,12 +5,15 @@ import { MdOutlineGroup, MdOutlineSupervisedUserCircle } from 'react-icons/md'
 import { FaRegHandshake } from 'react-icons/fa'
 import { HiOutlineDocumentReport } from 'react-icons/hi'
 import { GiMoneyStack } from 'react-icons/gi'
+import loginZustand from "../../zustand/login"
 
 import logoPheric from '../../assets/admin/img/icons/logo-pheric.png' 
 
 import './SideBar.css'
 
 const SideBar = () => {
+    const { userLogado } = loginZustand((state) => state);
+  
     return (
         <>
             <div className="admin-sidebar-none"></div>
@@ -33,13 +36,13 @@ const SideBar = () => {
                                 <span className="admin-align-middle">Tarefas</span>
                             </Link>
                         </li>
-                        <li className="admin-sidebar-item">
+                        <li className={userLogado.access === 'total' ? "admin-sidebar-item" : "admin-d-none"}>
                             <Link to="/admin/membros" className="admin-sidebar-link">
                                 <MdOutlineGroup />
                                 <span className="admin-align-middle">Colaboradores</span>
                             </Link>
                         </li>
-                        <li className="admin-sidebar-item">
+                        <li className={userLogado.access === 'total' ? "admin-sidebar-item" : "admin-d-none"}>
                             <Link to="/admin/clientes" className="admin-sidebar-link">
                                 <FaRegHandshake />
                                 <span className="admin-align-middle">Clientes</span>
@@ -53,13 +56,13 @@ const SideBar = () => {
                                 </Link>
                              </li>
                         */}
-                        <li className="admin-sidebar-item">
+                        <li className={userLogado.access === 'total' ? "admin-sidebar-item" : "admin-d-none"}>
                             <Link to="/admin/controle-de-financas" className="admin-sidebar-link">
                                 <GiMoneyStack />
                                 <span className="admin-align-middle">Controle de Finanças</span>
                             </Link>
                         </li>
-                        <li className="admin-sidebar-item">
+                        <li className={userLogado.access === 'total' ? "admin-sidebar-item" : "admin-d-none"}>
                             <Link to="/admin/info-RH" className="admin-sidebar-link">
                                 <MdOutlineSupervisedUserCircle />
                                 <span className="admin-align-middle">Informações de RH</span>
