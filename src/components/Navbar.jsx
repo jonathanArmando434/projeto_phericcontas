@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react'
 import './Navbar.css'
 
 import logoPheric from '../assets/admin/img/icons/logo-pheric.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
     // const [scrollWaited, setScrollWaited] = useState(false)
     const [current, setCurrent] = useState('')
     const [show, setShow] = useState(false)
+    const navigate = useNavigate()
 
     // const handleScroll = () => {
     //     const scrollPosition = window.scrollY; // => posição de rolagem
@@ -43,7 +44,7 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
 
     return (
         <header className={'background-header'}>
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-lg" onDoubleClick={() => navigate('admin/entrar')}>
                 <div className="container">
                     <a className="navbar-brand">
                         <img src={logoPheric} alt="logo" className="logo-app" />
@@ -108,13 +109,6 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
                                 >
                                     Contate-Nos
                                 </a>
-                            </li>
-                            <li className="nav-item">
-                                <Link className={(current === 'contact-us') ? 'nav-link' : 'nav-link'}
-                                    to={'admin/entrar'}
-                                >
-                                    Contate-Nos
-                                </Link>
                             </li>
                         </ul>
                     </div>
