@@ -221,7 +221,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     try {
-      if(userLogado.access !== "total") navigate(`/admin/info/membro/${userLogado.id_colaborador}`)
       const api_url_member = import.meta.env.VITE_API_URL_MEMBERS;
       const api_url_contract = import.meta.env.VITE_API_URL_CONTRACT;
       getMember(api_url_member + "/" + id);

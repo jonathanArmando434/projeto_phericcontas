@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import api from '../../axios/api'
 import loginZustand from '../../zustand/login'
 
@@ -20,6 +21,10 @@ const Dashboard = () => {
     const [qntServices, setQntServices] = useState([])
     const [monthlyEarnings, setMonthlyEarnings] = useState([])
     const [loading, setLoading] = useState(true)
+
+    const navigate = useNavigate()
+
+    const { userLogado } = loginZustand((state) => state);
 
     const getDados = async () => {
         try {
@@ -49,6 +54,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         try {
+    if(userLogado.access !== "total") navigate(`/admin/info/membro/${userLogado.id_colaborador}`)
+
             getDados()
         } finally {
             setLoading(false)
