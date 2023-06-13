@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
 
 import './Navbar.css'
 
@@ -108,14 +107,6 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
                                 >
                                     Contate-Nos
                                 </a>
-                            </li>
-                            <li className="nav-item">
-                                <Link className={'nav-link'} href="#contactus"
-                                    to={'/admin/entrar'}
-                                    id='menu-contactUs'
-                               >
-                                    Contate-Nos
-                                </Link>
                             </li>
                         </ul>
                     </div>
