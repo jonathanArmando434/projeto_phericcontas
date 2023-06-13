@@ -17,7 +17,7 @@ const Tasks = () => {
     const [responsavel, setResponsavel] = useState([])
     const [cliente, setCliente] = useState([])
 
-    const [userLogado, loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true)
 
     const addFinanca = async (task) => {
         const dado = {
