@@ -33,7 +33,7 @@ const Tasks = () => {
         try {
             setLoading(true)
             task.status = 'Finalizado'
-            task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
+          //  task.data_limite = moment(task.data_limite, 'DD/MM/YYYY').format('YYYY-MM-DD')
             const data_fim = new Date()
             const updatedDatas = { ...task, data_fim }
             await api.patch(`/tarefa/${id}`, updatedDatas)
