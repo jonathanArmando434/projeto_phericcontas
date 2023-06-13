@@ -17,7 +17,7 @@ const Tasks = () => {
     const [responsavel, setResponsavel] = useState([])
     const [cliente, setCliente] = useState([])
 
-    const [loading, setLoading] = useState(true)
+    const [userLogado, loading, setLoading] = useState(true)
 
     const addFinanca = async (task) => {
         const dado = {
@@ -113,6 +113,11 @@ const Tasks = () => {
         const dados = res.data
 
         if (dados) {
+            if(userLogado.access !== 'total'){
+                const dado2 = dados.filter((task) => userLogado.id_colaborador === task.id_colaborador)
+            setTasks(dado2)
+return
+            }
             const auxDados = await dados.map(value => getDates(value))
             setTasks(auxDados)
         }
