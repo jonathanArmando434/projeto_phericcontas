@@ -347,8 +347,8 @@ const FormMember = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    minLength="25"
-                                    maxLength="25"
+                                    minLength="21"
+                                    maxLength="21"
                                     className="admin-form-control admin-d-inline-block admin-mb-3"
                                     id="iban-bank"
                                     name="ibanBank"
@@ -356,6 +356,7 @@ const FormMember = () => {
                                     pattern="[0-9]+"
                                     value={num_iban || ''}
                                     onChange={e => setNum_iban(e.target.value)}
+                                    required
                                 />
                                 <div>
                                     <label className='admin-form-label' htmlFor={`phone${telefone.length}`}>Telefone / WhatsApp</label>
@@ -379,6 +380,7 @@ const FormMember = () => {
                                                     telefoneAux = telefone.map((value, i) => (index === i ? e.target.value : value))
                                                     setTelefone(telefoneAux)
                                                 }}
+                                                required
                                             />
                                         )))
                                     }
