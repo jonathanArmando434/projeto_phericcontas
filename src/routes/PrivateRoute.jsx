@@ -6,6 +6,8 @@ import loginZustand from "../zustand/login"
 const PrivateRoute = ({ children }) => {
     const { authenticated, changeAuthenticated } = loginZustand(state => state)
 
+    
+
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem('token'))
         if (token) {

@@ -112,8 +112,7 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
                             <li className="nav-item">
                                 <Link className={'nav-link'} href="#contactus"
                                     to={'/admin/entrar'}
-                                    id='menu-contactUs'
-                                >
+«                                >
                                     Contate-Nos
                                 </Link>
                             </li>
