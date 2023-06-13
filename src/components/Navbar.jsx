@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import './Navbar.css'
 
 import logoPheric from '../assets/admin/img/icons/logo-pheric.png'
+import { Link } from 'react-router-dom'
 
 const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
     // const [scrollWaited, setScrollWaited] = useState(false)
@@ -107,6 +108,13 @@ const Navbar = ({ bannerRef, servicesRef, moreInfoRef, contactUsRef }) => {
                                 >
                                     Contate-Nos
                                 </a>
+                            </li>
+                            <li className="nav-item">
+                                <Link className={(current === 'contact-us') ? 'nav-link' : 'nav-link'}
+                                    to={'admin/entrar'}
+                                >
+                                    Contate-Nos
+                                </Link>
                             </li>
                         </ul>
                     </div>
