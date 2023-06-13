@@ -353,6 +353,7 @@ const FormMember = () => {
                                     id="iban-bank"
                                     name="ibanBank"
                                     placeholder="IBAN"
+                                    pattern="[0-9]+"
                                     value={num_iban || ''}
                                     onChange={e => setNum_iban(e.target.value)}
                                 />
@@ -365,6 +366,7 @@ const FormMember = () => {
                                                 type="text"
                                                 minLength="9"
                                                 maxLength="9"
+                                                pattern="[0-9]+"
                                                 className={
                                                     (index === (telefone.length - 1)) ? "admin-form-control admin-mb-3 admin-w-me-95 admin-d-inline-block" :
                                                         "admin-form-control admin-mb-3"
