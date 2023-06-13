@@ -420,7 +420,7 @@ const FormMember = () => {
                                         </label>
                                         <input
                                             type="date"
-                                            min={data_inicio || (new Date().toISOString().split('T')[0])}
+                                            min={data_inicio || '2023-06-13'}
                                             className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                             id="startContract"
                                             name="startContract"
@@ -434,7 +434,7 @@ const FormMember = () => {
                                         </label>
                                         <input
                                             type="date"
-                                            min={data_fim || (new Date().toISOString().split('T')[0])}
+                                            min={data_fim || '2023-06-13'}
                                             className="admin-form-control admin-d-inline-block admin-mb-3 admin-m-mine"
                                             id="endContract"
                                             name="endContract"

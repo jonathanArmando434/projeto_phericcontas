@@ -133,7 +133,7 @@ const Login = () => {
                                                         <Link to={'/admin/palavra-passe/recuperar'}>Esqueceu a palavra-passe?</Link>
                                                     </small>
                                                 </div>
-                                                <div className='mb-3'>
+                                                <div className='mb-3 admin-d-none'>
                                                     <label className="admin-mb-0">
                                                         <input
                                                             type="checkbox"

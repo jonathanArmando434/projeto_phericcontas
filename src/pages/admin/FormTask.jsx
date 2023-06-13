@@ -268,6 +268,7 @@ const FormTask = () => {
                                     <label htmlFor="data-limite">Data Limite</label>
                                     <input
                                         type="date"
+                                        min={data_limite.split('T')[0] || '2023-06-13'}
                                         className="admin-form-control admin-mb-3"
                                         id="data-limite"
                                         name="dataLimite"
