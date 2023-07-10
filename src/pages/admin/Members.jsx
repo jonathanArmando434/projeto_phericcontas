@@ -16,6 +16,7 @@ const Members = () => {
     const apiUrl = import.meta.env.VITE_API_URL
     const [active, setActive] = useState('all')
     const [members, setMembers] = useState([])
+    const [contracts, setContracts] = useState([])
     const [title, setTitle] = useState('Colaboradores da empresa')
 
     const location = useLocation()
@@ -29,6 +30,28 @@ const Members = () => {
     const { query } = useParams()
 
     let isSearch = false
+
+    const filterContract = (id) => {
+        let isThis
+        contracts.forEach(contract => {
+            if(id === contract.id_associado) isThis = contract
+        })
+
+        return isThis
+    }
+
+    const thisMemberIsActive = async (id) => {
+        const contract = filterContract(id)
+        return ((new Date() < contract.data_fim) ? true : false)
+    } 
+
+    const getContracts = async () => {
+        const res = await api.get('/contrato')
+        const dados = res.data
+        setContracts(dados)
+        console.log(dados)
+    }
+
 
     const getMembers = async () => {
         const res = await api.get('/colaborador')
@@ -45,6 +68,7 @@ const Members = () => {
             else if (!ok) navigate('/admin/membros')
             else {
                 setMembers(result)
+                getContracts()
                 setTitle(`${result.length} resultado (s) para "${searchContent}"`)
                 isSearch = true
                 cleanSearch()
@@ -64,7 +88,7 @@ const Members = () => {
                         <>
                             <div className="admin-col-12 admin-d-flex admin-my-5 admin-menu-list">
                                 <a onClick={() => setActive('all')} className={active === 'all' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Todos</a>
-                                <a onClick={() => setActive('ativo')} className={active === 'ativo' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Ativo</a>
+                                <a onClick={() => setActive('active')} className={active === 'ativo' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"} >Ativo</a>
                                 <a onClick={() => setActive('pca')} className={active === 'pca' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>PCA</a>
                                 <a onClick={() => setActive('gerente')} className={active === 'gerente' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>gerente</a>
                                 <a onClick={() => setActive('contabilista-senior')} className={active === 'contabilista-senior' ? "admin-btn admin-btn-nav admin-mx-3 active" : "admin-btn admin-btn-nav admin-mx-3"}>Contabilista Senior</a>
@@ -81,6 +105,31 @@ const Members = () => {
                                                         <img
                                                             className="admin-card-img-top admin-card-img-member"
                                                             src={member.foto_url ? `${apiUrl}/${member.foto_url}` : userNoPhoto}
+                                                            alt={member.nome}
+                                                            width="276"
+                                                            height="276"
+                                                        />
+                                                        <div className="admin-card-header">
+                                                            <h5 className="admin-card-title admin-mb-0">{member.nome}</h5>
+                                                        </div>
+                                                        <div className="admin-card-body">
+                                                            <p className="admin-card-text">{member.cargo}</p>
+                                                            <Link to={`/admin/info/membro/${member._id}`}>
+                                                                <button className="admin-btn admin-main-btn admin-form-control">
+                                                                    Ver mais
+                                                                </button>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+
+                                            else if (active === 'active' && thisMemberIsActive(member._id)) return (
+                                                <div key={member._id} className="admin-card admin-card-member admin-col-12 admin-col-md-4 admin-col-lg-3 admin-min-card">
+                                                    <div className="admin-card-content">
+                                                        <img
+                                                            className="admin-card-img-top admin-card-img-member"
+                                                            src={`${apiUrl}/${member.foto_url}` || userNoPhoto}
                                                             alt={member.nome}
                                                             width="276"
                                                             height="276"

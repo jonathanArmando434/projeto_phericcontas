@@ -30,7 +30,7 @@ const ContactUs = ({ contactUsRef, setOpen }) => {
 
             const res = await api.post('/public/email', dados)
             const { message } = res.data
-            setMsg("Solicitação enviada com sucesso!")
+            setMsg("Mensagem enviada com sucesso!")
             setAllRight(true)
             cleanData()
         } catch (error) {

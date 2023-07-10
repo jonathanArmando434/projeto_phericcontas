@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { BiEdit, BiTrash } from "react-icons/bi";
 import {
   MdOutlineFilterList,
@@ -66,6 +66,8 @@ const Dashboard = () => {
 
   const inputFileRef = useRef(null);
 
+  const navigate = useNavigate()
+
   const { changeLoading } = loginZustand((state) => state);
 
   const goToClients = () => {
@@ -82,7 +84,6 @@ const Dashboard = () => {
 
   const handleCanDelete = async () => {
     try {
-      console.log(id);
       const res = await api.delete(`/cliente/${id}`);
       const status = res.status;
       const { message } = res.data;

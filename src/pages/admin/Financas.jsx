@@ -26,6 +26,9 @@ const Financas = () => {
   const [textBtn, setTextBtn] = useState("");
   const [dCancelBtn, setDCancelBtn] = useState(false);
 
+  const [idDel, setIdDel] = useState("");
+  const [indexDel, setIndexDel] = useState("");
+
   const getDadosAboutReport = async () => {
     try {
       const res = await api.get(`/financas/Annual-report/${year}`);
@@ -49,18 +52,29 @@ const Financas = () => {
     }
   };
 
-  const handleDelete = async (id, index) => {
+  const handleDel = (id, index) => {
+    setIndexDel(index);
+    setIdDel(id);
+    setOpen(true);
+    setTitle("Confirmação de exclusão");
+    setMnsg("Você tem certeza que desejas eliminar este dado de finança?");
+    setTextBtn("Eliminar");
+    setDCancelBtn(true);
+  };
+
+  const handleCanDelete = async () => {
     try {
       setLoading(true);
-      const res = await api.delete(`/financas/${id}`);
+      const res = await api.delete(`/financas/${idDel}`);
       const msg = res.data.message;
       if (msg === "Dado de finança removido com sucesso!") {
         const aux = [...dados];
-        aux.splice(index, 1);
+        aux.splice(indexDel, 1);
         setDados(aux);
-        await getDadosAboutReport()
-        setTitle("Status da operação")
-        setTextBtn('Prosseguir')
+        await getDadosAboutReport();
+        setTitle("Status da operação");
+        setTextBtn("Ok, Prosseguir");
+        setDCancelBtn(false);
         setMnsg("Dado de finança removido com sucesso!");
       } else setMnsg("Houve um erro, tente novamente!");
     } finally {
@@ -128,9 +142,9 @@ const Financas = () => {
     } finally {
       setLoading(false);
       setTimeout(() => {
-        setAllRight(false)
-        setMessage('')
-    }, 5000)
+        setAllRight(false);
+        setMessage("");
+      }, 5000);
     }
   };
 
@@ -319,9 +333,7 @@ const Financas = () => {
                                 </td>
                                 <td className="admin-d-none admin-d-md-table-cell">
                                   <a
-                                    onClick={() =>
-                                      handleDelete(dado._id, index)
-                                    }
+                                    onClick={() => handleDel(dado._id, index)}
                                     className="admin-tab-cancel"
                                   >
                                     <svg
@@ -365,6 +377,8 @@ const Financas = () => {
                 msg={mnsg}
                 btnNoCancel={textBtn}
                 dCancelBtn={dCancelBtn}
+                handleNoCancel={handleCanDelete}
+                goToAssociate={() => setOpen(false)}
               />
             </>
           )}
