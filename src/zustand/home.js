@@ -23,7 +23,7 @@ const search = create((set) => ({
       set(() => ({ tasksFinished: projetsFinished }));
       set(() => ({ clientsLogo: clients.clientsLogo }));
     } catch (error) {
-      console.log(error);
+      alert('Houve um erro, recarrega a página!');
     }
   },
 }));
